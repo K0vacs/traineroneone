@@ -4,10 +4,12 @@ $(document).ready(function() {
     
   $('.carousel').slick({
     accessibility: true,
-    autoplay: true,
+    autoplay: false,
     arrows: true,
     autoplaySpeed: 5000,
-    dots: true
+    dots: true,
   });
+  
+    $('select').material_select();
   
 });
