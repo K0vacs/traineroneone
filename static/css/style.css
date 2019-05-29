@@ -3,8 +3,7 @@
 nav .brand-logo {
   padding: 0 15px; }
 
-/* ----- Slick Slider Styling ----- */
-/* Slick Hero Section */
+/* ----- Hero Slider ----- */
 .hero-section {
   background-color: #000;
   height: 500px; }
@@ -108,7 +107,7 @@ nav .brand-logo {
   color: #fff;
   opacity: 1; }
 
-/* Slick Excersises Section */
+/* ----- Excersises Slider ----- */
 .excersises-section {
   display: flex;
   background-color: #fff; }
