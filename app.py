@@ -11,7 +11,7 @@ mongo = PyMongo(app)
 
 @app.route("/")
 def home():
-    return render_template("home.html", tasks=mongo.db.TOOCollection.find())
+    return render_template("home.html", programs=mongo.db.TOOCollection.find())
     
 @app.route("/workouts")
 def workouts():
@@ -20,6 +20,10 @@ def workouts():
 @app.route("/excersises")
 def excersises():
     return render_template("excersises.html")
+    
+@app.route("/add_program")
+def add_program():
+    return render_template("add_program.html")
     
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"), 
