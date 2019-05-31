@@ -2,7 +2,8 @@ $(document).ready(function() {
     
   $(".button-collapse").sideNav();
     
-    
+  console.log("Hello World!")  
+  
   $('.home-carousel').show();
   
   $('.home-carousel').slick({
@@ -21,4 +22,19 @@ $(document).ready(function() {
   
   $('select').material_select();
   
+  
+  $("[data-save='excersise']").on("click", function() {
+    var input = `<p>
+                  ${$("[name='input']").val()} 
+                  <span>
+                    <i>E</i>
+                    <i>D</i>
+                  </span>
+                </p>`;
+                
+    $(".card-title").after(input);
+    $("[name='input']").val("")
+    
+  });
+
 });
