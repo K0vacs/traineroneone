@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, url_for, redirect, request
+from flask import Flask, render_template, url_for, redirect, request, json
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 
@@ -21,10 +21,17 @@ def workouts():
 def excersises():
     return render_template("excersises.html")
     
-@app.route("/add_program")
+@app.route("/add-program")
 def add_program():
-    return render_template("add_program.html")
+    return render_template("add-program.html")
     
+@app.route("/test", methods=['POST'])
+def test():
+    if request.method == 'POST':
+        varss = request.form['exercise-name']
+        return varss
+
+
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"), 
     port=int(os.environ.get("PORT")), 

@@ -43,13 +43,13 @@
                 <div class="collapsible-header active"><i class="material-icons">place</i>Second</div>
                 <div class="collapsible-body">
                     <div class="row">
-                        <form class="col s8">
+                        <form id="exercise-form" method="post" class="col s8">
                             <div class="row">
-                                <div class="input-field col s12">
-                                    <input id="last_name" type="text"  name="input" class="validate">
-                                    <label for="last_name">Last Name</label>
+                                <div class="input-field col s6">
+                                    <input id="exercise-name" type="text"  name="exercise-name" class="validate">
+                                    <label for="exercise-name">Last Name</label>
                                 </div>
-                                <div class="input-field col s12">
+                                <div class="input-field col s6">
                                     <div class="file-field input-field">
                                         <div class="btn">
                                             <span>Image</span>
@@ -103,7 +103,7 @@
                                     <label for="textarea1">Textarea</label>
                                 </div>
                             </div>
-                            <a data-save="excersise" class="waves-effect waves-light btn">Save</a>
+                            <button type="submit" data-save="excersise" class="waves-effect waves-light btn">Save</button>
                         </form>
                         <div class="card col s4">
                             <div class="card-content">
