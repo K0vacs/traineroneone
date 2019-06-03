@@ -29,7 +29,8 @@ def add_program():
 def test():
     if request.method == 'POST':
         varss = request.form['exercise-name']
-        return varss
+        result = mongo.db.TOOCollection.insert_one({"name": varss})
+        return str(result.inserted_id)
 
 
 if __name__ == "__main__":
