@@ -3,7 +3,82 @@
 <div class="container">
     <div class="row">
         <ul class="collapsible">
-            <li>
+            <li id="exercises">
+                <div class="collapsible-header active"><span class="">1</span> Exercises</div>
+                <div class="collapsible-body">
+                    <div class="row">
+                        <form id="exercise-form" method="post" class="col s12">
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input id="exercise-name" type="text"  name="exercise-name" class="validate" required>
+                                    <label for="exercise-name">Name</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <div class="file-field input-field">
+                                        <div class="btn">
+                                            <span>Image</span>
+                                            <input type="file">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field col s12">
+                                    <select multiple>
+                                      <option value="" disabled selected>Choose your option</option>
+                                      <option value="1">Chest</option>
+                                      <option value="2">Biceps</option>
+                                      <option value="3">Triceps</option>
+                                      <option value="3">Forearms</option>
+                                      <option value="1">Deltoid</option>
+                                      <option value="1">Rhomboid</option>
+                                      <option value="3">Abs</option>
+                                      <option value="1">Obliques</option>
+                                      <option value="1">Traps</option>
+                                      <option value="1">Lats</option>
+                                      <option value="1">Lower Back</option>
+                                      <option value="1">Glutes</option>
+                                      <option value="1">Groin</option>
+                                      <option value="3">Quads</option>
+                                      <option value="3">Hamstrings</option>
+                                      <option value="3">Calves</option>
+                                    </select>
+                                    <label>Muscle Group</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input placeholder="Duration in minutes" id="first_name" type="number" class="validate">
+                                    <label for="first_name">Duration</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input placeholder="Difficulty from 1 to 10" id="first_name" type="number" class="validate">
+                                    <label for="first_name">Difficulty</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input placeholder="Number of sets" id="first_name" type="number" class="validate">
+                                    <label for="first_name">Sets</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input placeholder="Number of reps" id="first_name" type="number" class="validate">
+                                    <label for="first_name">Reps</label>
+                                </div>
+                                <div class="input-field col s12">
+                                    <textarea id="textarea1" class="materialize-textarea"></textarea>
+                                    <label for="textarea1">Notes</label>
+                                </div>
+                            </div>
+                            <div class="col s6">
+                                <button type="button" data-save="exercise" class="waves-effect waves-light btn"><i class="material-icons left">save</i>Save</button>
+                            </div>
+                            <div class="col s6">
+                                <button type="button" data-nav="home" class="waves-effect waves-light btn">Exit</button>
+                                <button type="button" data-nav="workouts" class="waves-effect waves-light btn">Next</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </li>
+            <li id="workouts">
                 <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
                 <div class="collapsible-body">
                     <div class="row">
@@ -33,89 +108,24 @@
                                     <label for="textarea1">Textarea</label>
                                 </div>
                             </div>
-
+                            <div class="col s6">
+                                <button type="button" data-nav="exercises" class="waves-effect waves-light btn">Prev</button>
+                                <button type="button" data-nav="program" class="waves-effect waves-light btn">Next</button>
+                            </div>
                         </form>
                     </div>
                     <span>Lorem ipsum dolor sit amet.</span>
                 </div>
             </li>
-            <li>
-                <div class="collapsible-header active"><i class="material-icons">place</i>Second</div>
+            <li id="program">
+                <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
                 <div class="collapsible-body">
-                    <div class="row">
-                        <form id="exercise-form" method="post" class="col s8">
-                            <div class="row">
-                                <div class="input-field col s6">
-                                    <input id="exercise-name" type="text"  name="exercise-name" class="validate" required>
-                                    <label for="exercise-name">Name</label>
-                                </div>
-                                <div class="input-field col s6">
-                                    <div class="file-field input-field">
-                                        <div class="btn">
-                                            <span>Image</span>
-                                            <input type="file">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--<div class="input-field col s6">-->
-                                <!--    <select>-->
-                                <!--      <option value="" disabled selected>Choose your option</option>-->
-                                <!--      <option value="1">Option 1</option>-->
-                                <!--      <option value="2">Option 2</option>-->
-                                <!--      <option value="3">Option 3</option>-->
-                                <!--    </select>-->
-                                <!--    <label>Materialize Select</label>-->
-                                <!--</div>-->
-                                <!--<div class="input-field col s6">-->
-                                <!--    <select>-->
-                                <!--      <option value="" disabled selected>Choose your option</option>-->
-                                <!--      <option value="10">Option 1</option>-->
-                                <!--      <option value="20">Option 2</option>-->
-                                <!--      <option value="30">Option 3</option>-->
-                                <!--    </select>-->
-                                <!--    <label>Materialize Select</label>-->
-                                <!--</div>-->
-                                <!--<div class="input-field col s6">-->
-                                <!--    <input placeholder="Placeholder" id="first_name" type="number" class="validate">-->
-                                <!--    <label for="first_name">First Name</label>-->
-                                <!--</div>-->
-                                <!--<div class="input-field col s6">-->
-                                <!--    <input placeholder="Placeholder" id="first_name" type="number" class="validate">-->
-                                <!--    <label for="first_name">First Name</label>-->
-                                <!--</div>-->
-                                <!--<div class="input-field col s6">-->
-                                <!--    <input placeholder="Placeholder" id="first_name" type="number" class="validate">-->
-                                <!--    <label for="first_name">First Name</label>-->
-                                <!--</div>-->
-                                <!--<div class="input-field col s6">-->
-                                <!--    <input placeholder="Placeholder" id="first_name" type="number" class="validate">-->
-                                <!--    <label for="first_name">First Name</label>-->
-                                <!--</div>-->
-                                <!--<div class="input-field col s12">-->
-                                <!--    <input id="last_name" type="text"  name="" class="validate">-->
-                                <!--    <label for="last_name">Last Name</label>-->
-                                <!--</div>-->
-                                <!--<div class="input-field col s12">-->
-                                <!--    <textarea id="textarea1" class="materialize-textarea"></textarea>-->
-                                <!--    <label for="textarea1">Textarea</label>-->
-                                <!--</div>-->
-                            </div>
-                            <button type="button" data-save="exercise" class="waves-effect waves-light btn"><i class="material-icons left">save</i>Save</button>
-                        </form>
-                        <div class="card col s4">
-                            <div class="card-content">
-                                <span class="card-title">Excersises</span>
-                            </div>
-                        </div>
+                    <span>Lorem ipsum dolor sit amet.</span>
+                    <div class="col s6">
+                        <button type="button" data-nav="workouts" class="waves-effect waves-light btn">Prev</button>
+                        <button type="button" data-nav="home" class="waves-effect waves-light btn">Exit</button>
                     </div>
                 </div>
-            </li>
-            <li>
-                <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
-                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
             </li>
         </ul>
     </div>

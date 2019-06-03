@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    
+  
   $(".button-collapse").sideNav();
   
   $('.home-carousel').show();
@@ -31,11 +31,10 @@ $(document).ready(function() {
       $("#exercise-name").after("<span class='error-message'>Field cannot be blank!");
     } else {
       AjaxRequest();
-      showExercise(formData);
-      sessionVariable(formData);
       $(".error-message").remove();
       $("#exercise-form").trigger("reset");
     }
+    
   }
   
   $("[name='exercise-name']").on("mouseenter", function(event) {
@@ -52,12 +51,7 @@ $(document).ready(function() {
 			data: $('#exercise-form').serialize(),
 			type: 'POST',
 			success: function(response){
-			  $("[data-save='exercise'] i").text("done").removeClass("spin-icon")
-			  
-			 // setTimeout(function(){ 
-			    
-			 // }, 3000);
-			  
+			  $("[data-save='exercise'] i").text("done").removeClass("spin-icon");
 			  $("[data-save='exercise']").attr("disabled", false);
 				console.log(response);
 			},
@@ -66,43 +60,46 @@ $(document).ready(function() {
 			}
 		});
   }
+
+
+$( "[data-nav]" ).on( "click", function() {
   
-  function sessionVariable(form) {
-    var list = {
-      exerciseName: form,
-      image: 'pow',
-      difficulty: 'maw',
-      sets: 'ooh',
-      reps: 'laa',
-      duration: 'laa',
-      equipment: 'laa',
-      muscleGroups: 'laa',
-      seperset: 'laa',
-      notes: 'laa',
-    };
-    sessionStorage.setItem('formData', JSON.stringify(list));
-    var lastname = JSON.parse(sessionStorage.getItem("formData"));
-    console.log(lastname.exerciseName);
+  var self = $( this ).data( "nav" );
+  var collapseOpen =  $('.collapsible');
+  
+  switch ( self ) {
+    case "home":
+      window.location.href = "http://traineroneone-f3r3nc.c9users.io";
+      break;
+    case "exercises":
+      console.log("Exercises");
+      collapseOpen.collapsible('open', 0);
+      break;
+    case "workouts":
+      console.log("Workouts");
+      collapseOpen.collapsible('open', 1);
+      break;
+    case "program":
+      console.log("Program");
+      collapseOpen.collapsible('open', 2);
+      break;
   }
   
-  if (sessionStorage.getItem("formData") != null) {
-    (function onLoadExercisesPage() {
-      var lastname = JSON.parse(sessionStorage.getItem("formData"));
-//      if (lastname.exerciseName.length >= 1) {
-        showExercise(lastname.exerciseName);
-//      }
-    })();
-  }
+});
+
   
-  function showExercise(exerciseName) {
-    var input = `<p>
-                  ${exerciseName} 
-                  <span>
-                    <i>E</i>
-                    <i>D</i>
-                  </span>
-                </p>`;
-    $(".card-title").after(input);
-  }
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
 
 });
