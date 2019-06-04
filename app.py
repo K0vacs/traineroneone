@@ -1,11 +1,17 @@
 import os
-from flask import Flask, render_template, url_for, redirect, request, json
+from flask import Flask, render_template, url_for, redirect, request, json, send_from_directory
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'TrainerOneOneDB'
 app.config["MONGO_URI"] = os.getenv('MONGO_URI', 'mongodb://localhost')
+UPLOAD_FOLDER = 'uploads/'
+
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 mongo = PyMongo(app)
 
@@ -28,9 +34,22 @@ def add_program():
 @app.route("/test", methods=['POST'])
 def test():
     if request.method == 'POST':
-        varss = request.form['exercise-name']
-        result = mongo.db.TOOCollection.insert_one({'exercise': request.form})
-        return str(result.inserted_id)
+        file = request.files['eif']
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'filename'))
+        return 'file uploaded successfully'
+    
+    
+    # if request.method == 'POST':
+    #     result = mongo.db.TOOCollection.insert_one({'exercise': request.form})
+    #     return str(result.inserted_id)
+    
+    
+    
+    
+    #if 'eif' in request.files:    
+        #the_image = request.files['eif']
+        #mongo.save_file(the_image.filename, the_image)
+     #   return 'file uploaded successfully'
 
 
 if __name__ == "__main__":

@@ -28,14 +28,22 @@ $(document).ready(function() {
   
   exerciseForm.on("submit", function(event) {
     event.preventDefault();
-    var formData    = $(this).serializeArray();
-    console.log(new FormData( this ));
-    AjaxRequest(formData);
+    
+    var dbFields = {};
+    var form = $("#exercise-form")[0];
+    var formData = new FormData(form);
+    var file = formData.get('eif');
+    
+    for(var pair of formData.entries()) {
+      dbFields[ pair[0] ] = pair[1];
+      console.log(pair[0]+ ', '+ pair[1]); 
+    }
+    console.log(formData);
+    AjaxRequest(file);
     $("#exercise-form").trigger("reset");
   });
   
-  function AjaxRequest() {
-    
+  function AjaxRequest(formData) {
     var saveExerciseIcon  = $("[data-save='exercise'] i");
     var saveExercise      = $("[data-save='exercise']");
     
@@ -44,10 +52,12 @@ $(document).ready(function() {
 
     $.ajax({
 			url: '/test',
-			data: $('#exercise-form').serializeArray(),
+			data:  formData,
 			type: 'POST',
+			cache: false,
+      contentType: false,
+      processData: false,
 			success: function( response ){
-			  
 			  saveExerciseIcon.text("done").removeClass("spin-icon");
 			  saveExercise.attr("disabled", false);
 				console.log( response );
@@ -57,10 +67,8 @@ $(document).ready(function() {
 				}, 3000);
 			},
 			error: function( error ){
-			  
 				alert("An error occured, your exercise did not save. Please try again.");
 				console.log(error);
-				
 			}
 		});
   }
