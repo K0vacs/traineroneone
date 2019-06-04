@@ -1,10 +1,14 @@
 $(document).ready(function() {
   
+  var homeCarousel      = $('.home-carousel');
+  var exercisesCarousel = $('.exercises-carousel');
+  var exerciseForm      = $("#exercise-form");
+  
   $(".button-collapse").sideNav();
   
-  $('.home-carousel').show();
+  homeCarousel.show();
   
-  $('.home-carousel').slick({
+  homeCarousel.slick({
     accessibility: true,
     autoplay: true,
     arrows: true,
@@ -13,61 +17,62 @@ $(document).ready(function() {
     useTransform: false
   });
   
-  $('.excersises-carousel').slick({
+  exercisesCarousel.show();
+  
+  exercisesCarousel.slick({
     dots: true,
     arrows: true
   });
   
   $('select').material_select();
   
-  $("[data-save='exercise']").on("click", function(event) {
+  exerciseForm.on("submit", function(event) {
     event.preventDefault();
-    var exerciseName = $("[name='exercise-name']").val();
-    validateForm(exerciseName);
-  });
-  
-  function validateForm(formData) {
-    if(formData == "") {
-      $("#exercise-name").after("<span class='error-message'>Field cannot be blank!");
-    } else {
-      AjaxRequest();
-      $(".error-message").remove();
-      $("#exercise-form").trigger("reset");
-    }
-    
-  }
-  
-  $("[name='exercise-name']").on("mouseenter", function(event) {
-    $("[data-save='exercise'] i").text("save");
+    var formData    = $(this).serializeArray();
+    console.log(new FormData( this ));
+    AjaxRequest(formData);
+    $("#exercise-form").trigger("reset");
   });
   
   function AjaxRequest() {
     
-    $("[data-save='exercise'] i").text("refresh").addClass("spin-icon");
-    $("[data-save='exercise']").attr("disabled", true);
+    var saveExerciseIcon  = $("[data-save='exercise'] i");
+    var saveExercise      = $("[data-save='exercise']");
+    
+    saveExerciseIcon.text("refresh").addClass("spin-icon");
+    saveExercise.attr("disabled", true);
 
     $.ajax({
 			url: '/test',
-			data: $('#exercise-form').serialize(),
+			data: $('#exercise-form').serializeArray(),
 			type: 'POST',
-			success: function(response){
-			  $("[data-save='exercise'] i").text("done").removeClass("spin-icon");
-			  $("[data-save='exercise']").attr("disabled", false);
-				console.log(response);
+			success: function( response ){
+			  
+			  saveExerciseIcon.text("done").removeClass("spin-icon");
+			  saveExercise.attr("disabled", false);
+				console.log( response );
+				
+				setTimeout(function() {
+				  saveExerciseIcon.text("save");
+				}, 3000);
 			},
-			error: function(error){
+			error: function( error ){
+			  
+				alert("An error occured, your exercise did not save. Please try again.");
 				console.log(error);
+				
 			}
 		});
   }
 
 
-$( "[data-nav]" ).on( "click", function() {
-  
-  var self = $( this ).data( "nav" );
-  var collapseOpen =  $('.collapsible');
-  
-  switch ( self ) {
+$("[data-nav]").on("click", function() {
+  // This click event enables users to navigate between collapsable panels using buttons to allow for a more fluid process flow.
+
+  var self = $(this).data("nav");
+  var collapseOpen = $('.collapsible');
+
+  switch (self) {
     case "home":
       window.location.href = "http://traineroneone-f3r3nc.c9users.io";
       break;
@@ -84,22 +89,8 @@ $( "[data-nav]" ).on( "click", function() {
       collapseOpen.collapsible('open', 2);
       break;
   }
-  
+
 });
-
-  
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
 
 
 });
