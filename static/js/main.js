@@ -39,7 +39,7 @@ $(document).ready(function() {
       console.log(pair[0]+ ', '+ pair[1]); 
     }
     console.log(formData);
-    AjaxRequest(file);
+    AjaxRequest(formData);
     $("#exercise-form").trigger("reset");
   });
   
@@ -51,7 +51,7 @@ $(document).ready(function() {
     saveExercise.attr("disabled", true);
 
     $.ajax({
-			url: '/test',
+			url: '/uploads',
 			data:  formData,
 			type: 'POST',
 			cache: false,
@@ -60,7 +60,7 @@ $(document).ready(function() {
 			success: function( response ){
 			  saveExerciseIcon.text("done").removeClass("spin-icon");
 			  saveExercise.attr("disabled", false);
-				console.log( response );
+				console.log( "Success!" );
 				
 				setTimeout(function() {
 				  saveExerciseIcon.text("save");
