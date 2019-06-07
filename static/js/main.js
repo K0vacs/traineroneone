@@ -58,7 +58,7 @@ $(document).ready(function() {
     const file = files[0];
     getSignedRequest(file);
   });
-
+  
   function getSignedRequest(file) {
     $.ajax({
       url: `/sign-s3?file-name=${file.name}&file-type=${file.type}`,
