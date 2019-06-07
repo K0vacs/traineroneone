@@ -34,7 +34,7 @@ $(document).ready(function() {
 
     switch (self) {
       case "home":
-        window.location.href = window.location.origin
+        window.location.href = window.location.origin;
         break;
       case "exercises":
         console.log("Exercises");
@@ -57,7 +57,6 @@ $(document).ready(function() {
     const files = $("#file-input").prop('files');
     const file = files[0];
     getSignedRequest(file);
-    $("#exercise-form").trigger("reset");
   });
 
   function getSignedRequest(file) {
@@ -101,7 +100,9 @@ $(document).ready(function() {
 
   function sendFormData(url) {
     var formData = exerciseForm.serializeArray();
-    formData.push({'exercise-image': url});
+    formData.push({name: 'exercise-image', value: url});
+    $("#exercise-form").trigger("reset");
+    console.log(formData);
     
     $.ajax({
       type: 'POST',
