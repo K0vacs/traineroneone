@@ -1,4 +1,4 @@
-import os, json, boto3
+import os, json, boto3, datetime
 from flask import Flask, render_template, request, url_for
 from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
@@ -40,7 +40,8 @@ def save_exercise():
 def sign_s3():
   S3_BUCKET = os.environ.get('S3_BUCKET')
   s3 = boto3.client('s3')
-  file_name = secure_filename(request.args.get('file-name'))
+  dateTimeNow = datetime.datetime.now()
+  file_name = secure_filename(str(dateTimeNow) + request.args.get('file-name'))
   file_type = request.args.get('file-type')
 
   presigned_post = s3.generate_presigned_post(
