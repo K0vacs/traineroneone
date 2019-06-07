@@ -1,13 +1,13 @@
 $(document).ready(function() {
-  
-  var homeCarousel      = $('.home-carousel');
+
+  var homeCarousel = $('.home-carousel');
   var exercisesCarousel = $('.exercises-carousel');
-  var exerciseForm      = $("#exercise-form");
-  
+  var exerciseForm = $("#exercise-form");
+
   $(".button-collapse").sideNav();
-  
+
   homeCarousel.show();
-  
+
   homeCarousel.slick({
     accessibility: true,
     autoplay: true,
@@ -16,89 +16,103 @@ $(document).ready(function() {
     dots: true,
     useTransform: false
   });
-  
+
   exercisesCarousel.show();
-  
+
   exercisesCarousel.slick({
     dots: true,
     arrows: true
   });
-  
+
   $('select').material_select();
-  
+
+  $("[data-nav]").on("click", function() {
+    // This click event enables users to navigate between collapsable panels using buttons to allow for a more fluid process flow.
+
+    var self = $(this).data("nav");
+    var collapseOpen = $('.collapsible');
+
+    switch (self) {
+      case "home":
+        window.location.href = window.location.origin
+        break;
+      case "exercises":
+        console.log("Exercises");
+        collapseOpen.collapsible('open', 0);
+        break;
+      case "workouts":
+        console.log("Workouts");
+        collapseOpen.collapsible('open', 1);
+        break;
+      case "program":
+        console.log("Program");
+        collapseOpen.collapsible('open', 2);
+        break;
+    }
+
+  });
+
   exerciseForm.on("submit", function(event) {
     event.preventDefault();
-    
-    var dbFields = {};
-    var form = $("#exercise-form")[0];
-    var formData = new FormData(form);
-    var file = formData.get('eif');
-    
-    for(var pair of formData.entries()) {
-      dbFields[ pair[0] ] = pair[1];
-      console.log(pair[0]+ ', '+ pair[1]); 
-    }
-    console.log(formData);
-    AjaxRequest(formData);
+    const files = $("#file-input").prop('files');
+    const file = files[0];
+    getSignedRequest(file);
     $("#exercise-form").trigger("reset");
   });
-  
-  function AjaxRequest(formData) {
-    var saveExerciseIcon  = $("[data-save='exercise'] i");
-    var saveExercise      = $("[data-save='exercise']");
-    
-    saveExerciseIcon.text("refresh").addClass("spin-icon");
-    saveExercise.attr("disabled", true);
+
+  function getSignedRequest(file) {
+    $.ajax({
+      url: `/sign-s3?file-name=${file.name}&file-type=${file.type}`,
+      type: 'GET',
+      success: function( response ) {
+        const responseObj = JSON.parse(response);
+        console.log(responseObj);
+        uploadFile(file, responseObj.data, responseObj.url);
+        sendFormData(responseObj.url);
+      },
+      error: function( error ) {
+        console.log(error);
+      }
+    });
+  }
+
+  function uploadFile(file, s3Data, url) {
+    const postData = new FormData();
+    for (key in s3Data.fields) {
+      postData.append(key, s3Data.fields[key]);
+    }
+    postData.append('file', file);
 
     $.ajax({
-			url: '/uploads',
-			data:  formData,
-			type: 'POST',
-			cache: false,
+      url: s3Data.url,
+      data: postData,
+      type: 'POST',
+      headers: { 'x-amz-acl': 'public-read' },
       contentType: false,
       processData: false,
-			success: function( response ){
-			  saveExerciseIcon.text("done").removeClass("spin-icon");
-			  saveExercise.attr("disabled", false);
-				console.log( "Success!" );
-				
-				setTimeout(function() {
-				  saveExerciseIcon.text("save");
-				}, 3000);
-			},
-			error: function( error ){
-				alert("An error occured, your exercise did not save. Please try again.");
-				console.log(error);
-			}
-		});
+      success: function( response ) {
+        console.log("File uploaded");
+      },
+      error: function( error ) {
+        console.log(error);
+      }
+    });
   }
 
-
-$("[data-nav]").on("click", function() {
-  // This click event enables users to navigate between collapsable panels using buttons to allow for a more fluid process flow.
-
-  var self = $(this).data("nav");
-  var collapseOpen = $('.collapsible');
-
-  switch (self) {
-    case "home":
-      window.location.href = "http://traineroneone-f3r3nc.c9users.io";
-      break;
-    case "exercises":
-      console.log("Exercises");
-      collapseOpen.collapsible('open', 0);
-      break;
-    case "workouts":
-      console.log("Workouts");
-      collapseOpen.collapsible('open', 1);
-      break;
-    case "program":
-      console.log("Program");
-      collapseOpen.collapsible('open', 2);
-      break;
+  function sendFormData(url) {
+    var formData = exerciseForm.serializeArray();
+    formData.push({'exercise-image': url});
+    
+    $.ajax({
+      type: 'POST',
+      url: '/save-exercise',
+      data: formData,
+      success: function( response ) {
+        console.log(response);
+      },
+      error: function( error ) {
+        console.log(error);
+      }
+    });
   }
-
-});
-
-
 });
