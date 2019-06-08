@@ -56,17 +56,20 @@ $(document).ready(function() {
     event.preventDefault();
     const files = $("#file-input").prop('files');
     const file = files[0];
-    getSignedRequest(file);
+    var self = $( this );
+    self.find( "[data-save]" ).attr( "disabled", true );
+    self.find( "[data-save] i" ).text( "refresh" ).addClass( "spin-icon" );
+    getSignedRequest(file, self);
   });
   
-  function getSignedRequest(file) {
+  function getSignedRequest(file, self) {
     $.ajax({
       url: `/sign-s3?file-name=${file.name}&file-type=${file.type}`,
       type: 'GET',
       success: function( response ) {
         const responseObj = JSON.parse(response);
         console.log(responseObj);
-        uploadFile(file, responseObj.data, responseObj.url);
+        uploadFile(file, responseObj.data, responseObj.url, self);
         sendFormData(responseObj.url);
       },
       error: function( error ) {
@@ -75,7 +78,7 @@ $(document).ready(function() {
     });
   }
 
-  function uploadFile(file, s3Data, url) {
+  function uploadFile(file, s3Data, url, self) {
     const postData = new FormData();
     for (key in s3Data.fields) {
       postData.append(key, s3Data.fields[key]);
@@ -90,7 +93,12 @@ $(document).ready(function() {
       contentType: false,
       processData: false,
       success: function( response ) {
-        console.log("File uploaded");
+        self.find("[data-save] i").text( "check" ).removeClass( "spin-icon" );
+        self.find("[data-save]").attr("disabled", false);
+        
+        setTimeout(function(){ 
+          self.find("[data-save] i").text( "save" );
+			  }, 3000);
       },
       error: function( error ) {
         console.log(error);
