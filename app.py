@@ -27,13 +27,14 @@ def excersises():
 
 @app.route("/add-program/")
 def add_program():
-  return render_template('add-program.html')
+  return render_template('add-program.html', exercises=mongo.db.TOOCollection.find())
 
 
 @app.route("/save-exercise", methods=['POST'])
 def save_exercise():
   if request.method == 'POST':
-    result = mongo.db.TOOCollection.insert_one({'exercise': request.form})
+    data = request.form.to_dict()
+    result = mongo.db.TOOCollection.insert_one(data)
     return str(result.inserted_id)
 
 @app.route('/sign-s3/')

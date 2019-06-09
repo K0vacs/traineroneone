@@ -51,9 +51,22 @@ $(document).ready(function() {
     }
 
   });
+  
+  function sessionVariable(form) {
+    var name = form[0].value;
+    sessionStorage.setItem( name, JSON.stringify(form) );
+    //var lastname = JSON.parse(sessionStorage.getItem("formData"));
+    //console.log(Object.keys(sessionStorage));
+  }
 
   exerciseForm.on("submit", function(event) {
     event.preventDefault();
+    var test = $(this).serializeArray();
+    sessionVariable(test)
+    var testN = test[0].value;
+    var theObj = {};
+    theObj[testN] = test;
+    console.log(theObj);
     const files = $("#file-input").prop('files');
     const file = files[0];
     var self = $( this );
@@ -108,9 +121,8 @@ $(document).ready(function() {
 
   function sendFormData(url) {
     var formData = exerciseForm.serializeArray();
-    formData.push({name: 'exercise-image', value: url});
+    formData.push({name: 'exerciseImage', value: url});
     $("#exercise-form").trigger("reset");
-    console.log(formData);
     
     $.ajax({
       type: 'POST',
