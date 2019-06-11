@@ -1,6 +1,9 @@
 /* ----- Not Added to SCSS Styling ----- */
 
-
+nav .brand-logo {
+  display: flex;
+  align-items: center;
+}
 
 .collapse-header {
   display: -webkit-box;

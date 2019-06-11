@@ -17,28 +17,32 @@
 </head>
 <body>
     
-    <nav>
+    <nav class="grey darken-4">
         <div class="nav-wrapper">
-            <a href="{{url_for('home')}}" class="brand-logo">Logo</a>
+            <a href="{{url_for('home')}}" class="brand-logo">
+                Trainer
+                <img src="https://traineroneonebucket.s3-eu-west-1.amazonaws.com/icon.png" height="30px" />
+                <img src="https://traineroneonebucket.s3-eu-west-1.amazonaws.com/icon.png" height="30px" />
+            </a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{url_for('home')}}">Programs</a></li>
                 <li><a href="{{url_for('workouts')}}">Workouts</a></li>
                 <li><a href="{{url_for('excersises')}}">Exercises</a></li>
-                <a href="{{url_for('add_program')}}" class="waves-effect waves-light btn"><i class="material-icons left">add_circle</i>add program</a>
+                <a href="{{url_for('add_program')}}" class="deep-orange waves-effect waves-light btn"><i class="material-icons left">add_circle</i>add program</a>
             </ul>
         </div>
         <ul class="sidenav" id="mobile-demo">
             <li><a href="{{url_for('home')}}">Programs</a></li>
             <li><a href="{{url_for('workouts')}}">Workouts</a></li>
             <li><a href="{{url_for('excersises')}}">Exercises</a></li>
-            <a href="{{url_for('add_program')}}" class="waves-effect waves-light btn"><i class="material-icons left">add_circle</i>add program</a>
+            <a href="{{url_for('add_program')}}" class="deep-orange waves-effect waves-light btn"><i class="material-icons left">add_circle</i>add program</a>
         </ul>
     </nav>
     
     {% block content %} {% endblock %}
     
-    <footer class="page-footer">
+    <footer class="grey darken-4 page-footer">
         <div class="container">
             <div class="row">
                 <div class="col s4">

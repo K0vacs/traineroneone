@@ -12,7 +12,7 @@ $(document).ready(function() {
     accessibility: true,
     autoplay: true,
     arrows: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 3000,
     dots: true,
     useTransform: false
   });
