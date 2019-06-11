@@ -2,6 +2,7 @@ import os, json, boto3, datetime
 from flask import Flask, render_template, request, url_for
 from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
+from bson.json_util import dumps
 
 
 app = Flask(__name__)
@@ -60,7 +61,13 @@ def sign_s3():
     'data': presigned_post,
     'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
   })
-
+  
+  
+  
+@app.route("/load-exercises",  methods=['POST'])
+def load_exercises():  
+  exercises = dumps(mongo.db.TOOCollection.find({}, { '_id': 1, 'exerciseName': 1 }))
+  return exercises
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),

@@ -4,7 +4,7 @@ $(document).ready(function() {
   var exercisesCarousel = $('.exercises-carousel');
   var exerciseForm = $("#exercise-form");
 
-  $(".button-collapse").sideNav();
+  $('.sidenav').sidenav();
 
   homeCarousel.show();
 
@@ -24,7 +24,10 @@ $(document).ready(function() {
     arrows: true
   });
 
-  $('select').material_select();
+  $('.collapsible').collapsible();
+  $('select').formSelect();
+  
+  
 
   $("[data-nav]").on("click", function() {
     // This click event enables users to navigate between collapsable panels using buttons to allow for a more fluid process flow.
@@ -37,20 +40,57 @@ $(document).ready(function() {
         window.location.href = window.location.origin;
         break;
       case "exercises":
-        console.log("Exercises");
         collapseOpen.collapsible('open', 0);
+        clearExercises();
         break;
       case "workouts":
-        console.log("Workouts");
         collapseOpen.collapsible('open', 1);
+        console.log("excercises");
+        loadExercises();
         break;
       case "program":
-        console.log("Program");
         collapseOpen.collapsible('open', 2);
+        clearExercises();
         break;
     }
 
   });
+  
+  
+  function loadExercises() {
+    console.log("loaded");
+    $.ajax({
+      type: 'POST',
+      url: '/load-exercises',
+      success: function( response ) {
+        var response = JSON.parse(response);
+
+        for(var i = 0; response.length - 1 >= i; i++) {
+          var id = response[i]._id.$oid;
+          var name = response[i].exerciseName;
+          var $newOpt = $("<option>").attr("value",id).text(name);
+          $("#exercisesList").append($newOpt);
+        }
+        $("#exercisesList").trigger('contentChanged');
+        
+      },
+      error: function( error ) {
+        console.log(error);
+      }
+    });
+  }
+  
+  $('select').on('contentChanged', function() {
+    $(this).formSelect();
+  });
+  
+  
+  function clearExercises() {
+    $("#exercisesList").empty().html( "<option value='' disabled selected>Choose your option</option>" );
+  }
+  
+  
+  
   
   function sessionVariable(form) {
     var name = form[0].value;
@@ -64,9 +104,7 @@ $(document).ready(function() {
     var test = $(this).serializeArray();
     sessionVariable(test)
     var testN = test[0].value;
-    var theObj = {};
-    theObj[testN] = test;
-    console.log(theObj);
+    //console.log(theObj.slice(20));
     const files = $("#file-input").prop('files');
     const file = files[0];
     var self = $( this );
@@ -121,7 +159,11 @@ $(document).ready(function() {
 
   function sendFormData(url) {
     var formData = exerciseForm.serializeArray();
-    formData.push({name: 'exerciseImage', value: url});
+    var selectData = exerciseForm.find(".select-wrapper input").val();
+    formData.push(
+      { name: 'exerciseImage', value: url },
+      { name: 'exerciseMuscleGroup', value: selectData.slice(20) }
+    );
     $("#exercise-form").trigger("reset");
     
     $.ajax({

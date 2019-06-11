@@ -1,4 +1,28 @@
-/* ----- Default Styling ----- */
+/* ----- Not Added to SCSS Styling ----- */
+
+
+
+.collapse-header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 1.5;
+  padding: 1rem;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.form-nav {
+  text-align: right;
+}
+
+
+
+
+
 
 .spin-icon {
   animation-name: spin;

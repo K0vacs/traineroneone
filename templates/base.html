@@ -8,7 +8,7 @@
     <title>Home</title>
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css" />
@@ -16,23 +16,24 @@
     
 </head>
 <body>
+    
     <nav>
         <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">Logo</a>
-            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <a href="{{url_for('home')}}" class="brand-logo">Logo</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="/">Programs</a></li>
-                <li><a href="workouts">Workouts</a></li>
-                <li><a href="excersises">Excersises</a></li>
-                <a href="{{url_for('add_program')}}" class="waves-effect waves-light btn"><i class="material-icons left">add_circle</i>add program</a>
-            </ul>
-            <ul class="side-nav" id="mobile-demo">
-                <li><a href="/">Programs</a></li>
-                <li><a href="workouts">Workouts</a></li>
-                <li><a href="excersises">Excersises</a></li>
+                <li><a href="{{url_for('home')}}">Programs</a></li>
+                <li><a href="{{url_for('workouts')}}">Workouts</a></li>
+                <li><a href="{{url_for('excersises')}}">Exercises</a></li>
                 <a href="{{url_for('add_program')}}" class="waves-effect waves-light btn"><i class="material-icons left">add_circle</i>add program</a>
             </ul>
         </div>
+        <ul class="sidenav" id="mobile-demo">
+            <li><a href="{{url_for('home')}}">Programs</a></li>
+            <li><a href="{{url_for('workouts')}}">Workouts</a></li>
+            <li><a href="{{url_for('excersises')}}">Exercises</a></li>
+            <a href="{{url_for('add_program')}}" class="waves-effect waves-light btn"><i class="material-icons left">add_circle</i>add program</a>
+        </ul>
     </nav>
     
     {% block content %} {% endblock %}
@@ -74,7 +75,7 @@
 
 <!--BODY    -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
 
