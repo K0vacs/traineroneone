@@ -1,14 +1,14 @@
 $(document).ready(function() {
-
-  var homeCarousel = $('.home-carousel');
-  var exercisesCarousel = $('.exercises-carousel');
-  var exerciseForm = $("#exercise-form");
-
+  
+  // Global variables and Materialize prototypes executed on load -------------- //
+  
   $('.sidenav').sidenav();
-
-  homeCarousel.show();
-
-  homeCarousel.slick({
+  $('.collapsible').collapsible();
+  $('select').formSelect();
+  
+  // Slick carousels initialized ----------------------------------------------- //
+  
+  $( ".home-carousel" ).show().slick({
     accessibility: true,
     autoplay: true,
     arrows: true,
@@ -17,21 +17,15 @@ $(document).ready(function() {
     useTransform: false
   });
 
-  exercisesCarousel.show();
-
-  exercisesCarousel.slick({
+  $( ".exercises-carousel" ).show().slick({
     dots: true,
     arrows: true
   });
 
-  $('.collapsible').collapsible();
-  $('select').formSelect();
+  // jQuery events ------------------------------------------------------------- //
   
-  
-
+  // This click event enables users to navigate between collapsable panels using buttons to allow for a more fluid process flow.
   $("[data-nav]").on("click", function() {
-    // This click event enables users to navigate between collapsable panels using buttons to allow for a more fluid process flow.
-
     var self = $(this).data("nav");
     var collapseOpen = $('.collapsible');
 
@@ -41,33 +35,52 @@ $(document).ready(function() {
         break;
       case "exercises":
         collapseOpen.collapsible('open', 0);
-        clearExercises();
+        $("#exercisesList").empty().html(
+          "<option value='' disabled selected>Choose your option</option>"
+        );
         break;
       case "workouts":
         collapseOpen.collapsible('open', 1);
-        console.log("excercises");
         loadExercises();
         break;
       case "program":
         collapseOpen.collapsible('open', 2);
-        clearExercises();
+        $("#exercisesList").empty().html(
+          "<option value='' disabled selected>Choose your option</option>"
+        );
         break;
     }
-
   });
   
+  $( "form" ).on("submit", function(event) {
+    event.preventDefault();
+    
+    var self      = $( this );
+    const files   = self.find( "[name='image']" ).prop( "files" );
+    const file    = files[0];
+    
+    self.find( "[data-save]" ).attr( "disabled", true );
+    self.find( "[data-save] i" ).text( "refresh" ).addClass( "spin-icon" );
+    
+    getSignedRequest( file, self );
+  });
+  
+  $('select').on('contentChanged', function() {
+    $(this).formSelect();
+  });
+
+  // Ajax calls, processed in app.py ------------------------------------------- //
   
   function loadExercises() {
-    console.log("loaded");
     $.ajax({
       type: 'POST',
       url: '/load-exercises',
       success: function( response ) {
-        var response = JSON.parse(response);
+        var resp = JSON.parse( response );
 
-        for(var i = 0; response.length - 1 >= i; i++) {
-          var id = response[i]._id.$oid;
-          var name = response[i].exerciseName;
+        for(var i = 0; resp.length - 1 >= i; i++) {
+          var id = resp[i]._id.$oid;
+          var name = resp[i].exerciseName;
           var $newOpt = $("<option>").attr("value",id).text(name);
           $("#exercisesList").append($newOpt);
         }
@@ -75,55 +88,23 @@ $(document).ready(function() {
         
       },
       error: function( error ) {
+        alert( "Error: Exercises not loaded, please refresh the page." );
         console.log(error);
       }
     });
   }
   
-  $('select').on('contentChanged', function() {
-    $(this).formSelect();
-  });
-  
-  
-  function clearExercises() {
-    $("#exercisesList").empty().html( "<option value='' disabled selected>Choose your option</option>" );
-  }
-  
-  
-  
-  
-  function sessionVariable(form) {
-    var name = form[0].value;
-    sessionStorage.setItem( name, JSON.stringify(form) );
-    //var lastname = JSON.parse(sessionStorage.getItem("formData"));
-    //console.log(Object.keys(sessionStorage));
-  }
-
-  exerciseForm.on("submit", function(event) {
-    event.preventDefault();
-    var test = $(this).serializeArray();
-    sessionVariable(test)
-    var testN = test[0].value;
-    //console.log(theObj.slice(20));
-    const files = $("#file-input").prop('files');
-    const file = files[0];
-    var self = $( this );
-    self.find( "[data-save]" ).attr( "disabled", true );
-    self.find( "[data-save] i" ).text( "refresh" ).addClass( "spin-icon" );
-    getSignedRequest(file, self);
-  });
-  
-  function getSignedRequest(file, self) {
+  function getSignedRequest( file, self ) {
     $.ajax({
       url: `/sign-s3?file-name=${file.name}&file-type=${file.type}`,
       type: 'GET',
       success: function( response ) {
-        const responseObj = JSON.parse(response);
-        console.log(responseObj);
-        uploadFile(file, responseObj.data, responseObj.url, self);
-        sendFormData(responseObj.url);
+        const responseObj = JSON.parse( response );
+        uploadFile( file, responseObj.data, responseObj.url, self );
+        sendFormData( responseObj.url, self );
       },
       error: function( error ) {
+        alert( "Error: The form did not save, please try again." );
         console.log(error);
       }
     });
@@ -157,19 +138,19 @@ $(document).ready(function() {
     });
   }
 
-  function sendFormData(url) {
-    var formData = exerciseForm.serializeArray();
-    var selectData = exerciseForm.find(".select-wrapper input").val();
-    formData.push(
-      { name: 'exerciseImage', value: url },
-      { name: 'exerciseMuscleGroup', value: selectData.slice(20) }
+  function sendFormData( url, self ) {
+    var form        = self.serializeArray();
+    var selectData  = self.find(".select-wrapper input").val().slice(20);
+    
+    form.push(
+      { name: 'imageUrl', value: url },
+      { name: 'multiSelect', value: selectData }
     );
-    $("#exercise-form").trigger("reset");
     
     $.ajax({
       type: 'POST',
-      url: '/save-exercise',
-      data: formData,
+      url: '/save-form',
+      data: form,
       success: function( response ) {
         console.log(response);
       },
@@ -177,5 +158,18 @@ $(document).ready(function() {
         console.log(error);
       }
     });
+    
+    self.trigger("reset");
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 });

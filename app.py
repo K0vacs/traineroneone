@@ -31,12 +31,19 @@ def add_program():
   return render_template('add-program.html', exercises=mongo.db.TOOCollection.find())
 
 
-@app.route("/save-exercise", methods=['POST'])
-def save_exercise():
+@app.route("/save-form", methods=['POST'])
+def save_form():
   if request.method == 'POST':
     data = request.form.to_dict()
-    result = mongo.db.TOOCollection.insert_one(data)
-    return str(result.inserted_id)
+    if "exerciseName" in data:
+      result = mongo.db.exercises.insert_one(data)
+      return str(result.inserted_id)
+    if "workoutName" in data:
+      result = mongo.db.workouts.insert_one(data)
+      return str(result.inserteds_id)
+    if "program" in data:
+      result = mongo.db.programs.insert_one(data)
+      return str(result.inserted_id)
 
 @app.route('/sign-s3/')
 def sign_s3():
@@ -61,13 +68,19 @@ def sign_s3():
     'data': presigned_post,
     'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
   })
-  
-  
-  
+
+
 @app.route("/load-exercises",  methods=['POST'])
 def load_exercises():  
   exercises = dumps(mongo.db.TOOCollection.find({}, { '_id': 1, 'exerciseName': 1 }))
   return exercises
+  
+@app.route("/save-workout", methods=['POST'])
+def save_workout():
+  if request.method == 'POST':
+    data = request.form.to_dict()
+    result = mongo.db.workouts.insert_one(data)
+    return str(result.inserted_id)
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),

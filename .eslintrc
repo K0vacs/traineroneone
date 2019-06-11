@@ -2,6 +2,7 @@
     "globals": {
         "$": false,
         "document": false,
-        "window": false
+        "window": false,
+        "alert": false
     }
 }
