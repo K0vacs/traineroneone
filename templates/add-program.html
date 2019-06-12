@@ -4,10 +4,10 @@
     <div class="row">
         <ul class="collapsible popout">
             <li class="active">
-                <div class="collapse-header active"><span class="">1</span> Exercises</div>
+                <div class="collapse-header active"><span class="">1</span>Exercises</div>
                 <div class="collapsible-body">
                     <div class="row">
-                        <form id="exercise-form" method="post" class="col s12">
+                        <form method="post" class="col s12">
                             <div class="row">
                                 <div class="input-field col s6">
                                     <input id="exercise-name" type="text"  name="exerciseName" class="validate" required>
@@ -45,24 +45,24 @@
                                     <label>Muscle Group</label>
                                 </div>
                                 <div class="input-field col s6">
-                                    <input placeholder="Duration in minutes" id="first_name" type="number" name="exerciseDuration" min="1" max="1000" class="validate" required>
-                                    <label for="first_name">Duration</label>
+                                    <input placeholder="Duration in minutes" id="exercise-duration" type="number" name="exerciseDuration" min="1" max="1000" class="validate" required>
+                                    <label for="exercise-duration">Duration</label>
                                 </div>
                                 <div class="input-field col s6">
-                                    <input placeholder="Difficulty from 1 to 10" id="first_name" type="number" name="exerciseDifficulty" min="1" max="10" class="validate" required>
-                                    <label for="first_name">Difficulty</label>
+                                    <input placeholder="Difficulty from 1 to 10" id="exercise-difficulty" type="number" name="exerciseDifficulty" min="1" max="10" class="validate" required>
+                                    <label for="exercise-difficulty">Difficulty</label>
                                 </div>
                                 <div class="input-field col s6">
-                                    <input placeholder="Number of sets" id="first_name" type="number" name="exerciseSets" min="1" max"1000" class="validate" required>
-                                    <label for="first_name">Sets</label>
+                                    <input placeholder="Number of sets" id="exercise-sets" type="number" name="exerciseSets" min="1" max"1000" class="validate" required>
+                                    <label for="exercise-sets">Sets</label>
                                 </div>
                                 <div class="input-field col s6">
-                                    <input placeholder="Number of reps" id="first_name" type="number" name="exerciseReps" min="1" max="1000" class="validate" required>
-                                    <label for="first_name">Reps</label>
+                                    <input placeholder="Number of reps" id="exercise-reps" type="number" name="exerciseReps" min="1" max="1000" class="validate" required>
+                                    <label for="exercise-reps">Reps</label>
                                 </div>
                                 <div class="input-field col s12">
-                                    <textarea id="textarea1" name="exerciseNotes" class="materialize-textarea" required></textarea>
-                                    <label for="textarea1">Notes</label>
+                                    <textarea id="exercise-notes" name="exerciseNotes" class="materialize-textarea" required></textarea>
+                                    <label for="exercise-notes">Notes</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -79,10 +79,10 @@
                 </div>
             </li>
             <li>
-                <div class="collapse-header"><i class="material-icons">filter_drama</i>Workouts</div>
+                <div class="collapse-header"><span class="">2</span>Workouts</div>
                 <div class="collapsible-body">
                     <div class="row">
-                        <form id="workout-form" method="post" class="col s12">
+                        <form method="post" class="col s12">
                             <div class="row">
                                 <div class="input-field col s6">
                                     <input id="workout-name" type="text"  name="workoutName" class="validate" required>
@@ -98,16 +98,14 @@
                                     </div>
                                 </div>
                                 <div class="input-field col s12">
-                                    <select id="exercisesList" multiple required>
+                                    <select id="exerciseOptions" multiple required>
                                         <option value="" disabled selected>Choose your option</option>
-                                            
-                                        
                                     </select>
                                     <label>Exercises</label>
                                 </div>
                                 <div class="input-field col s12">
-                                    <textarea id="textarea1" name="exerciseNotes" class="materialize-textarea" required></textarea>
-                                    <label for="textarea1">Notes</label>
+                                    <textarea id="workout-notes" name="workoutNotes" class="materialize-textarea" required></textarea>
+                                    <label for="workout-notes">Notes</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -124,16 +122,45 @@
                 </div>
             </li>
             <li>
-                <div class="collapse-header"><i class="material-icons">Program</i>Third</div>
+                <div class="collapse-header"><span class="">3</span>Program</div>
                 <div class="collapsible-body">
                     <div class="row">
-                        <div class="col s6">
-                            <button type="submit" data-save="program" class="deep-orange waves-effect waves-light btn"><i class="material-icons left">save</i>Save</button>
-                        </div>
-                        <div class="col s6 form-nav">
-                            <button type="button" data-nav="workouts" class="deep-orange waves-effect waves-light btn">Prev</button>
-                            <button type="button" data-nav="home" class="deep-orange waves-effect waves-light btn">Exit</button>
-                        </div>
+                        <form method="post" class="col s12">
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input id="program-name" type="text"  name="programName" class="validate" required>
+                                    <label for="program-name">Name</label>
+                                </div>
+                                <div class="file-field input-field col s6">
+                                    <div class="btn deep-orange">
+                                        <span>Image</span>
+                                        <input type="file" name="image" required>
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text">
+                                    </div>
+                                </div>
+                                <div class="input-field col s12">
+                                    <select id="workoutOptions" multiple required>
+                                        <option value="" disabled selected>Choose your option</option>
+                                    </select>
+                                    <label>Workouts</label>
+                                </div>
+                                <div class="input-field col s12">
+                                    <textarea id="program-notes" name="programNotes" class="materialize-textarea" required></textarea>
+                                    <label for="program-notes">Notes</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s6">
+                                    <button type="submit" data-save="program" class="deep-orange waves-effect waves-light btn"><i class="material-icons left">save</i>Save</button>
+                                </div>
+                                <div class="col s6 form-nav">
+                                    <button type="button" data-nav="workouts" class="deep-orange waves-effect waves-light btn">Prev</button>
+                                    <button type="button" data-nav="home" class="deep-orange waves-effect waves-light btn">Exit</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </li>

@@ -35,17 +35,21 @@ $(document).ready(function() {
         break;
       case "exercises":
         collapseOpen.collapsible('open', 0);
-        $("#exercisesList").empty().html(
+        $("#exerciseOptions").empty().html(
           "<option value='' disabled selected>Choose your option</option>"
         );
         break;
       case "workouts":
         collapseOpen.collapsible('open', 1);
-        loadExercises();
+        loadSelectOptions("exercise");
+        $("#workoutOptions").empty().html(
+          "<option value='' disabled selected>Choose your option</option>"
+        );
         break;
       case "program":
         collapseOpen.collapsible('open', 2);
-        $("#exercisesList").empty().html(
+        loadSelectOptions("workout");
+        $("#exerciseOptions").empty().html(
           "<option value='' disabled selected>Choose your option</option>"
         );
         break;
@@ -71,21 +75,28 @@ $(document).ready(function() {
 
   // Ajax calls, processed in app.py ------------------------------------------- //
   
-  function loadExercises() {
+  function loadSelectOptions(options) {
     $.ajax({
-      type: 'POST',
-      url: '/load-exercises',
+      type: 'GET',
+      url: `/load-select-options?options=${options}`,
       success: function( response ) {
         var resp = JSON.parse( response );
-
-        for(var i = 0; resp.length - 1 >= i; i++) {
-          var id = resp[i]._id.$oid;
-          var name = resp[i].exerciseName;
-          var $newOpt = $("<option>").attr("value",id).text(name);
-          $("#exercisesList").append($newOpt);
+        if( options === "exercise" ) {
+          for( var i = 0; resp.length - 1 >= i; i++ ) {
+            var id = resp[i]._id.$oid;
+            var name = resp[i].exerciseName;
+            var $newOpt = $("<option>").attr("value",id).text(name);
+            $("#exerciseOptions").append($newOpt);
+          }
+        } else {
+          for( var i = 0; resp.length - 1 >= i; i++ ) {
+            var id = resp[i]._id.$oid;
+            var name = resp[i].workoutName;
+            var $newOpt = $("<option>").attr("value",id).text(name);
+            $("#workoutOptions").append($newOpt);
+          }
         }
-        $("#exercisesList").trigger('contentChanged');
-        
+        $( "select" ).formSelect();
       },
       error: function( error ) {
         alert( "Error: Exercises not loaded, please refresh the page." );
@@ -105,7 +116,7 @@ $(document).ready(function() {
       },
       error: function( error ) {
         alert( "Error: The form did not save, please try again." );
-        console.log(error);
+        console.log( error );
       }
     });
   }
@@ -155,6 +166,7 @@ $(document).ready(function() {
         console.log(response);
       },
       error: function( error ) {
+        alert( "Error: The form did not save, please try again." );
         console.log(error);
       }
     });

@@ -26,24 +26,10 @@ def excersises():
     return render_template("excersises.html")
 
 
-@app.route("/add-program/")
+@app.route("/add-program/", methods=['GET', 'POST'])
 def add_program():
-  return render_template('add-program.html', exercises=mongo.db.TOOCollection.find())
+  return render_template('add-program.html')
 
-
-@app.route("/save-form", methods=['POST'])
-def save_form():
-  if request.method == 'POST':
-    data = request.form.to_dict()
-    if "exerciseName" in data:
-      result = mongo.db.exercises.insert_one(data)
-      return str(result.inserted_id)
-    if "workoutName" in data:
-      result = mongo.db.workouts.insert_one(data)
-      return str(result.inserteds_id)
-    if "program" in data:
-      result = mongo.db.programs.insert_one(data)
-      return str(result.inserted_id)
 
 @app.route('/sign-s3/')
 def sign_s3():
@@ -70,19 +56,33 @@ def sign_s3():
   })
 
 
-@app.route("/load-exercises",  methods=['POST'])
-def load_exercises():  
-  exercises = dumps(mongo.db.TOOCollection.find({}, { '_id': 1, 'exerciseName': 1 }))
-  return exercises
-  
-@app.route("/save-workout", methods=['POST'])
-def save_workout():
+@app.route("/save-form", methods=['POST'])
+def save_form():
   if request.method == 'POST':
     data = request.form.to_dict()
-    result = mongo.db.workouts.insert_one(data)
-    return str(result.inserted_id)
+    if "exerciseName" in data:
+      result = mongo.db.exercises.insert_one(data)
+      return str(result.inserted_id)
+    if "workoutName" in data:
+      result = mongo.db.workouts.insert_one(data)
+      return str(result.inserted_id)
+    if "programName" in data:
+      result = mongo.db.programs.insert_one(data)
+      return str(result.inserted_id)
+
+
+@app.route("/load-select-options",  methods=['GET'])
+def load_select_options():
+  data = request.args.get('options')
+  if data == "exercise":
+    exercises = dumps(mongo.db.exercises.find({}, { '_id': 1, 'exerciseName': 1 }))
+    return exercises
+  if data == "workout":
+    workouts = dumps(mongo.db.workouts.find({}, { '_id': 1, 'workoutName': 1 }))
+    return workouts
+
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
             port=int(os.environ.get('PORT')),
-            debug=True)
+            debug=True) 
