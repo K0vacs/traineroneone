@@ -62,7 +62,7 @@ def save_form():
     data = request.form.to_dict()
     if "exerciseName" in data:
       result = mongo.db.exercises.insert_one(data)
-      return str(result.inserted_id)
+      return str(data["exerciseName"])
     if "workoutName" in data:
       result = mongo.db.workouts.insert_one(data)
       return str(result.inserted_id)

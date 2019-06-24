@@ -175,7 +175,22 @@ $(document).ready(function() {
   }
   
   
+  function sessionVariable(form) {
+    // need name and id
+
+    sessionStorage.setItem('formData', JSON.stringify(list));
+    var lastname = JSON.parse(sessionStorage.getItem("formData"));
+    console.log(lastname.exerciseName);
+  }
   
+  if (sessionStorage.getItem("formData") != null) {
+    (function onLoadExercisesPage() {
+      var lastname = JSON.parse(sessionStorage.getItem("formData"));
+//      if (lastname.exerciseName.length >= 1) {
+        showExercise(lastname.exerciseName);
+//      }
+    })();
+  }
   
   
   
