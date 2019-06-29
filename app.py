@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, url_for
 from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
 from bson.json_util import dumps
+from bson.objectid import ObjectId
 
 
 app = Flask(__name__)
@@ -29,7 +30,22 @@ def excersises():
 @app.route("/add-program/", methods=['GET', 'POST'])
 def add_program():
   return render_template('add-program.html')
-
+  
+  
+@app.route("/delete/", methods=['GET', 'POST'])
+def delete():
+  id = request.args.get('id')
+  imgKey = request.args.get('img')
+  S3_BUCKET = os.environ.get('S3_BUCKET')
+  s3 = boto3.client('s3')
+  
+  try:
+    s3.delete_object(Bucket= S3_BUCKET, Key= imgKey )
+    mongo.db.exercises.remove({'_id': ObjectId(id)})
+  except:
+    return "An error occured when deleting this item, please try again."
+  return "Deletion successful"
+  
 
 @app.route('/sign-s3/')
 def sign_s3():
@@ -62,7 +78,7 @@ def save_form():
     data = request.form.to_dict()
     if "exerciseName" in data:
       result = mongo.db.exercises.insert_one(data)
-      return str(data["exerciseName"])
+      return str(result.inserted_id)
     if "workoutName" in data:
       result = mongo.db.workouts.insert_one(data)
       return str(result.inserted_id)
@@ -75,10 +91,10 @@ def save_form():
 def load_select_options():
   data = request.args.get('options')
   if data == "exercise":
-    exercises = dumps(mongo.db.exercises.find({}, { '_id': 1, 'exerciseName': 1 }))
+    exercises = dumps(mongo.db.exercises.find({}, { '_id': 1, 'exerciseName': 1, 'imageUrl': 1 }))
     return exercises
   if data == "workout":
-    workouts = dumps(mongo.db.workouts.find({}, { '_id': 1, 'workoutName': 1 }))
+    workouts = dumps(mongo.db.workouts.find({}, { '_id': 1, 'workoutName': 1, 'imageUrl': 1 }))
     return workouts
 
 
