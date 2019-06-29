@@ -56,17 +56,65 @@ $(document).ready(function() {
     }
   });
   
+  $( "form" ).on("click", function(event) {
+    $(this).find(".warning").remove();
+  });
+  
   $( "form" ).on("submit", function(event) {
     event.preventDefault();
     
-    var self      = $( this );
-    const files   = self.find( "[name='image']" ).prop( "files" );
-    const file    = files[0];
+    var self            = $( this );
+    self.find(".select-dropdown").addClass("validation");
+    // var selectedOptions = self.find("select").formSelect('getSelectedValues');
+    // if(selectedOptions > 0) {
+      
+    // }
+    //var fields = self.find(".validation");
+    var arr = [];
+    self.find(".input-field").each(function() {
+      var input = $( this ).find(".validation").val();
+      
+      if( input.length <= 1 && input != "Choose your option" ) {
+        var obj = {field: $(this), value: input};
+        arr.push(obj);
+      } else if( input == "Choose your option" ) {
+        var selectVal = input.slice(20);
+        console.log(selectVal);
+        if (selectVal.length <= 1) {
+          var obj = {field: $(this), value: input};
+          arr.push(obj);
+        }
+        
+        
+      }
+    });
     
-    self.find( "[data-save]" ).attr( "disabled", true );
-    self.find( "[data-save] i" ).text( "refresh" ).addClass( "spin-icon" );
-    
-    getSignedRequest( file, self );
+    if(arr.length == 0) {
+      const files   = self.find( "[name='image']" ).prop( "files" );
+      const file    = files[0];
+  
+      self.find( "[data-save]" ).attr( "disabled", true );
+      self.find( "[data-save] i" ).text( "refresh" ).addClass( "spin-icon" );
+      
+      getSignedRequest( file, self );
+    } else {
+      
+      $.each( arr, function( index, value ) {
+        
+        $(arr[index].field).find("label").after(`
+          <div class="warning valign-wrapper">
+            <i class="tiny material-icons orange-text">warning &nbsp;</i>
+            <span class="orange-text">Please fill in this field.</span>
+          </div>
+        ` );
+      //   self.find(".validation").next().after( `
+      //   <div class="warning valign-wrapper">
+      //     <i class="tiny material-icons orange-text">warning &nbsp;</i>
+      //     <span class="orange-text">Please fill in this field.</span>
+      //   </div>
+      // ` );
+      });
+    }
   });
   
   $('select').on('contentChanged', function() {
@@ -151,50 +199,81 @@ $(document).ready(function() {
 
   function sendFormData( url, self ) {
     var form        = self.serializeArray();
-    var selectData  = self.find(".select-wrapper input").val().slice(20);
+    var selectData  = JSON.stringify(self.find(".selectOptions").formSelect('getSelectedValues'));
     
     form.push(
       { name: 'imageUrl', value: url },
       { name: 'multiSelect', value: selectData }
     );
     
+    if(form.length < 5) {
+      var imgUrl = form[2].value;
+    } else {
+      var imgUrl = form[6].value;
+    }
+    
     $.ajax({
       type: 'POST',
       url: '/save-form',
       data: form,
       success: function( response ) {
-        console.log(response);
+        var recentlyAdded = {
+          id: response, 
+          name: form[0].value, 
+          imageUrl: imgUrl
+        };
+        recentItem(recentlyAdded);
       },
       error: function( error ) {
         alert( "Error: The form did not save, please try again." );
         console.log(error);
       }
     });
-    
     self.trigger("reset");
+    self.find(".label").addClass("active");
+    
   }
   
-  
-  function sessionVariable(form) {
-    // need name and id
-
-    sessionStorage.setItem('formData', JSON.stringify(list));
-    var lastname = JSON.parse(sessionStorage.getItem("formData"));
-    console.log(lastname.exerciseName);
+  function recentItem(form) {
+    $(".active .recent-item:last").after(`
+      <div id="${form.id}" data-img="${form.imageUrl}" class="row valign-wrapper recent-item">
+          <div class="col s8">
+              <span>${form.name}</span>
+          </div>
+          <div class="col s4">
+            <a href="#" class="recent-item-control edit"><i class="material-icons">edit</i></a>
+            <a href="#" class="recent-item-control delete"><i class="material-icons">delete</i></a>
+          </div>
+      </div>
+    `);
   }
   
-  if (sessionStorage.getItem("formData") != null) {
-    (function onLoadExercisesPage() {
-      var lastname = JSON.parse(sessionStorage.getItem("formData"));
-//      if (lastname.exerciseName.length >= 1) {
-        showExercise(lastname.exerciseName);
-//      }
-    })();
+  $(".card-panel").on("click", ".recent-item-control", function() {
+    var self        = $(this).parents(".recent-item");
+    
+    if($(this).hasClass("edit")) {
+      
+    } else {
+      deleteExercisesAndWorkouts(self);
+    }
+  });
+  
+  function deleteExercisesAndWorkouts(self) {
+    var imgUrl = self.data("img");
+    var imgKey = imgUrl.slice(45);
+    
+    $.ajax({
+      url: `/delete?id=${self.attr( "id" )}&img=${imgKey}`,
+      type: 'GET',
+      success: function( response ) {
+        
+      },
+      error: function( error ) {
+        console.log( error );
+      }
+    });
+    self.remove();
   }
-  
-  
-  
-  
   
   
   
