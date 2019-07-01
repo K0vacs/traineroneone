@@ -46,6 +46,20 @@ def delete():
     return "An error occured when deleting this item, please try again."
   return "Deletion successful"
   
+  
+@app.route("/edit/", methods=['GET', 'POST'])
+def edit():
+  id = request.args.get('id')
+  
+  try:
+    # exercise = {"name": "Hello", "value": "World!"}
+    # return id
+    
+    exercise = dumps(mongo.db.exercises.find({'_id': ObjectId(id)}))
+    return exercise
+    
+  except Exception as error:
+    return error
 
 @app.route('/sign-s3/')
 def sign_s3():

@@ -60,6 +60,65 @@ $(document).ready(function() {
     $(this).find(".warning").remove();
   });
   
+  
+  
+
+  
+  $(".card-panel").on("click", ".recent-item-control", function() {
+    var self = $(this).parents(".recent-item");
+    var id = self.attr("id");
+    
+    self.find(".edit").attr("disabled", true).children("i").text( "refresh" ).addClass( "spin-icon" );
+    
+    if($(this).hasClass("edit")) {
+      $.ajax({
+        url: `/edit?id=${id}`,
+        type: 'GET',
+        success: function( response ) {
+          edit(self, response);
+          self.find(".edit").attr("disabled", false).children("i").text( "edit" ).removeClass( "spin-icon" );
+        },
+        error: function( error ) {
+          console.log( error );
+          self.find(".edit").attr("disabled", false).children("i").text( "edit" ).removeClass( "spin-icon" );
+        }
+      });
+    } else {
+      deleteExercisesAndWorkouts(self);
+    }
+  });
+  
+  
+  
+  
+  function edit(self, object) {
+    var form = $( "form" );
+    var obj = JSON.parse(object);
+    form.find(".label").addClass("active");
+    
+    $.each(obj[0], function(name, value) {
+      switch (true) {
+        case name == "exerciseImg" || name == "workoutImg" || name == "programImg":
+          var imgUrl = value.split("/");
+          var image = imgUrl[3].slice(24);
+          form.find(`#${name}`).val(image);
+          break;
+        case name != "multiSelect":
+          form.find(`[name='${name}']`).val(value);
+          break;
+        case name == "multiSelect":
+          var item = JSON.parse(value);
+          $.each(item, function(i, val) {
+            form.find(`.selectOptions [value='${val}']`).attr("selected", true);
+          });
+          $('select').formSelect();
+          break;
+      }
+    });
+  }
+  
+  
+  
   $( "form" ).on("submit", function(event) {
     event.preventDefault();
     
@@ -74,13 +133,13 @@ $(document).ready(function() {
     self.find(".input-field").each(function() {
       var input = $( this ).find(".validation").val();
       
-      if( input.length <= 1 && input != "Choose your option" ) {
+      if( input.length == 0 && input != "Choose your option" ) {
         var obj = {field: $(this), value: input};
         arr.push(obj);
       } else if( input == "Choose your option" ) {
         var selectVal = input.slice(20);
-        console.log(selectVal);
-        if (selectVal.length <= 1) {
+        
+        if (selectVal.length == 0) {
           var obj = {field: $(this), value: input};
           arr.push(obj);
         }
@@ -90,7 +149,7 @@ $(document).ready(function() {
     });
     
     if(arr.length == 0) {
-      const files   = self.find( "[name='image']" ).prop( "files" );
+      const files   = self.find( "[type='file']" ).prop( "files" );
       const file    = files[0];
   
       self.find( "[data-save]" ).attr( "disabled", true );
@@ -107,12 +166,6 @@ $(document).ready(function() {
             <span class="orange-text">Please fill in this field.</span>
           </div>
         ` );
-      //   self.find(".validation").next().after( `
-      //   <div class="warning valign-wrapper">
-      //     <i class="tiny material-icons orange-text">warning &nbsp;</i>
-      //     <span class="orange-text">Please fill in this field.</span>
-      //   </div>
-      // ` );
       });
     }
   });
@@ -200,9 +253,10 @@ $(document).ready(function() {
   function sendFormData( url, self ) {
     var form        = self.serializeArray();
     var selectData  = JSON.stringify(self.find(".selectOptions").formSelect('getSelectedValues'));
+    var imgName     = self.find("[type='file']").attr("name");
     
     form.push(
-      { name: 'imageUrl', value: url },
+      { name: imgName, value: url },
       { name: 'multiSelect', value: selectData }
     );
     
@@ -241,26 +295,23 @@ $(document).ready(function() {
               <span>${form.name}</span>
           </div>
           <div class="col s4">
-            <a href="#" class="recent-item-control edit"><i class="material-icons">edit</i></a>
-            <a href="#" class="recent-item-control delete"><i class="material-icons">delete</i></a>
+            <button type="button" class="deep-orange waves-effect waves-light btn recent-item-control edit">
+              <i class="material-icons">edit</i>
+            </button>
+            <button type="button" class="deep-orange waves-effect waves-light btn recent-item-control delete">
+              <i class="material-icons">delete</i>
+            </button>
           </div>
       </div>
     `);
   }
   
-  $(".card-panel").on("click", ".recent-item-control", function() {
-    var self        = $(this).parents(".recent-item");
-    
-    if($(this).hasClass("edit")) {
-      
-    } else {
-      deleteExercisesAndWorkouts(self);
-    }
-  });
+  
   
   function deleteExercisesAndWorkouts(self) {
     var imgUrl = self.data("img");
     var imgKey = imgUrl.slice(45);
+    var form = $("form");
     
     $.ajax({
       url: `/delete?id=${self.attr( "id" )}&img=${imgKey}`,
@@ -273,6 +324,15 @@ $(document).ready(function() {
       }
     });
     self.remove();
+    form.trigger("reset");
+    form.find(".selectOptions option:selected").each( function() {
+      var val = $(this).val();
+      if(val != "") {
+        $(this).attr("selected", false);
+      }
+    });
+    $('select').formSelect();
+    form.find(".label").addClass("active");
   }
   
   
