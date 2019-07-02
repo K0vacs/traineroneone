@@ -60,6 +60,23 @@ def edit():
     
   except Exception as error:
     return error
+    
+@app.route("/update/", methods=['GET', 'POST'])    
+def update():
+  data = request.form.to_dict()
+  id = data['_id']
+  del data['_id']
+  
+  if "exerciseName" in data:
+    result = mongo.db.exercises.update({'_id': ObjectId(id)}, { "$set": data })
+    return str(result)
+  if "workoutName" in data:
+    result = mongo.db.workout.update({'_id': ObjectId(id)}, { "$set": data })
+    return str(result)
+  if "programName" in data:
+    result = mongo.db.program.update({'_id': ObjectId(id)}, { "$set": data })
+    return str(result)
+  
 
 @app.route('/sign-s3/')
 def sign_s3():

@@ -98,13 +98,18 @@ $(document).ready(function() {
     
     $.each(obj[0], function(name, value) {
       switch (true) {
+        case name == "_id":
+          $("[data-save='exercise']").html(`<i class="material-icons left">save</i>UPDATE`);
+          $("[data-save='exercise']").attr("data-id", value.$oid);
+          $("[data-save='exercise']").after(`
+            <button data-create="new" class="deep-orange waves-effect waves-light btn">NEW</button>
+          `);
+          break;
         case name == "exerciseImg" || name == "workoutImg" || name == "programImg":
           var imgUrl = value.split("/");
           var image = imgUrl[3].slice(24);
           form.find(`#${name}`).val(image);
-          break;
-        case name != "multiSelect":
-          form.find(`[name='${name}']`).val(value);
+          $("[data-save='exercise']").attr("data-img", image);
           break;
         case name == "multiSelect":
           var item = JSON.parse(value);
@@ -112,67 +117,167 @@ $(document).ready(function() {
             form.find(`.selectOptions [value='${val}']`).attr("selected", true);
           });
           $('select').formSelect();
+          break;  
+        default:
+          form.find(`[name='${name}']`).val(value);
           break;
+        
       }
     });
+
   }
   
   
   
   $( "form" ).on("submit", function(event) {
     event.preventDefault();
+    var self  = $( this );
+    var arr   = emptyFieldValidation( self );
+    var isUpdate = self.find("[data-save]").attr("data-id");
     
-    var self            = $( this );
-    self.find(".select-dropdown").addClass("validation");
-    // var selectedOptions = self.find("select").formSelect('getSelectedValues');
-    // if(selectedOptions > 0) {
+    switch(true) {
+      case isUpdate.length > 0:
+        update( self, isUpdate );
+        break;
+      case arr.length == 0:
+        getSignedRequest( self );
+        break;
+      case arr.length > 0:
+        warningMessage( arr );
+        break;
       
+      
+    }
+    // if(arr.length == 0) {
+    //   getSignedRequest( self );
+    // } else {
+    //   warningMessage( arr );
     // }
-    //var fields = self.find(".validation");
-    var arr = [];
-    self.find(".input-field").each(function() {
-      var input = $( this ).find(".validation").val();
-      
-      if( input.length == 0 && input != "Choose your option" ) {
-        var obj = {field: $(this), value: input};
-        arr.push(obj);
-      } else if( input == "Choose your option" ) {
-        var selectVal = input.slice(20);
-        
-        if (selectVal.length == 0) {
-          var obj = {field: $(this), value: input};
-          arr.push(obj);
-        }
-        
-        
+  });
+  
+
+  function update( self, id ) {
+    var form        = self.serializeArray();
+    var selectData  = JSON.stringify(self.find(".selectOptions").formSelect('getSelectedValues'));
+    var imgName     = self.find("[type='file']").attr("name");
+    var files       = self.find( "[type='file']" ).prop( "files" );
+    
+    if(files.length > 0) {
+      form.push({ name: imgName, value: files[0]});
+    }
+    
+    form.push(
+      { name: "_id", value: id },
+      //{ name: imgName, value: url },
+      { name: 'multiSelect', value: selectData }
+    );
+    
+    $.ajax({
+      url: `/update/`,
+      data: form,
+      type: 'POST',
+      success: function( response ) {
+        console.log( response );
+      },
+      error: function( error ) {
+        console.log( error );
       }
     });
     
-    if(arr.length == 0) {
-      const files   = self.find( "[type='file']" ).prop( "files" );
-      const file    = files[0];
-  
-      self.find( "[data-save]" ).attr( "disabled", true );
-      self.find( "[data-save] i" ).text( "refresh" ).addClass( "spin-icon" );
+    $(`#${id} span`).text(form[0].value);
+  }
+
+
+
+
+
+
+
+
+
+  function warningMessage( arr ) {
+    $.each( arr, function( index, value ) {
+      $(arr[index].field).find("label").after(`
+        <div class="warning valign-wrapper">
+          <i class="tiny material-icons orange-text">warning &nbsp;</i>
+          <span class="orange-text">Please fill in this field.</span>
+        </div>
+      `);
+    });
+  }
+
+  function emptyFieldValidation( self ) {
+    var arr = [];
+    self.find(".select-dropdown").addClass("validation");
+    
+    self.find(".input-field").each(function() {
+      var input = $( this ).find(".validation").val();    
       
-      getSignedRequest( file, self );
-    } else {
+      switch(true) {
+        case input.length == 0:
+          var obj = {field: $(this), value: input};
+          arr.push(obj);
+          break;
+        case input == "Choose your option":
+          var selectVal = input.slice(20);
+          
+          switch(selectVal) {
+            case selectVal.length == 0:
+              var selectObj = {field: $(this), value: input};
+              arr.push(selectObj);
+              break;
+          }
+          break;
+      }
       
-      $.each( arr, function( index, value ) {
-        
-        $(arr[index].field).find("label").after(`
-          <div class="warning valign-wrapper">
-            <i class="tiny material-icons orange-text">warning &nbsp;</i>
-            <span class="orange-text">Please fill in this field.</span>
-          </div>
-        ` );
-      });
-    }
-  });
-  
+    });
+    
+    return arr;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   $('select').on('contentChanged', function() {
     $(this).formSelect();
   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Ajax calls, processed in app.py ------------------------------------------- //
   
@@ -206,7 +311,13 @@ $(document).ready(function() {
     });
   }
   
-  function getSignedRequest( file, self ) {
+  function getSignedRequest( self ) {
+    const files   = self.find( "[type='file']" ).prop( "files" );
+    const file    = files[0];
+  
+    self.find( "[data-save]" ).attr( "disabled", true )
+    .children("i").text( "refresh" ).removeClass( "spin-icon" );
+    
     $.ajax({
       url: `/sign-s3?file-name=${file.name}&file-type=${file.type}`,
       type: 'GET',
