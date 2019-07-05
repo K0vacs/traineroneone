@@ -24,171 +24,254 @@ $(document).ready(function() {
 
   // jQuery events ------------------------------------------------------------- //
   
+  // This submit event saves the users' input's if they are valid.
+  $( "form" ).on( "submit", function( event ) {
+    event.preventDefault();
+    var self        = $( this );
+    var toValidate  = emptyFieldValidation( self );
+    
+    if( toValidate.length == 0 ) {
+      loadingEffectOnButtons( self, "[data-save]", "save" );
+      prepareFileData( self );
+    } else {
+      warningMessage( toValidate );
+    }
+  });
+  
   // This click event enables users to navigate between collapsable panels using buttons to allow for a more fluid process flow.
-  $("[data-nav]").on("click", function() {
-    var self = $(this).data("nav");
-    var collapseOpen = $('.collapsible');
+  $( "[data-nav]" ).on( "click", function() {
+    var self = $( this ).data( "nav" );
+    var collapseOpen = $( ".collapsible" );
 
-    switch (self) {
+    switch ( self ) {
       case "home":
         window.location.href = window.location.origin;
         break;
       case "exercises":
-        collapseOpen.collapsible('open', 0);
-        $("#exerciseOptions").empty().html(
+        collapseOpen.collapsible( "open", 0);
+        $( "#exerciseOptions" ).empty().html(
           "<option value='' disabled selected>Choose your option</option>"
         );
         break;
       case "workouts":
-        collapseOpen.collapsible('open', 1);
-        loadSelectOptions("exercise");
-        $("#workoutOptions").empty().html(
+        collapseOpen.collapsible( "open", 1);
+        ajaxGetOptions( "exercise" );
+        $( "#workoutOptions" ).empty().html(
           "<option value='' disabled selected>Choose your option</option>"
         );
         break;
       case "program":
-        collapseOpen.collapsible('open', 2);
-        loadSelectOptions("workout");
-        $("#exerciseOptions").empty().html(
+        collapseOpen.collapsible( "open", 2);
+        ajaxGetOptions( "workout" );
+        $( "#exerciseOptions" ).empty().html(
           "<option value='' disabled selected>Choose your option</option>"
         );
         break;
     }
   });
   
-  $( ".input-field" ).on("click", function(event) {
-    $(this).find(".warning").remove();
+  // This click event removes the warning message when it is no longer necessary.
+  $( ".input-field" ).on( "click", function() {
+    $( this ).find( ".warning" ).remove();
   });
   
-  
-  
-
-  
-  $(".card-panel").on("click", ".recent-item-control", function() {
-    var self = $(this).parents(".recent-item");
-    var id = self.attr("id");
+  // This click event triggers the users request to see saved data.
+  $( ".card-panel" ).on( "click", ".edit, .delete", function() {
+    var self  = $( this ).parents( ".saved-item" );
+    var state = $( this ).hasClass( "edit" );
+    loadingEffectOnButtons( self, ".edit", "edit" );
     
-    self.find(".edit").attr("disabled", true).children("i").text( "refresh" ).addClass( "spin-icon" );
-    
-    if($(this).hasClass("edit")) {
-      $.ajax({
-        url: `/edit?id=${id}`,
-        type: 'GET',
-        success: function( response ) {
-          edit(self, response);
-          self.find(".edit").attr("disabled", false).children("i").text( "edit" ).removeClass( "spin-icon" );
-        },
-        error: function( error ) {
-          console.log( error );
-          self.find(".edit").attr("disabled", false).children("i").text( "edit" ).removeClass( "spin-icon" );
-        }
-      });
+    if( state ) {
+      ajaxGetItemDetails( self ); 
     } else {
-      deleteExercisesAndWorkouts(self);
+      deleteExercisesAndWorkouts( self );
     }
   });
   
-  
-  
-  
-  function edit(self, object) {
-    var form = $( "form" );
-    var obj = JSON.parse(object);
-    form.find(".label").addClass("active");
-    
-    $.each(obj[0], function(name, value) {
-      switch (true) {
-        case name == "_id":
-          $("[data-save='exercise']").html(`<i class="material-icons left">save</i>UPDATE`);
-          $("[data-save='exercise']").attr("data-id", value.$oid);
-          $("[data-save='exercise']").after(`
-            <button data-create="new" class="deep-orange waves-effect waves-light btn">NEW</button>
-          `);
-          break;
-        case name == "exerciseImg" || name == "workoutImg" || name == "programImg":
-          var imgUrl = value.split("/");
-          var image = imgUrl[3].slice(24);
-          form.find(`#${name}`).val(image);
-          console.log(value);
-          $("[data-save='exercise']").attr("data-img", value);
-          break;
-        case name == "multiSelect":
-          var item = JSON.parse(value);
-          $.each(item, function(i, val) {
-            form.find(`.selectOptions [value='${val}']`).attr("selected", true);
-          });
-          $('select').formSelect();
-          break;  
-        default:
-          form.find(`[name='${name}']`).val(value);
-          break;
-        
-      }
-    });
-
-  }
-  
-  
-  
-  $( "form" ).on("submit", function(event) {
-    event.preventDefault();
-    var self  = $( this );
-    var arr   = emptyFieldValidation( self );
-    
-    switch(true) {
-      case arr.length == 0:
-        getSignedRequest( self );
-        break;
-      case arr.length > 0:
-        warningMessage( arr );
-        break;
-    }
+  // This click event ensures the Materialize Multi Select is always up to date.
+  $( "select" ).on( "contentChanged", function() {
+    $( this ).formSelect();
   });
-  
 
-  function update( self, id, url ) {
-    var form        = self.serializeArray();
-    var selectData  = JSON.stringify(self.find(".selectOptions").formSelect('getSelectedValues'));
-    var imgName     = self.find("[type='file']").attr("name");
-    var imgUrl      = self.find("[data-save]").attr("data-img");
-    var files       = self.find( "[type='file']" ).prop( "files" );
-    
-    if(files.length > 0) {
-      form.push(
-        { name: imgName, value: files[0] },
-        { name: "toDelete", value: imgUrl.slice(45) }
-      );
-    }
-    
-    form.push(
-      { name: "_id", value: id },
-      { name: imgName, value: url },
-      { name: 'multiSelect', value: selectData }
-    );
-    console.log(form);
+  // Ajax calls, processed in app.py ------------------------------------------- //
+  
+  // This Ajax call gets a DB record by ID.
+  function ajaxGetItemDetails( self ) {
     $.ajax({
-      url: `/update/`,
-      data: form,
-      type: 'POST',
+      url: `/edit?id=${self.attr( "id" )}`,
+      type: "GET",
       success: function( response ) {
-        console.log( response );
+        displayItemData( self, response );
+        loadingEffectOnButtons( self, ".edit", "edit" );
       },
       error: function( error ) {
         console.log( error );
+        alert( "An error occured while loading the file." );
+        loadingEffectOnButtons( self, ".edit", "edit" );
       }
     });
-    
-    $(`#${id} span`).text(form[0].value);
+  }
+  
+  // This Ajax call gets all DB records for the specified option.
+  function ajaxGetOptions( option ) {
+    $.ajax({
+      type: "GET",
+      url: `/load-select-options?options=${ option }`,
+      success: function( response ) {
+        displaySelectOptions( option, response );
+      },
+      error: function( error ) {
+        console.log( error );
+        alert( "Error: Exercises not loaded, please refresh the page." );
+      }
+    });
+  }
+  
+  // This Ajax call gets a presigned request from AWS S3 which is a pre-authorisation to upload a file.
+  function ajaxGetSignedRequest( self, file ) {
+    $.ajax({
+      url: `/sign-s3?file-name=${ file.name }&file-type=${ file.type }`,
+      type: "GET",
+      success: function( response ) {
+        prepareSignedRequest( self, file, response  );
+      },
+      error: function( error ) {
+        console.log( error );
+        alert( "Error: The form did not save, please try again." );
+      }
+    });
+  }
+  
+  
+  
+  
+  
+  
+  
+  // This Ajax call posts the file uploaded using the form to an S3 bucket.
+  function uploadFile(file, s3Data, url, self) {
+    const postData = new FormData();
+    for (key in s3Data.fields) {
+      postData.append(key, s3Data.fields[key]);
+    }
+    postData.append('file', file);
+
+    $.ajax({
+      url: s3Data.url,
+      data: postData,
+      type: 'POST',
+      headers: { 'x-amz-acl': 'public-read' },
+      contentType: false,
+      processData: false,
+      success: function( response ) {
+        loadingEffectOnButtons( self, "[data-save]", "save" );
+      },
+      error: function( error ) {
+        loadingEffectOnButtons( self, "[data-save]", "save" );
+        console.log(error);
+      }
+    });
   }
 
+  function sendFormData( self, url, form, img ) {
+    $.ajax({
+      type: 'POST',
+      url: '/save-form',
+      data: form,
+      success: function( response ) {
+        var recentlyAdded = {
+          id: response, 
+          name: form[0].value, 
+          imageUrl: img
+        };
+        recentItem(recentlyAdded);
+      },
+      error: function( error ) {
+        alert( "Error: The form did not save, please try again." );
+        console.log(error);
+      }
+    });
+    self.trigger("reset");
+    self.find(".label").addClass("active");
+    
+  }
+  
 
-
-
-
-
-
-
-
+  
+  // JavaScript Functions ------------------------------------------------------------- //
+  
+  function prepareSignedRequest( self, file, response ) {
+    var resp        = JSON.parse( response );
+    var updateItem  = self.attr( "data-id" );
+    uploadFile( file, resp.data, resp.url, self );
+    
+    if( typeof updateItem !== typeof undefined && updateItem !== false ) {
+      update( self, updateItem, resp.url );
+    } else {
+      prepareFormData( self, resp.url );
+    }
+  }
+  
+  function prepareFileData( self ) {
+    var files = self.find( "[type='file']" ).prop( "files" );
+    var file  = files[0];
+    
+    if( file != undefined ) {
+      ajaxGetSignedRequest( self, file );
+    }
+  }
+  
+  function recentItem(form) {
+    $(".active .saved-item:last").after(`
+      <div id="${form.id}" data-img="${form.imageUrl}" class="row valign-wrapper saved-item">
+          <div class="col s8">
+              <span>${form.name}</span>
+          </div>
+          <div class="col s4">
+            <button type="button" class="deep-orange waves-effect waves-light btn edit">
+              <i class="material-icons">edit</i>
+            </button>
+            <button type="button" class="deep-orange waves-effect waves-light btn delete">
+              <i class="material-icons">delete</i>
+            </button>
+          </div>
+      </div>
+    `);
+  }
+  
+  function prepareFormData( self, url ) {
+    var form        = self.serializeArray();
+    var selectData  = JSON.stringify(self.find(".selectOptions").formSelect('getSelectedValues'));
+    var imgName     = self.find("[type='file']").attr("name");
+    
+    form.push(
+      { name: imgName, value: url },
+      { name: 'multiSelect', value: selectData }
+    );
+    
+    if(form.length < 5) {
+      var imgUrl = form[2].value;
+    } else {
+      var imgUrl = form[6].value;
+    }
+    
+    return sendFormData( self, url, form, imgUrl );
+  }
+  
+  function displaySelectOptions( option, response ) {
+    var resp = JSON.parse( response );
+        
+    for( var i = 0; resp.length - 1 >= i; i++ ) {
+      var id      = resp[i]._id.$oid;
+      var name    = resp[i].exerciseName || resp[i].workoutName;
+      var optionToAdd  = $( "<option>" ).attr( "value", id ).text( name );
+        
+      $( "#" + option + "Options" ).append( optionToAdd );
+    }
+      
+    $( "select" ).formSelect();
+  }
+  
   function warningMessage( arr ) {
     $.each( arr, function( index, value ) {
       $(arr[index].field).find("label").after(`
@@ -228,199 +311,6 @@ $(document).ready(function() {
     
     return arr;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  $('select').on('contentChanged', function() {
-    $(this).formSelect();
-  });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // Ajax calls, processed in app.py ------------------------------------------- //
-  
-  function loadSelectOptions(options) {
-    $.ajax({
-      type: 'GET',
-      url: `/load-select-options?options=${options}`,
-      success: function( response ) {
-        var resp = JSON.parse( response );
-        if( options === "exercise" ) {
-          for( var i = 0; resp.length - 1 >= i; i++ ) {
-            var id = resp[i]._id.$oid;
-            var name = resp[i].exerciseName;
-            var $newOpt = $("<option>").attr("value",id).text(name);
-            $("#exerciseOptions").append($newOpt);
-          }
-        } else {
-          for( var i = 0; resp.length - 1 >= i; i++ ) {
-            var id = resp[i]._id.$oid;
-            var name = resp[i].workoutName;
-            var $newOpt = $("<option>").attr("value",id).text(name);
-            $("#workoutOptions").append($newOpt);
-          }
-        }
-        $( "select" ).formSelect();
-      },
-      error: function( error ) {
-        alert( "Error: Exercises not loaded, please refresh the page." );
-        console.log(error);
-      }
-    });
-  }
-  
-  function getSignedRequest( self ) {
-    const files   = self.find( "[type='file']" ).prop( "files" );
-    const file    = files[0];
-    
-    if(file != undefined) {
-      
-      self.find( "[data-save]" ).attr( "disabled", true )
-      .children("i").text( "refresh" ).removeClass( "spin-icon" );
-      
-      $.ajax({
-        url: `/sign-s3?file-name=${file.name}&file-type=${file.type}`,
-        type: 'GET',
-        success: function( response ) {
-          const responseObj = JSON.parse( response );
-          uploadFile( file, responseObj.data, responseObj.url, self );
-          var isUpdate = self.find("[data-save]").attr("data-id");
-          if(isUpdate.length > 0) {
-            update( self, isUpdate, responseObj.url );
-          } else {
-            sendFormData( responseObj.url, self );
-          }
-        },
-        error: function( error ) {
-          alert( "Error: The form did not save, please try again." );
-          console.log( error );
-        }
-      });
-      
-    }
-  }
-
-  function uploadFile(file, s3Data, url, self) {
-    const postData = new FormData();
-    for (key in s3Data.fields) {
-      postData.append(key, s3Data.fields[key]);
-    }
-    postData.append('file', file);
-
-    $.ajax({
-      url: s3Data.url,
-      data: postData,
-      type: 'POST',
-      headers: { 'x-amz-acl': 'public-read' },
-      contentType: false,
-      processData: false,
-      success: function( response ) {
-        self.find("[data-save] i").text( "check" ).removeClass( "spin-icon" );
-        self.find("[data-save]").attr("disabled", false);
-        
-        setTimeout(function(){ 
-          self.find("[data-save] i").text( "save" );
-			  }, 3000);
-      },
-      error: function( error ) {
-        console.log(error);
-      }
-    });
-  }
-
-  function sendFormData( url, self ) {
-    var form        = self.serializeArray();
-    var selectData  = JSON.stringify(self.find(".selectOptions").formSelect('getSelectedValues'));
-    var imgName     = self.find("[type='file']").attr("name");
-    
-    form.push(
-      { name: imgName, value: url },
-      { name: 'multiSelect', value: selectData }
-    );
-    
-    if(form.length < 5) {
-      var imgUrl = form[2].value;
-    } else {
-      var imgUrl = form[6].value;
-    }
-    
-    $.ajax({
-      type: 'POST',
-      url: '/save-form',
-      data: form,
-      success: function( response ) {
-        var recentlyAdded = {
-          id: response, 
-          name: form[0].value, 
-          imageUrl: imgUrl
-        };
-        recentItem(recentlyAdded);
-      },
-      error: function( error ) {
-        alert( "Error: The form did not save, please try again." );
-        console.log(error);
-      }
-    });
-    self.trigger("reset");
-    self.find(".label").addClass("active");
-    
-  }
-  
-  function recentItem(form) {
-    $(".active .recent-item:last").after(`
-      <div id="${form.id}" data-img="${form.imageUrl}" class="row valign-wrapper recent-item">
-          <div class="col s8">
-              <span>${form.name}</span>
-          </div>
-          <div class="col s4">
-            <button type="button" class="deep-orange waves-effect waves-light btn recent-item-control edit">
-              <i class="material-icons">edit</i>
-            </button>
-            <button type="button" class="deep-orange waves-effect waves-light btn recent-item-control delete">
-              <i class="material-icons">delete</i>
-            </button>
-          </div>
-      </div>
-    `);
-  }
-  
-  
   
   function deleteExercisesAndWorkouts(self) {
     var imgUrl = self.data("img");
@@ -449,7 +339,93 @@ $(document).ready(function() {
     form.find(".label").addClass("active");
   }
   
+  function update( self, id, url ) {
+    var form        = self.serializeArray();
+    var selectData  = JSON.stringify(self.find(".selectOptions").formSelect('getSelectedValues'));
+    var imgName     = self.find("[type='file']").attr("name");
+    var imgUrl      = self.find("[data-save]").attr("data-img");
+    var files       = self.find( "[type='file']" ).prop( "files" );
+    
+    if(files.length > 0) {
+      form.push(
+        { name: imgName, value: files[0] },
+        { name: "toDelete", value: imgUrl.slice(45) }
+      );
+    }
+    
+    form.push(
+      { name: "_id", value: id },
+      { name: imgName, value: url },
+      { name: 'multiSelect', value: selectData }
+    );
+    console.log(form);
+    $.ajax({
+      url: `/update/`,
+      data: form,
+      type: 'POST',
+      success: function( response ) {
+        console.log( response );
+      },
+      error: function( error ) {
+        console.log( error );
+      }
+    });
+    
+    $(`#${id} span`).text(form[0].value);
+  }
   
+  function loadingEffectOnButtons( self, button, icon ) {
+    var state = self.find( button ).children( "i" ).hasClass( "spin-icon" );
+    
+    if( state == true ) {
+      self.find( button ).attr( "disabled", false )
+      .children( "i" ).text( "check" ).removeClass( "spin-icon" );
+      
+      setTimeout(function(){ 
+        self.find( button ).children( "i" ).text( icon );
+			}, 1000);
+    } else {  
+      self.find( button ).attr( "disabled", true )
+      .children( "i" ).text( "refresh" ).addClass( "spin-icon" );
+    }
+    
+  }
   
+  function displayItemData(self, object) {
+    var form = $( "form" );
+    var obj = JSON.parse(object);
+    form.find(".label").addClass("active");
+    
+    $.each(obj[0], function(name, value) {
+      switch (true) {
+        case name == "_id":
+          $("[data-save='exercise']").html(`<i class="material-icons left">save</i>UPDATE`);
+          $("[data-save='exercise']").attr("data-id", value.$oid);
+          $("[data-save='exercise']").after(`
+            <button data-create="new" class="deep-orange waves-effect waves-light btn">NEW</button>
+          `);
+          break;
+        case name == "exerciseImg" || name == "workoutImg" || name == "programImg":
+          var imgUrl = value.split("/");
+          var image = imgUrl[3].slice(24);
+          form.find(`#${name}`).val(image);
+          console.log(value);
+          $("[data-save='exercise']").attr("data-img", value);
+          break;
+        case name == "multiSelect":
+          var item = JSON.parse(value);
+          $.each(item, function(i, val) {
+            form.find(`.selectOptions [value='${val}']`).attr("selected", true);
+          });
+          $('select').formSelect();
+          break;  
+        default:
+          form.find(`[name='${name}']`).val(value);
+          break;
+        
+      }
+    });
+
+  }
   
 });
