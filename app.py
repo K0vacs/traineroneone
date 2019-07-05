@@ -69,14 +69,18 @@ def update():
   
   if "exerciseName" in data:
     result = mongo.db.exercises.update({'_id': ObjectId(id)}, { "$set": data })
-    return str(result)
+    
   if "workoutName" in data:
     result = mongo.db.workout.update({'_id': ObjectId(id)}, { "$set": data })
     return str(result)
   if "programName" in data:
     result = mongo.db.program.update({'_id': ObjectId(id)}, { "$set": data })
     return str(result)
-  
+  if "toDelete" in data:
+    S3_BUCKET = os.environ.get('S3_BUCKET')
+    s3 = boto3.client('s3')
+    result = s3.delete_object(Bucket= S3_BUCKET, Key= data["toDelete"] )
+    return str(result)
 
 @app.route('/sign-s3/')
 def sign_s3():

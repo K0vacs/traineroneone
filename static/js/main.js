@@ -56,7 +56,7 @@ $(document).ready(function() {
     }
   });
   
-  $( "form" ).on("click", function(event) {
+  $( ".input-field" ).on("click", function(event) {
     $(this).find(".warning").remove();
   });
   
@@ -109,7 +109,8 @@ $(document).ready(function() {
           var imgUrl = value.split("/");
           var image = imgUrl[3].slice(24);
           form.find(`#${name}`).val(image);
-          $("[data-save='exercise']").attr("data-img", image);
+          console.log(value);
+          $("[data-save='exercise']").attr("data-img", value);
           break;
         case name == "multiSelect":
           var item = JSON.parse(value);
@@ -133,45 +134,38 @@ $(document).ready(function() {
     event.preventDefault();
     var self  = $( this );
     var arr   = emptyFieldValidation( self );
-    var isUpdate = self.find("[data-save]").attr("data-id");
     
     switch(true) {
-      case isUpdate.length > 0:
-        update( self, isUpdate );
-        break;
       case arr.length == 0:
         getSignedRequest( self );
         break;
       case arr.length > 0:
         warningMessage( arr );
         break;
-      
-      
     }
-    // if(arr.length == 0) {
-    //   getSignedRequest( self );
-    // } else {
-    //   warningMessage( arr );
-    // }
   });
   
 
-  function update( self, id ) {
+  function update( self, id, url ) {
     var form        = self.serializeArray();
     var selectData  = JSON.stringify(self.find(".selectOptions").formSelect('getSelectedValues'));
     var imgName     = self.find("[type='file']").attr("name");
+    var imgUrl      = self.find("[data-save]").attr("data-img");
     var files       = self.find( "[type='file']" ).prop( "files" );
     
     if(files.length > 0) {
-      form.push({ name: imgName, value: files[0]});
+      form.push(
+        { name: imgName, value: files[0] },
+        { name: "toDelete", value: imgUrl.slice(45) }
+      );
     }
     
     form.push(
       { name: "_id", value: id },
-      //{ name: imgName, value: url },
+      { name: imgName, value: url },
       { name: 'multiSelect', value: selectData }
     );
-    
+    console.log(form);
     $.ajax({
       url: `/update/`,
       data: form,
@@ -314,23 +308,32 @@ $(document).ready(function() {
   function getSignedRequest( self ) {
     const files   = self.find( "[type='file']" ).prop( "files" );
     const file    = files[0];
-  
-    self.find( "[data-save]" ).attr( "disabled", true )
-    .children("i").text( "refresh" ).removeClass( "spin-icon" );
     
-    $.ajax({
-      url: `/sign-s3?file-name=${file.name}&file-type=${file.type}`,
-      type: 'GET',
-      success: function( response ) {
-        const responseObj = JSON.parse( response );
-        uploadFile( file, responseObj.data, responseObj.url, self );
-        sendFormData( responseObj.url, self );
-      },
-      error: function( error ) {
-        alert( "Error: The form did not save, please try again." );
-        console.log( error );
-      }
-    });
+    if(file != undefined) {
+      
+      self.find( "[data-save]" ).attr( "disabled", true )
+      .children("i").text( "refresh" ).removeClass( "spin-icon" );
+      
+      $.ajax({
+        url: `/sign-s3?file-name=${file.name}&file-type=${file.type}`,
+        type: 'GET',
+        success: function( response ) {
+          const responseObj = JSON.parse( response );
+          uploadFile( file, responseObj.data, responseObj.url, self );
+          var isUpdate = self.find("[data-save]").attr("data-id");
+          if(isUpdate.length > 0) {
+            update( self, isUpdate, responseObj.url );
+          } else {
+            sendFormData( responseObj.url, self );
+          }
+        },
+        error: function( error ) {
+          alert( "Error: The form did not save, please try again." );
+          console.log( error );
+        }
+      });
+      
+    }
   }
 
   function uploadFile(file, s3Data, url, self) {
