@@ -69,7 +69,7 @@ def update():
   
   if "exerciseName" in data:
     result = mongo.db.exercises.update({'_id': ObjectId(id)}, { "$set": data })
-    
+    return str(result)
   if "workoutName" in data:
     result = mongo.db.workout.update({'_id': ObjectId(id)}, { "$set": data })
     return str(result)
