@@ -49,18 +49,15 @@ def delete():
   
 @app.route("/edit/", methods=['GET', 'POST'])
 def edit():
-  id = request.args.get('id')
-  
   try:
-    # exercise = {"name": "Hello", "value": "World!"}
-    # return id
-    
-    exercise = dumps(mongo.db.exercises.find({'_id': ObjectId(id)}))
-    return exercise
-    
+    id = request.args.get('id')
+    type = request.args.get('type') + "s"
+    result = dumps(mongo.db[type].find({'_id': ObjectId(id)}))
+    return result
   except Exception as error:
     return error
-    
+
+
 @app.route("/update/", methods=['GET', 'POST'])    
 def update():
   data = request.form.to_dict()
@@ -71,10 +68,10 @@ def update():
     result = mongo.db.exercises.update({'_id': ObjectId(id)}, { "$set": data })
     return str(result)
   if "workoutName" in data:
-    result = mongo.db.workout.update({'_id': ObjectId(id)}, { "$set": data })
+    result = mongo.db.workouts.update({'_id': ObjectId(id)}, { "$set": data })
     return str(result)
   if "programName" in data:
-    result = mongo.db.program.update({'_id': ObjectId(id)}, { "$set": data })
+    result = mongo.db.programs.update({'_id': ObjectId(id)}, { "$set": data })
     return str(result)
   if "toDelete" in data:
     S3_BUCKET = os.environ.get('S3_BUCKET')

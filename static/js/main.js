@@ -76,13 +76,16 @@ $(document).ready(function() {
   });
   
   // This click event triggers the users request to see saved data.
-  $( ".card-panel" ).on( "click", ".edit, .delete", function() {
+  $( ".card-panel" ).on( "click", ".edit, .delete", function( event ) {
     var self  = $( this ).parents( ".saved-item" );
     var state = $( this ).hasClass( "edit" );
     loadingEffectOnButtons( self, ".edit", "edit" );
     
     if( state ) {
-      ajaxGetItemDetails( self ); 
+      var form = self.parents(".row").children("form");
+      var type = form.find("[type='submit']").data("save");
+      
+      ajaxGetItemDetails( self, form, type ); 
     } else {
       deleteExercisesAndWorkouts( self );
     }
@@ -96,12 +99,12 @@ $(document).ready(function() {
   // Ajax calls, processed in app.py ------------------------------------------- //
   
   // This Ajax call gets a DB record by ID.
-  function ajaxGetItemDetails( self ) {
+  function ajaxGetItemDetails( self, form, type ) {
     $.ajax({
-      url: `/edit?id=${self.attr( "id" )}`,
+      url: `/edit?id=${self.attr( "id" )}&type=${type}`,
       type: "GET",
       success: function( response ) {
-        displayItemData( self, response );
+        displayItemData( form, type, response );
         loadingEffectOnButtons( self, ".edit", "edit" );
       },
       error: function( error ) {
@@ -199,14 +202,24 @@ $(document).ready(function() {
   
   // JavaScript Functions ------------------------------------------------------------- //
   
-  function prepareFileUpload( self, file, s3Data ) {
-    var fileAndMeta = new FormData();
-    for ( key in s3Data.fields ) {
-      fileAndMeta.append( key, s3Data.fields[key] );
+  function prepareItem( self ) {
+    switch(true) {
+      case  "sign":
+      break;
+      case  "file":
+        
+        var files = self.find( "[type='file']" ).prop( "files" );
+        var file  = files[0] || false;
+        if( file ) {
+          ajaxGetSignedRequest( self, file );
+        } else {
+          prepareFormData( self );
+        }
+      break;
+      case  "upload":
+      break;
     }
-    fileAndMeta.append('file', file);
-    
-    ajaxPostUploadFile( self, s3Data, fileAndMeta );
+      
   }
   
   function prepareSignedRequest( self, file, response ) {
@@ -214,11 +227,11 @@ $(document).ready(function() {
     var updateItem  = self.attr( "data-id" );
     prepareFileUpload( self, file, resp.data );
     
-    if( typeof updateItem !== typeof undefined && updateItem !== false ) {
-      update( self, updateItem, resp.url );
-    } else {
+    // if( typeof updateItem !== typeof undefined && updateItem !== false ) {
+    // // ajaxPostUpdateItem( self, updateItem, resp.url );
+    // } else {
       prepareFormData( self, resp.url );
-    }
+    // }
   }
   
   function prepareFileData( self ) {
@@ -231,6 +244,16 @@ $(document).ready(function() {
     } else {
       prepareFormData( self );
     }
+  }
+  
+  function prepareFileUpload( self, file, s3Data ) {
+    var fileAndMeta = new FormData();
+    for ( key in s3Data.fields ) {
+      fileAndMeta.append( key, s3Data.fields[key] );
+    }
+    fileAndMeta.append('file', file);
+    
+    ajaxPostUploadFile( self, s3Data, fileAndMeta );
   }
   
   function prepareFormData( self, url ) {
@@ -407,26 +430,26 @@ $(document).ready(function() {
     
   }
   
-  function displayItemData(self, object) {
-    var form = $( "form" );
-    var obj = JSON.parse(object);
-    form.find(".label").addClass("active");
+  function displayItemData( form, type, response ) {
+    var obj = JSON.parse( response );
+    var id = form.find( "[data-save]" ).data( "id" );
+    form.find( ".label" ).addClass( "active" );
     
-    $.each(obj[0], function(name, value) {
-      switch (true) {
-        case name == "_id":
-          $("[data-save='exercise']").html(`<i class="material-icons left">save</i>UPDATE`);
-          $("[data-save='exercise']").attr("data-id", value.$oid);
-          $("[data-save='exercise']").after(`
+    $.each( obj[0], function( name, value ) {
+      switch ( true ) {
+        case name == "_id" && id == undefined:
+          $(`[data-save='${type}']`).html(`<i class="material-icons left">save</i>UPDATE`)
+          .attr("data-id", value.$oid)
+          .after(`
             <button data-create="new" class="deep-orange waves-effect waves-light btn">NEW</button>
           `);
           break;
-        case name == "exerciseImg" || name == "workoutImg" || name == "programImg":
+        case name == type + "Img":
           var imgUrl = value.split("/");
           var image = imgUrl[3].slice(24);
           form.find(`#${name}`).val(image);
-          console.log(value);
-          $("[data-save='exercise']").attr("data-img", value);
+          
+          $(`[data-save='${type}']`).attr("data-img", value);
           break;
         case name == "multiSelect":
           var item = JSON.parse(value);
@@ -438,7 +461,6 @@ $(document).ready(function() {
         default:
           form.find(`[name='${name}']`).val(value);
           break;
-        
       }
     });
 
