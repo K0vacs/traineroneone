@@ -91,6 +91,25 @@ $(document).ready(function() {
     }
   });
   
+  $( ".btn-control" ).on( "click", "[data-create='new']", function( event ) {
+    var form = $( "form" );
+    
+    form.find( "[data-save]" ).removeAttr( "data-id data-img" )
+    .html( "<i class='material-icons left'>save</i>SAVE" );
+    $( "[data-create='new']" ).remove();
+    
+    form.trigger("reset");
+    form.find(".selectOptions option:selected").each( function() {
+      var val = $(this).val();
+      if(val != "") {
+        $(this).attr("selected", false);
+      }
+    });
+    $('select').formSelect();
+    form.find(".label").addClass("active");
+    
+  });
+  
   // This click event ensures the Materialize Multi Select is always up to date.
   $( "select" ).on( "contentChanged", function() {
     $( this ).formSelect();
@@ -295,6 +314,7 @@ $(document).ready(function() {
     } else {
       ajaxPostSaveItem( self, form, imgUrl );
     }
+    
   }
   
   
@@ -384,10 +404,13 @@ $(document).ready(function() {
     return arr;
   }
   
-  function deleteExercisesAndWorkouts(self) {
+  function deleteExercisesAndWorkouts( self ) {
     var imgUrl = self.data("img");
     var imgKey = imgUrl.slice(45);
     var form = $("form");
+    form.find( "[data-save]" ).removeAttr( "data-id data-img" )
+    .html( "<i class='material-icons left'>save</i>SAVE" );
+    $( "[data-create='new']" ).remove();
     
     $.ajax({
       url: `/delete?id=${self.attr( "id" )}&img=${imgKey}`,
@@ -432,7 +455,7 @@ $(document).ready(function() {
   
   function displayItemData( form, type, response ) {
     var obj = JSON.parse( response );
-    var id = form.find( "[data-save]" ).data( "id" );
+    var id = form.find( "[data-save]" ).attr( "data-id" );
     form.find( ".label" ).addClass( "active" );
     
     $.each( obj[0], function( name, value ) {
@@ -444,6 +467,9 @@ $(document).ready(function() {
             <button data-create="new" class="deep-orange waves-effect waves-light btn">NEW</button>
           `);
           break;
+        case name == "_id" && id != undefined:
+          $(`[data-save='${type}']`).attr("data-id", value.$oid);
+          break;  
         case name == type + "Img":
           var imgUrl = value.split("/");
           var image = imgUrl[3].slice(24);
