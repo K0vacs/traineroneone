@@ -93,21 +93,7 @@ $(document).ready(function() {
   
   $( ".btn-control" ).on( "click", "[data-create='new']", function( event ) {
     var form = $( "form" );
-    
-    form.find( "[data-save]" ).removeAttr( "data-id data-img" )
-    .html( "<i class='material-icons left'>save</i>SAVE" );
-    $( "[data-create='new']" ).remove();
-    
-    form.trigger("reset");
-    form.find(".selectOptions option:selected").each( function() {
-      var val = $(this).val();
-      if(val != "") {
-        $(this).attr("selected", false);
-      }
-    });
-    $('select').formSelect();
-    form.find(".label").addClass("active");
-    
+    clearForm( form );
   });
   
   // This click event ensures the Materialize Multi Select is always up to date.
@@ -123,6 +109,7 @@ $(document).ready(function() {
       url: `/edit?id=${self.attr( "id" )}&type=${type}`,
       type: "GET",
       success: function( response ) {
+        clearForm( form );
         displayItemData( form, type, response );
         loadingEffectOnButtons( self, ".edit", "edit" );
       },
@@ -491,5 +478,21 @@ $(document).ready(function() {
     });
 
   }
+  
+  function clearForm( form ) {
+      form.find( "[data-save]" ).removeAttr( "data-id data-img" )
+      .html( "<i class='material-icons left'>save</i>SAVE" );
+      $( "[data-create='new']" ).remove();
+      
+      form.trigger("reset");
+      form.find(".selectOptions option:selected").each( function() {
+        var val = $(this).val();
+        if(val != "") {
+          $(this).attr("selected", false);
+        }
+      });
+      $('select').formSelect();
+      form.find(".label").addClass("active");
+    }
   
 });
