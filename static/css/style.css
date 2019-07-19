@@ -1,11 +1,17 @@
 /* ----- Not Added to SCSS Styling ----- */
 
+.align-grid {
+  margin: 0 -0.75rem;
+}
+
 nav .brand-logo {
   display: flex;
   align-items: center;
 }
 
 .collapse-header {
+  font-size: 22px;
+  line-height: 1;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -22,9 +28,11 @@ nav .brand-logo {
   text-align: right;
 }
 
-
-
-
+.collapse-header .material-icons {
+  color: #ff5722;
+  align-self: center;
+  margin-right: 5px;
+}
 
 
 .spin-icon {

@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block content %}
+
+    <section class="container">
+        <div class="row align-grid">
+            {% for item in workout %}
+                <div class="col s12 m4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="{{item.workoutImg}}" height="200">
+                            <a href="{{url_for('exercises', id=item._id)}}" class="deep-orange btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">filter_list</i></a>
+                        </div>
+                        <div class="card-content">
+                            <span class="card-title">{{item.workoutName}}</span>
+                            <p>{{item.workoutNotes}}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}
