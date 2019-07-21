@@ -17,6 +17,10 @@ def home():
     return render_template("home.html", programs=mongo.db.programs.find())
 
 
+@app.route("/all-workouts")
+def allWorkouts():
+  return render_template("workouts.html", workout=mongo.db.workouts.find())
+
 @app.route("/workouts")
 @app.route("/workouts/<id>")
 def workouts(id):
@@ -32,8 +36,17 @@ def workouts(id):
 
 
 @app.route("/exercises")
-def exercises():
-  return render_template("exercises.html")
+@app.route("/exercises/<id>")
+def exercises(id):
+  workout = mongo.db.workouts.find_one({'_id': ObjectId(id)})
+  exerciseIds =  json.loads(workout["multiSelect"])
+  exercises = []
+  
+  for exerciseId in exerciseIds:
+    exercises.append(ObjectId(exerciseId))
+  
+  result = mongo.db.exercises.find({'_id': {'$in': exercises}})
+  return render_template("exercises.html", exercises=result, workout=workout)
 
 
 @app.route("/add-program/", methods=['GET', 'POST'])
