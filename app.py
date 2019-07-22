@@ -1,5 +1,5 @@
 import os, json, boto3, datetime
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, redirect
 from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
 from bson.json_util import dumps
@@ -49,11 +49,44 @@ def exercises(id):
   return render_template("exercises.html", exercises=result, workout=workout)
 
 
-@app.route("/add-program/", methods=['GET', 'POST'])
-def add_program():
-  return render_template('add-program.html')
+
+
+
+
+
+
+@app.route("/add-program/", defaults={'category': 'none', 'id': 'new'}, methods=['GET', 'POST'])
+@app.route("/add-program/<category>/<id>")
+def add_program(category, id):
+  if id == "new" and category == "none":
+    return render_template('add-program.html')
+  else:
+    itemRecord = mongo.db[category].find_one({'_id': ObjectId(id)})
+    return render_template('add-program.html', item=itemRecord)
   
-  
+
+
+
+
+
+@app.route("/delete-item/<category>/<id>", methods=['GET'])
+def delete_item(category, id):
+  try:
+    result = mongo.db[category].find_one({'_id': ObjectId(id)})
+    
+    imageKey = result[category[:-1] + "Img"][45:]
+    S3_BUCKET = os.environ.get('S3_BUCKET')
+    s3 = boto3.client('s3')
+    
+    s3.delete_object(Bucket= S3_BUCKET, Key= imageKey )
+    mongo.db[category].remove({'_id': ObjectId(id)})
+    return redirect(url_for('home'))
+  except Exception as error:
+    return redirect(url_for('home'))
+
+
+
+
 @app.route("/delete/", methods=['GET', 'POST'])
 def delete():
   id = request.args.get('id')

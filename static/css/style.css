@@ -1,5 +1,10 @@
 /* ----- Not Added to SCSS Styling ----- */
 
+.delete-link {
+  float: right;
+  margin-right: 0;
+}
+
 .align-grid {
   margin: 0 -0.75rem;
 }

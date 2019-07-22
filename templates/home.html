@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-
+{{ test }}
 <section class="hero-section">
     <div class="home-carousel">
     <div>
@@ -79,11 +79,15 @@
                 <div class="card">
                     <div class="card-image">
                         <img src="{{program.programImg}}" height="200">
-                        <a href="{{url_for('workouts', id=program._id)}}" class="deep-orange btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">filter_list</i></a>
+                        <a href="{{url_for('workouts', id=program._id)}}" class="deep-orange btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">arrow_forward</i></a>
                     </div>
                     <div class="card-content">
                         <span class="card-title">{{program.programName}}</span>
                         <p>{{program.programNotes}}</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="{{url_for('add_program', category='programs', id=program._id)}}" class="teal-text">Edit</a>
+                        <a href="{{url_for('delete_item', category='programs', id=program._id)}}" class="red-text delete-link">Delete</a>
                     </div>
                 </div>
             </div>
