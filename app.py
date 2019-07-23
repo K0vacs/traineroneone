@@ -25,14 +25,13 @@ def allWorkouts():
 @app.route("/workouts/<id>")
 def workouts(id):
   program = mongo.db.programs.find_one({'_id': ObjectId(id)})
-  workoutIds =  json.loads(program["multiSelect"])
   workouts = []
   
-  for workoutId in workoutIds:
+  for workoutId in json.loads(program["multiSelect"]):
     workouts.append(ObjectId(workoutId))
     
-  result = mongo.db.workouts.find({'_id': {'$in': workouts}})
-  return render_template("workouts.html", workout=result)
+  return render_template("workouts.html", 
+    workout=mongo.db.workouts.find({'_id': {'$in': workouts}}))
 
 
 @app.route("/exercises")

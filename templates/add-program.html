@@ -3,12 +3,12 @@
 <div class="container">
     <div class="row">
         <ul class="collapsible popout">
-            <li 
+            <li
                 {% if "workoutName" and "programName" not in item %}
                     class="active"
                 {% endif %}
             >
-                <div class="collapse-header active"><i class="material-icons small">arrow_drop_down_circle</i>Exercises</div>
+                <div class="collapse-header active" data-header="exercise"><i class="material-icons small">arrow_drop_down_circle</i>Exercises</div>
                 <div class="collapsible-body">
                     <div class="row">
                         <form method="post" class="col s8">
@@ -103,7 +103,7 @@
                     class="active"
                 {% endif %}
             >
-                <div class="collapse-header"><i class="material-icons small">arrow_drop_down_circle</i>Workouts</div>
+                <div class="collapse-header" data-header="workout"><i class="material-icons small">arrow_drop_down_circle</i>Workouts</div>
                 <div class="collapsible-body">
                     <div class="row">
                         <form method="post" class="col s8">
@@ -158,14 +158,14 @@
                     class="active"
                 {% endif %}
             >
-                <div class="collapse-header"><i class="material-icons small">arrow_drop_down_circle</i>Program</div>
+                <div class="collapse-header" data-header="program"><i class="material-icons small">arrow_drop_down_circle</i>Program</div>
                 <div class="collapsible-body">
                     <div class="row">
                         <form method="post" class="col s8">
                             <div class="row">
                                 <div class="input-field col s6">
                                     <input id="program-name" class="validation" type="text"  name="programName">
-                                    <label for="program-name">Name</label>
+                                    <label for="program-name" class="label">Name</label>
                                 </div>
                                 <div class="file-field input-field col s6">
                                     <div class="btn deep-orange">
@@ -185,7 +185,7 @@
                                 </div>
                                 <div class="input-field col s12">
                                     <textarea id="program-notes" name="programNotes" class="materialize-textarea validation"></textarea>
-                                    <label for="program-notes">Notes</label>
+                                    <label for="program-notes" class="label">Notes</label>
                                 </div>
                             </div>
                             <div class="row">

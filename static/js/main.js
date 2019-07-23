@@ -5,6 +5,7 @@ $(document).ready(function() {
   $('.sidenav').sidenav();
   $('.collapsible').collapsible();
   $('select').formSelect();
+  loadSelectOnCardEdit();
   
   // Slick carousels initialized ----------------------------------------------- //
   
@@ -41,35 +42,9 @@ $(document).ready(function() {
   // This click event enables users to navigate between collapsable panels using buttons to allow for a more fluid process flow.
   $( "[data-nav]" ).on( "click", function() {
     var self = $( this ).data( "nav" );
-    var collapseOpen = $( ".collapsible" );
-
-    switch ( self ) {
-      case "home":
-        window.location.href = window.location.origin;
-        break;
-      case "exercises":
-        collapseOpen.collapsible( "open", 0);
-        $( "#exerciseOptions" ).empty().html(
-          "<option value='' disabled selected>Choose your option</option>"
-        );
-        break;
-      case "workouts":
-        collapseOpen.collapsible( "open", 1);
-        ajaxGetOptions( "exercise" );
-        $( "#workoutOptions" ).empty().html(
-          "<option value='' disabled selected>Choose your option</option>"
-        );
-        break;
-      case "program":
-        collapseOpen.collapsible( "open", 2);
-        ajaxGetOptions( "workout" );
-        $( "#exerciseOptions" ).empty().html(
-          "<option value='' disabled selected>Choose your option</option>"
-        );
-        break;
-    }
+    prepareSelectData ( self );
   });
-  
+
   // This click event removes the warning message when it is no longer necessary.
   $( ".input-field" ).on( "click", function() {
     $( this ).find( ".warning" ).remove();
@@ -304,15 +279,6 @@ $(document).ready(function() {
     
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
   function savedItem( response, form, img ) {
     var recentlyAdded = {
       id: response, 
@@ -421,8 +387,6 @@ $(document).ready(function() {
     form.find(".label").addClass("active");
   }
   
-  
-  
   function loadingEffectOnButtons( self, button, icon ) {
     var state = self.find( button ).children( "i" ).hasClass( "spin-icon" );
     
@@ -494,5 +458,40 @@ $(document).ready(function() {
       $('select').formSelect();
       form.find(".label").addClass("active");
     }
+  
+  function loadSelectOnCardEdit() {
+    var activeCollapse = $( ".active .collapse-header" ).attr("data-header");
+    prepareSelectData ( activeCollapse );
+  }
+
+  function prepareSelectData ( self ) {
+    var collapseOpen = $( ".collapsible" );
+    
+    switch ( self ) {
+      case "home":
+        window.location.href = window.location.origin;
+        break;
+      case "exercises":
+        collapseOpen.collapsible( "open", 0);
+        $( "#exerciseOptions" ).empty().html(
+          "<option value='' disabled selected>Choose your option</option>"
+        );
+        break;
+      case "workouts":
+        collapseOpen.collapsible( "open", 1);
+        ajaxGetOptions( "exercise" );
+        $( "#workoutOptions" ).empty().html(
+          "<option value='' disabled selected>Choose your option</option>"
+        );
+        break;
+      case "program":
+        collapseOpen.collapsible( "open", 2);
+        ajaxGetOptions( "workout" );
+        $( "#exerciseOptions" ).empty().html(
+          "<option value='' disabled selected>Choose your option</option>"
+        );
+        break;
+    }
+  }
   
 });
