@@ -1,10 +1,12 @@
 {% extends 'base.html' %} {% block content %}
-
+{{ item }}
 <div class="container">
     <div class="row">
         <ul class="collapsible popout">
             <li
-                {% if "workoutName" and "programName" not in item %}
+                {% if "exerciseName" in item %}
+                    class="active"
+                {% elif item is undefined %}
                     class="active"
                 {% endif %}
             >
@@ -91,7 +93,22 @@
                         <div class="col s4">
                             <div class="card-panel">
                                 <div class="row saved-item">
-                                    <h5>Recently Added</h5>
+                                    <h5>Saved Items</h5>
+                                    {% if "exerciseName" in item %}
+                                        <div id="{{ item._id }}" data-img="{{ item.exerciseImg }}" class="row valign-wrapper saved-item">
+                                            <div class="col s8">
+                                                <span>{{ item.exerciseName }}</span>
+                                            </div>
+                                            <div class="col s4">
+                                                <button type="button" class="deep-orange waves-effect waves-light btn edit">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                                <button type="button" class="deep-orange waves-effect waves-light btn delete">
+                                                    <i class="material-icons">delete</i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -146,7 +163,22 @@
                         <div class="col s4">
                             <div class="card-panel">
                                 <div class="row saved-item">
-                                    <h5>Recently Added</h5>
+                                    <h5>Saved Items</h5>
+                                    {% if "workoutName" in item %}
+                                        <div id="{{ item._id }}" data-img="{{ item.workoutImg }}" class="row valign-wrapper saved-item">
+                                            <div class="col s8">
+                                                <span>{{ item.workoutName }}</span>
+                                            </div>
+                                            <div class="col s4">
+                                                <button type="button" class="deep-orange waves-effect waves-light btn edit">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                                <button type="button" class="deep-orange waves-effect waves-light btn delete">
+                                                    <i class="material-icons">delete</i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -201,7 +233,7 @@
                         <div class="col s4">
                             <div class="card-panel">
                                 <div class="row saved-item">
-                                    <h5>Saved Item</h5>
+                                    <h5>Saved Items</h5>
                                     {% if "programName" in item %}
                                         <div id="{{ item._id }}" data-img="{{ item.programImg }}" class="row valign-wrapper saved-item">
                                             <div class="col s8">

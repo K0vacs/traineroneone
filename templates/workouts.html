@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-{{ test }}
+
     <section class="container">
         <div class="row align-grid">
             {% for item in workout %}
@@ -12,6 +12,10 @@
                         <div class="card-content">
                             <span class="card-title">{{item.workoutName}}</span>
                             <p>{{item.workoutNotes}}</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="{{url_for('add_program', category='workouts', id=item._id)}}" class="teal-text">Edit</a>
+                            <a href="{{url_for('delete_item', category='workouts', id=item._id)}}" class="red-text delete-link">Delete</a>
                         </div>
                     </div>
                 </div>
