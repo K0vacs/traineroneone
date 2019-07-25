@@ -1,5 +1,38 @@
 /* ----- Not Added to SCSS Styling ----- */
 
+nav .container,
+nav .nav-wrap {
+  height: 100%;
+}
+
+nav .nav-wrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-home {
+    align-self: center;
+}
+
+.nav-home a {
+    height: 30px;
+    align-self: center;
+}
+
+nav .brand-logo {
+  position: relative;
+}
+
+.nav-btn {
+  align-self: center;
+  margin-bottom: 4px;
+}
+
+nav i.material-icons {
+  height: unset;
+  line-height: unset;
+}
+
 .delete-link {
   float: right;
   margin-right: 0;
@@ -57,8 +90,7 @@ nav .brand-logo {
 }
 
 /* ----- Navigation Styling ----- */
-nav .brand-logo {
-  padding: 0 15px; }
+
 
 /* ----- Hero Slider ----- */
 .hero-section {
