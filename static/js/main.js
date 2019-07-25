@@ -11,8 +11,8 @@ $(document).ready(function() {
   
   $( ".home-carousel" ).show().slick({
     accessibility: true,
-    autoplay: true,
-    arrows: true,
+    autoplay: false,
+    arrows: false,
     autoplaySpeed: 3000,
     dots: true,
     useTransform: false
