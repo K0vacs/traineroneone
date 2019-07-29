@@ -15,11 +15,21 @@
                         </div>
                         <div class="card-action">
                             <a href="{{url_for('add_program', category='workouts', id=item._id)}}" class="teal-text">Edit</a>
-                            <a href="{{url_for('delete_item', category='workouts', id=item._id)}}" class="red-text delete-link">Delete</a>
+                            <a href="#modal" class="red-text delete-modal modal-trigger" data-delete="{{url_for('delete_item', category='workouts', id=item._id)}}">Delete</a>
                         </div>
                     </div>
                 </div>
             {% endfor %}
+        </div>
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <h4>Delete Item</h4>
+                <p>Are you sure you want to delete this item?</p>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-close waves-effect waves-green btn-flat delete-link">Yes</a>
+                <a class="modal-close waves-effect waves-red btn-flat">No</a>
+            </div>
         </div>
     </section>
 

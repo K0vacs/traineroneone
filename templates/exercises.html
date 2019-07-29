@@ -1,0 +1,52 @@
+{% extends 'base.html' %} {% block content %}
+
+<section class="excersises-section">
+    <div class="workout-panel">
+        <div>
+        <h1>{{workout.workoutName}}</h1>
+        <p>
+            <span>Difficulty: Hard</span>
+            <span>Duration: 30 Minutes</span>
+            <span>Muscle Group: Shoulders</span>
+            <span>Goal: Weight Loss</span>
+            <span>Equipment: Full Gym</span>
+        </p>
+        </div>
+    </div>
+    <div class="excersises-panel">
+        <div class="exercises-carousel">
+            {% for item in exercises %}
+                <div>
+                    <div class="slide">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="{{item.exerciseImg}}">
+                                <!--<a class="deep-orange btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">filter_list</i></a>-->
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title">{{item.exerciseName}}</span>
+                                <p>{{item.exerciseNotes}}</p>
+                            </div>
+                            <div class="card-action">
+                                <a href="{{url_for('add_program', category='exercises', id=item._id)}}" class="teal-text">Edit</a>
+                                <a href="#modal" class="red-text delete-modal modal-trigger" data-delete="{{url_for('delete_item', category='workouts', id=item._id)}}">Delete</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h4>Delete Item</h4>
+            <p>Are you sure you want to delete this item?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-close waves-effect waves-green btn-flat delete-link">Yes</a>
+            <a class="modal-close waves-effect waves-red btn-flat">No</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

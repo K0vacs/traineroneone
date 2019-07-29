@@ -78,24 +78,34 @@
 
 <section class="container">
     <div class="row align-grid">
-        {% for program in programs %}
+        {% for item in programs %}
             <div class="col s12 m4">
                 <div class="card">
                     <div class="card-image">
-                        <img src="{{program.programImg}}">
-                        <a href="{{url_for('workouts', id=program._id)}}" class="deep-orange btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">arrow_forward</i></a>
+                        <img src="{{item.programImg}}">
+                        <a href="{{url_for('workouts', id=item._id)}}" class="deep-orange btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">arrow_forward</i></a>
                     </div>
                     <div class="card-content">
-                        <span class="card-title">{{program.programName}}</span>
-                        <p>{{program.programNotes}}</p>
+                        <span class="card-title">{{item.programName}}</span>
+                        <p>{{item.programNotes}}</p>
                     </div>
                     <div class="card-action">
-                        <a href="{{url_for('add_program', category='programs', id=program._id)}}" class="teal-text">Edit</a>
-                        <a href="{{url_for('delete_item', category='programs', id=program._id)}}" class="red-text delete-link">Delete</a>
+                        <a href="{{url_for('add_program', category='programs', id=item._id)}}" class="teal-text">Edit</a>
+                        <a href="#modal" class="red-text delete-modal modal-trigger" data-delete="{{url_for('delete_item', category='programs', id=item._id)}}">Delete</a>
                     </div>
                 </div>
             </div>
         {% endfor %}
+    </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h4>Delete Item</h4>
+            <p>Are you sure you want to delete this item?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-close waves-effect waves-green btn-flat delete-link">Yes</a>
+            <a class="modal-close waves-effect waves-red btn-flat">No</a>
+        </div>
     </div>
 </section>
 

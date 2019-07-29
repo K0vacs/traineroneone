@@ -5,13 +5,14 @@ $(document).ready(function() {
   $('.sidenav').sidenav();
   $('.collapsible').collapsible();
   $('select').formSelect();
+  $('.modal').modal();
   loadSelectOnCardEdit();
   
   // Slick carousels initialized ----------------------------------------------- //
   
   $( ".home-carousel" ).show().slick({
     accessibility: true,
-    autoplay: false,
+    autoplay: true,
     arrows: false,
     autoplaySpeed: 3000,
     dots: true,
@@ -74,6 +75,15 @@ $(document).ready(function() {
   // This click event ensures the Materialize Multi Select is always up to date.
   $( "select" ).on( "contentChanged", function() {
     $( this ).formSelect();
+  });
+  
+  // This click event confirms the deletion of items.
+  $( ".delete-modal" ).on( "click", function() {
+    var title       = $( this ).closest( ".card" ).find( ".card-title" ).text();
+    var deleteLink  = $( this ).attr( "data-delete" );
+    
+    $( ".modal" ).find( ".delete-link" ).prop( "href", deleteLink );
+    $( ".modal-content h4" ).text( "Delete " + title + "?" );
   });
 
   // Ajax calls, processed in app.py ------------------------------------------- //

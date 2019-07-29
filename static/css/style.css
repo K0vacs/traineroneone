@@ -1,5 +1,13 @@
 /* ----- Not Added to SCSS Styling ----- */
 
+.page-footer {
+  padding-top: 0;
+}
+
+.footer-quote {
+  text-align: center;
+}
+
 nav .container,
 nav .nav-wrap {
   height: 100%;
@@ -33,7 +41,7 @@ nav i.material-icons {
   line-height: unset;
 }
 
-.delete-link {
+.delete-modal {
   float: right;
   margin-right: 0;
 }

@@ -1,4 +1,4 @@
-import os, json, boto3, datetime
+import os, json, boto3, datetime, random
 from flask import Flask, render_template, request, url_for, redirect
 from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
@@ -14,7 +14,23 @@ mongo = PyMongo(app)
 
 @app.route("/")
 def home():
-    return render_template("home.html", programs=mongo.db.programs.find())
+    random_number = random.randint(0, 5)
+    
+    if random_number == 0:
+      random_quote = "“Good things come to those who sweat.” - Anonymous"
+    elif random_number == 1:
+      random_quote = "“The reason I exercise is for the quality of life I enjoy.” - Kenneth H. Cooper"
+    elif random_number == 2:
+      random_quote = "“The only bad workout is the one that didn’t happen.” - Anonymous"
+    elif random_number == 3:
+      random_quote = "“Exercise is a celebration of what your body can do. Not a punishment for what you ate.” - Anonymous"
+    elif random_number == 4:
+      random_quote = "“Daily exercise is one of the keys to excellent health.” - ATGW"
+    else:
+      random_quote = "“The pain you feel today will be the strength you feel tomorrow.” - Anonymous"
+  
+    # return render_template('index.html', random_number=random_number)
+    return render_template("home.html", programs=mongo.db.programs.find(), quote=random_quote)
 
 
 @app.route("/all-workouts")
