@@ -1,5 +1,17 @@
 /* ----- Not Added to SCSS Styling ----- */
 
+.mt-1 {
+ margin-top: 1.1em; 
+}
+
+.mt-1 a {
+  padding-right: 5px;
+}
+
+.footer-copyright .row {
+  margin-bottom: 0;
+} 
+
 .page-footer {
   padding-top: 0;
 }
