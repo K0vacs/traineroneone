@@ -1,4 +1,4 @@
-import os, json, boto3, datetime, random
+import os, json, boto3, datetime, random, helpers
 from flask import Flask, render_template, request, url_for, redirect
 from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
@@ -14,23 +14,10 @@ mongo = PyMongo(app)
 
 @app.route("/")
 def programs():
-    random_number = random.randint(0, 5)
-    
-    if random_number == 0:
-      random_quote = "“Good things come to those who sweat.” - Anonymous"
-    elif random_number == 1:
-      random_quote = "“The reason I exercise is for the quality of life I enjoy.” - Kenneth H. Cooper"
-    elif random_number == 2:
-      random_quote = "“The only bad workout is the one that didn’t happen.” - Anonymous"
-    elif random_number == 3:
-      random_quote = "“Exercise is a celebration of what your body can do. Not a punishment for what you ate.” - Anonymous"
-    elif random_number == 4:
-      random_quote = "“Daily exercise is one of the keys to excellent health.” - ATGW"
-    else:
-      random_quote = "“The pain you feel today will be the strength you feel tomorrow.” - Anonymous"
-  
-    # return render_template('index.html', random_number=random_number)
-    return render_template("pages/programs.html", programs=mongo.db.programs.find(), quote=random_quote, title="Programs")
+    return  render_template("pages/programs.html", 
+            programs  = mongo.db.programs.find(), 
+            quote     = helpers.quote(random.randint(0, 5)), 
+            title     = "Programs")
 
 
 @app.route("/workouts")
@@ -42,9 +29,10 @@ def workouts(id):
   for workoutId in json.loads(program["multiSelect"]):
     workouts.append(ObjectId(workoutId))
     
-  return render_template("pages/workouts.html", 
-    workout=mongo.db.workouts.find({'_id': {'$in': workouts}}),
-    title="Workouts")
+  return  render_template("pages/workouts.html", 
+          workout = mongo.db.workouts.find({'_id': {'$in': workouts}}),
+          quote   = helpers.quote(random.randint(0, 5)), 
+          title   = "Workouts")
 
 
 @app.route("/exercises")
@@ -58,17 +46,26 @@ def exercises(id):
     exercises.append(ObjectId(exerciseId))
   
   result = mongo.db.exercises.find({'_id': {'$in': exercises}})
-  return render_template("pages/exercises.html", exercises=result, workout=workout, title="Exercises")
+  return  render_template("pages/exercises.html", 
+          exercises = result, 
+          workout   = workout, 
+          quote     = helpers.quote(random.randint(0, 5)),
+          title     = "Exercises")
 
 
 @app.route("/program-form/", defaults={'category': 'none', 'id': 'new'}, methods=['GET', 'POST'])
 @app.route("/program-form/<category>/<id>")
 def program_form(category, id):
   if id == "new" and category == "none":
-    return render_template('pages/program-form.html')
+    return  render_template('pages/program-form.html',
+            quote = helpers.quote(random.randint(0, 5)),
+            title = "Program Form")
   else:
     itemRecord = mongo.db[category].find_one({'_id': ObjectId(id)})
-    return render_template('pages/program-form.html', item=itemRecord, title="")
+    return  render_template('pages/program-form.html', 
+            item=itemRecord, 
+            quote = helpers.quote(random.randint(0, 5)),
+            title = "Program Form")
 
 
 @app.route("/delete-item/<category>/<id>", methods=['GET'])
