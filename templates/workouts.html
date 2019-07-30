@@ -12,7 +12,7 @@
                             <span class="card-title activator grey-text text-darken-4">{{item.workoutName}}<i class="material-icons right">more_vert</i></span>
                         </div>
                         <div class="card-action">
-                            <a href="{{url_for('add_program', category='workouts', id=item._id)}}" class="teal-text">Edit</a>
+                            <a href="{{url_for('program_form', category='workouts', id=item._id)}}" class="teal-text">Edit</a>
                             <a href="#modal" class="red-text delete-modal modal-trigger" data-delete="{{url_for('delete_item', category='workouts', id=item._id)}}">Delete</a>
                         </div>
                         <div class="card-reveal">

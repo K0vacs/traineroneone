@@ -28,7 +28,7 @@
                                 <p>{{item.exerciseNotes}}</p>
                             </div>
                             <div class="card-action">
-                                <a href="{{url_for('add_program', category='exercises', id=item._id)}}" class="teal-text">Edit</a>
+                                <a href="{{url_for('program_form', category='exercises', id=item._id)}}" class="teal-text">Edit</a>
                                 <a href="#modal" class="red-text delete-modal modal-trigger" data-delete="{{url_for('delete_item', category='workouts', id=item._id)}}">Delete</a>
                         </div>
                         </div>

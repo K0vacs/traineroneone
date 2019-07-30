@@ -30,12 +30,8 @@ def home():
       random_quote = "“The pain you feel today will be the strength you feel tomorrow.” - Anonymous"
   
     # return render_template('index.html', random_number=random_number)
-    return render_template("home.html", programs=mongo.db.programs.find(), quote=random_quote)
+    return render_template("home.html", programs=mongo.db.programs.find(), quote=random_quote, title="Programs")
 
-
-@app.route("/all-workouts")
-def allWorkouts():
-  return render_template("workouts.html", workout=mongo.db.workouts.find())
 
 @app.route("/workouts")
 @app.route("/workouts/<id>")
@@ -47,7 +43,8 @@ def workouts(id):
     workouts.append(ObjectId(workoutId))
     
   return render_template("workouts.html", 
-    workout=mongo.db.workouts.find({'_id': {'$in': workouts}}))
+    workout=mongo.db.workouts.find({'_id': {'$in': workouts}}),
+    title="Workouts")
 
 
 @app.route("/exercises")
@@ -61,27 +58,17 @@ def exercises(id):
     exercises.append(ObjectId(exerciseId))
   
   result = mongo.db.exercises.find({'_id': {'$in': exercises}})
-  return render_template("exercises.html", exercises=result, workout=workout)
+  return render_template("exercises.html", exercises=result, workout=workout, title="Exercises")
 
 
-
-
-
-
-
-
-@app.route("/add-program/", defaults={'category': 'none', 'id': 'new'}, methods=['GET', 'POST'])
-@app.route("/add-program/<category>/<id>")
-def add_program(category, id):
+@app.route("/program-form/", defaults={'category': 'none', 'id': 'new'}, methods=['GET', 'POST'])
+@app.route("/program-form/<category>/<id>")
+def program_form(category, id):
   if id == "new" and category == "none":
-    return render_template('add-program.html')
+    return render_template('program-form.html')
   else:
     itemRecord = mongo.db[category].find_one({'_id': ObjectId(id)})
-    return render_template('add-program.html', item=itemRecord)
-  
-
-
-
+    return render_template('program-form.html', item=itemRecord, title="")
 
 
 @app.route("/delete-item/<category>/<id>", methods=['GET'])
