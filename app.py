@@ -13,7 +13,7 @@ mongo = PyMongo(app)
 
 
 @app.route("/")
-def home():
+def programs():
     random_number = random.randint(0, 5)
     
     if random_number == 0:
@@ -30,7 +30,7 @@ def home():
       random_quote = "“The pain you feel today will be the strength you feel tomorrow.” - Anonymous"
   
     # return render_template('index.html', random_number=random_number)
-    return render_template("home.html", programs=mongo.db.programs.find(), quote=random_quote, title="Programs")
+    return render_template("pages/programs.html", programs=mongo.db.programs.find(), quote=random_quote, title="Programs")
 
 
 @app.route("/workouts")
@@ -42,7 +42,7 @@ def workouts(id):
   for workoutId in json.loads(program["multiSelect"]):
     workouts.append(ObjectId(workoutId))
     
-  return render_template("workouts.html", 
+  return render_template("pages/workouts.html", 
     workout=mongo.db.workouts.find({'_id': {'$in': workouts}}),
     title="Workouts")
 
@@ -58,17 +58,17 @@ def exercises(id):
     exercises.append(ObjectId(exerciseId))
   
   result = mongo.db.exercises.find({'_id': {'$in': exercises}})
-  return render_template("exercises.html", exercises=result, workout=workout, title="Exercises")
+  return render_template("pages/exercises.html", exercises=result, workout=workout, title="Exercises")
 
 
 @app.route("/program-form/", defaults={'category': 'none', 'id': 'new'}, methods=['GET', 'POST'])
 @app.route("/program-form/<category>/<id>")
 def program_form(category, id):
   if id == "new" and category == "none":
-    return render_template('program-form.html')
+    return render_template('pages/program-form.html')
   else:
     itemRecord = mongo.db[category].find_one({'_id': ObjectId(id)})
-    return render_template('program-form.html', item=itemRecord, title="")
+    return render_template('pages/program-form.html', item=itemRecord, title="")
 
 
 @app.route("/delete-item/<category>/<id>", methods=['GET'])
@@ -82,9 +82,9 @@ def delete_item(category, id):
     
     s3.delete_object(Bucket= S3_BUCKET, Key= imageKey )
     mongo.db[category].remove({'_id': ObjectId(id)})
-    return redirect(url_for('home'))
+    return redirect(url_for('programs'))
   except Exception as error:
-    return redirect(url_for('home'))
+    return redirect(url_for('programs'))
 
 
 
