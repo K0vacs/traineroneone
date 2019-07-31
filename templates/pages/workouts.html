@@ -1,6 +1,11 @@
 {% extends 'base.html' %} {% block content %}
 
-    <section class="container">
+    <section class="container mb-1">
+        <div class="mt-1">
+            <a href="{{url_for('programs')}}" class="black-text">All Programs > </a>
+            <span class="deep-orange-text">Workouts</span>
+        </div> 
+        <h4>Workouts</h4>
         <div class="row align-grid">
             {% for item in workout %}
                 <div class="col s12 m4">
@@ -18,7 +23,7 @@
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">{{item.workoutName}}<i class="material-icons right">close</i></span>
                             <p>{{item.workoutNotes}}</p>
-                            <p><a href="{{url_for('exercises', id=item._id)}}" class="deep-orange-text">Go to excercises</a></p>
+                            <p><a href="{{url_for('exercises', id=program._id , ex=item._id)}}" class="deep-orange-text">Go to excercises</a></p>
                         </div>
                     </div>
                 </div>

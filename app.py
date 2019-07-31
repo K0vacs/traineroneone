@@ -20,25 +20,27 @@ def programs():
             title     = "Programs")
 
 
-@app.route("/workouts")
-@app.route("/workouts/<id>")
+# @app.route("/workouts")
+@app.route("/<id>")
 def workouts(id):
   program = mongo.db.programs.find_one({'_id': ObjectId(id)})
   workouts = []
   
   for workoutId in json.loads(program["multiSelect"]):
-    workouts.append(ObjectId(workoutId))
+    if workoutId is not "":
+      workouts.append(ObjectId(workoutId))
     
   return  render_template("pages/workouts.html", 
           workout = mongo.db.workouts.find({'_id': {'$in': workouts}}),
+          program = program,
           quote   = helpers.quote(random.randint(0, 5)), 
           title   = "Workouts")
 
 
-@app.route("/exercises")
-@app.route("/exercises/<id>")
-def exercises(id):
-  workout = mongo.db.workouts.find_one({'_id': ObjectId(id)})
+# @app.route("/exercises")
+@app.route("/<id>/<ex>")
+def exercises(id, ex):
+  workout = mongo.db.workouts.find_one({'_id': ObjectId(ex)})
   exerciseIds =  json.loads(workout["multiSelect"])
   exercises = []
   
@@ -48,7 +50,8 @@ def exercises(id):
   result = mongo.db.exercises.find({'_id': {'$in': exercises}})
   return  render_template("pages/exercises.html", 
           exercises = result, 
-          workout   = workout, 
+          workout   = workout,
+          id        = id,
           quote     = helpers.quote(random.randint(0, 5)),
           title     = "Exercises")
 

@@ -1,6 +1,10 @@
 {% extends 'base.html' %} {% block content %}
 
 <section class="excersises-section">
+    <div class="mt-1">
+        <a href="{{url_for('workouts', id=id, ex=workout._id)}}" class="black-text">Workouts > </a>
+        <span class="deep-orange-text">Exercises</span>
+    </div>
     <div class="workout-panel">
         <div>
         <h1>{{workout.workoutName}}</h1>

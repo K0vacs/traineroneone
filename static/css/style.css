@@ -1,5 +1,9 @@
 /* ----- Not Added to SCSS Styling ----- */
 
+.hero-section p {
+  font-size: 1.2em;
+}
+
 .footer-col {
   display: flex;
   flex-direction: column;
