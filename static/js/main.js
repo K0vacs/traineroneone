@@ -12,6 +12,7 @@ $(document).ready(function() {
   
   $( ".home-carousel" ).show().slick({
     accessibility: true,
+    infinite: true,
     autoplay: true,
     arrows: false,
     autoplaySpeed: 3000,
@@ -193,26 +194,6 @@ $(document).ready(function() {
   
   // JavaScript Functions ------------------------------------------------------------- //
   
-  function prepareItem( self ) {
-    switch(true) {
-      case  "sign":
-      break;
-      case  "file":
-        
-        var files = self.find( "[type='file']" ).prop( "files" );
-        var file  = files[0] || false;
-        if( file ) {
-          ajaxGetSignedRequest( self, file );
-        } else {
-          prepareFormData( self );
-        }
-      break;
-      case  "upload":
-      break;
-    }
-      
-  }
-  
   function prepareSignedRequest( self, file, response ) {
     var resp        = JSON.parse( response );
     var updateItem  = self.attr( "data-id" );
@@ -270,19 +251,18 @@ $(document).ready(function() {
       );
     }
     
-    
     if(form.length < 5) {
       var imgUrl = form[2].value;
     } else {
       var imgUrl = form[6].value;
     }
     
-    // Create logic that knows when to create or update.
     if( id ) {
       form.push(
         { name: "_id", value: id },
       );
       ajaxPostUpdateItem( self, form );
+      $( "#" + id + " span" ).text( form[0].value );
     } else {
       ajaxPostSaveItem( self, form, imgUrl );
     }
@@ -297,11 +277,11 @@ $(document).ready(function() {
     };
         
     $( ".active .saved-item:last" ).after(`
-      <div id="${ response }" data-img="${ img }" class="row valign-wrapper saved-item">
+      <div id="${ response }" data-img="${ img }" class="row valign-wrapper saved-item item">
           <div class="col s8">
               <span>${ form[0].value }</span>
           </div>
-          <div class="col s4">
+          <div class="col s5 text-right">
             <button type="button" class="deep-orange waves-effect waves-light btn edit">
               <i class="material-icons">edit</i>
             </button>

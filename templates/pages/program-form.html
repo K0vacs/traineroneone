@@ -12,7 +12,7 @@
                     class="active"
                 {% endif %}
             >
-                <div class="collapse-header active" data-header="exercise"><i class="material-icons small">arrow_drop_down_circle</i>Exercises</div>
+                <div class="collapse-header active" data-header="exercises"><i class="material-icons small">arrow_drop_down_circle</i>Exercises</div>
                 <div class="collapsible-body">
                     <div class="row">
                         <form method="post" class="col s8">
@@ -97,11 +97,11 @@
                                 <div class="row saved-item">
                                     <h5>Saved Items</h5>
                                     {% if "exerciseName" in item %}
-                                        <div id="{{ item._id }}" data-img="{{ item.exerciseImg }}" class="row valign-wrapper saved-item">
+                                        <div id="{{ item._id }}" data-img="{{ item.exerciseImg }}" class="row valign-wrapper saved-item item">
                                             <div class="col s8">
                                                 <span>{{ item.exerciseName }}</span>
                                             </div>
-                                            <div class="col s4">
+                                            <div class="col s5 text-right">
                                                 <button type="button" class="deep-orange waves-effect waves-light btn edit">
                                                     <i class="material-icons">edit</i>
                                                 </button>
@@ -122,7 +122,7 @@
                     class="active"
                 {% endif %}
             >
-                <div class="collapse-header" data-header="workout"><i class="material-icons small">arrow_drop_down_circle</i>Workouts</div>
+                <div class="collapse-header" data-header="workouts"><i class="material-icons small">arrow_drop_down_circle</i>Workouts</div>
                 <div class="collapsible-body">
                     <div class="row">
                         <form method="post" class="col s8">
