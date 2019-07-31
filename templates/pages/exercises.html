@@ -1,34 +1,44 @@
 {% extends 'base.html' %} {% block content %}
 
-<section class="excersises-section">
+{% include "includes/navigation-dark.html" %}
+
+<section class="container exercise-grid">
     <div class="mt-1">
         <a href="{{url_for('workouts', id=id, ex=workout._id)}}" class="black-text">Workouts > </a>
         <span class="deep-orange-text">Exercises</span>
     </div>
-    <div class="workout-panel">
-        <div>
-        <h1>{{workout.workoutName}}</h1>
-        <p>
-            <span>Difficulty: Hard</span>
-            <span>Duration: 30 Minutes</span>
-            <span>Muscle Group: Shoulders</span>
-            <span>Goal: Weight Loss</span>
-            <span>Equipment: Full Gym</span>
-        </p>
+    <div class="row align-grid flex-center">
+        <div class="col s6 workout-name">
+            <h1>{{workout.workoutName}}</h1>
+            <p class="pills">
+                {% for item in meta %}
+                    {% if item.difficultySum / item.count <= 3.6: %}
+                        <span class="deep-orange">Difficulty: Easy</span>
+                    {% elif item.difficultySum / item.count <= 6.6: %}
+                        <span class="deep-orange">Difficulty: Moderate</span>
+                    {% else: %}
+                        <span class="deep-orange">Difficulty: Hard</span>
+                    {% endif %}
+                    <span class="deep-orange">Duration: {{item.durationSum}} Minute(s)</span>
+                {% endfor %}
+                <span class="deep-orange">Muscle Group: Shoulders</span>
+                <!--<span class="deep-orange">Goal: Weight Loss</span>-->
+                <!--<span class="deep-orange">Equipment: Full Gym</span>-->
+            </p>
         </div>
-    </div>
-    <div class="excersises-panel">
+        <div class="col s6">
         <div class="exercises-carousel">
             {% for item in exercises %}
                 <div>
-                    <div class="slide">
+                    <div class="slide col s12">
                         <div class="card">
                             <div class="card-image">
                                 <img src="{{item.exerciseImg}}">
-                                <!--<a class="deep-orange btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">filter_list</i></a>-->
                             </div>
                             <div class="card-content">
                                 <span class="card-title">{{item.exerciseName}}</span>
+                                <p>Repetition: {{item.exerciseSets}} x {{item.exerciseReps}}</p> 
+                                <p></p>
                                 <p>{{item.exerciseNotes}}</p>
                             </div>
                             <div class="card-action">
@@ -40,6 +50,7 @@
                 </div>
             {% endfor %}
         </div>
+    </div>
     </div>
     <div id="modal" class="modal">
         <div class="modal-content">

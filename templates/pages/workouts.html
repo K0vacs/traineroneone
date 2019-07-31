@@ -1,6 +1,10 @@
 {% extends 'base.html' %} {% block content %}
-
-    <section class="container mb-1">
+    
+{% include "includes/navigation-light.html" %}
+    
+{% include "includes/header.html" %}
+    
+<section class="container mb-1">
         <div class="mt-1">
             <a href="{{url_for('programs')}}" class="black-text">All Programs > </a>
             <span class="deep-orange-text">Workouts</span>

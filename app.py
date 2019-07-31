@@ -45,12 +45,24 @@ def exercises(id, ex):
   exercises = []
   
   for exerciseId in exerciseIds:
-    exercises.append(ObjectId(exerciseId))
+    if exerciseId is not "":
+      exercises.append(ObjectId(exerciseId))
   
   result = mongo.db.exercises.find({'_id': {'$in': exercises}})
+  
+  meta = mongo.db.exercises.aggregate([ 
+    { "$match" : { "_id" : {'$in': exercises} } }, 
+    { "$group": { "_id": "0", 
+      "durationSum": { "$sum": "$exerciseDuration" },
+      "difficultySum": { "$sum": "exerciseDifficulty" },
+      "count": { "$sum": 1 }
+    } }
+  ]);
+  
   return  render_template("pages/exercises.html", 
           exercises = result, 
           workout   = workout,
+          meta      = meta,
           id        = id,
           quote     = helpers.quote(random.randint(0, 5)),
           title     = "Exercises")
@@ -121,6 +133,9 @@ def update():
   id = data['_id']
   del data['_id']
   
+  if "exerciseDuration" in data:
+      data["exerciseDuration"] = int(data.get("exerciseDuration"))
+      data["exerciseDifficulty"] = int(data.get("exerciseDifficulty"))
   if "exerciseName" in data:
     result = mongo.db.exercises.update({'_id': ObjectId(id)}, { "$set": data })
     return str(result)
@@ -165,6 +180,9 @@ def sign_s3():
 def save_form():
   if request.method == 'POST':
     data = request.form.to_dict()
+    if "exerciseDuration" in data:
+      data["exerciseDuration"] = int(data.get("exerciseDuration"))
+      data["exerciseDifficulty"] = int(data.get("exerciseDifficulty"))
     if "exerciseName" in data:
       result = mongo.db.exercises.insert_one(data)
       return str(result.inserted_id)

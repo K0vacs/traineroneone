@@ -21,7 +21,7 @@ $(document).ready(function() {
 
   $( ".exercises-carousel" ).show().slick({
     dots: true,
-    arrows: true
+    arrows: false
   });
 
   // jQuery events ------------------------------------------------------------- //
