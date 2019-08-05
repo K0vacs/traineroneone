@@ -48,24 +48,35 @@ def exercises(id, ex):
     if exerciseId is not "":
       exercises.append(ObjectId(exerciseId))
   
-  result = mongo.db.exercises.find({'_id': {'$in': exercises}})
+  result = list(mongo.db.exercises.find({'_id': {'$in': exercises}}))
+  muscleGroups = []
+  
+  for item in result:
+    for muscle in json.loads(item["multiSelect"]):
+      if muscle != "":
+        if muscle not in muscleGroups:
+          muscleGroups.append(muscle)
+  
   
   meta = mongo.db.exercises.aggregate([ 
     { "$match" : { "_id" : {'$in': exercises} } }, 
     { "$group": { "_id": "0", 
       "durationSum": { "$sum": "$exerciseDuration" },
-      "difficultySum": { "$sum": "exerciseDifficulty" },
+      "difficultySum": { "$sum": "$exerciseDifficulty" },
       "count": { "$sum": 1 }
-    } }
+      # "muscleGroup": { "$addToSet": { "$concat" : json.loads("$multiSelect") }}
+      } 
+    }
   ]);
   
   return  render_template("pages/exercises.html", 
-          exercises = result, 
-          workout   = workout,
-          meta      = meta,
-          id        = id,
-          quote     = helpers.quote(random.randint(0, 5)),
-          title     = "Exercises")
+          exercises     = result,
+          muscleGroups  = muscleGroups,
+          workout       = workout,
+          meta          = meta,
+          id            = id,
+          quote         = helpers.quote(random.randint(0, 5)),
+          title         = "Exercises")
 
 
 @app.route("/program-form/", defaults={'category': 'none', 'id': 'new'}, methods=['GET', 'POST'])

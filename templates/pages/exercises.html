@@ -8,7 +8,7 @@
         <span class="deep-orange-text">Exercises</span>
     </div>
     <div class="row align-grid flex-center">
-        <div class="col s6 workout-name">
+        <div id="slide-out" class="col m6 s9 workout-name popout-panel">
             <h1>{{workout.workoutName}}</h1>
             <p class="pills">
                 {% for item in meta %}
@@ -21,13 +21,15 @@
                     {% endif %}
                     <span class="deep-orange">Duration: {{item.durationSum}} Minute(s)</span>
                 {% endfor %}
-                <span class="deep-orange">Muscle Group: Shoulders</span>
-                <!--<span class="deep-orange">Goal: Weight Loss</span>-->
-                <!--<span class="deep-orange">Equipment: Full Gym</span>-->
+            </p>
+            <p class="pills">
+                {% for item in muscleGroups %}
+                    <span class="deep-orange">{{ item }}</span>
+                {% endfor %}
             </p>
         </div>
-        <div class="col s6">
-        <div class="exercises-carousel">
+        <div class="col m6 s12">
+        <div class="exercises-carousel mt-1">
             {% for item in exercises %}
                 <div>
                     <div class="slide col s12">
@@ -62,6 +64,9 @@
             <a class="modal-close waves-effect waves-red btn-flat">No</a>
         </div>
     </div>
+    
+    <a href="#" data-target="slide-out" class="sidenav-trigger hide-on-med-and-up"><i class="material-icons">drag_handle</i></a>
+        
 </section>
 
 {% endblock %}

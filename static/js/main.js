@@ -2,7 +2,7 @@ $(document).ready(function() {
   
   // Global variables and Materialize prototypes executed on load -------------- //
   
-  $('.sidenav').sidenav();
+  $('#slide-out').sidenav();
   $('.collapsible').collapsible();
   $('select').formSelect();
   $('.modal').modal();
