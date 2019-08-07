@@ -1,8 +1,14 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
 
-{% include "includes/navigation-dark.html" %}
+{% block head %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css">
+    <meta name="description" content="Create, edit and delete your programs, workouts and exercises.">
+    <title>Exercises</title>
+{% endblock %}
 
-<div class="container">
+{% block content %}
+    {% include "includes/navigation-dark.html" %}
+    <div class="container">
     <div class="row">
         <ul class="collapsible popout">
             <li
@@ -15,9 +21,9 @@
                 <div class="collapse-header active" data-header="exercises"><i class="material-icons small">arrow_drop_down_circle</i>Exercises</div>
                 <div class="collapsible-body">
                     <div class="row">
-                        <form method="post" class="col l8 m12">
+                        <form method="post" class="col l8 m12 s12">
                             <div class="row">
-                                <div class="input-field col l6 m12">
+                                <div class="input-field col l6 m12 s12">
                                     <input id="exercise-name" class="validation" type="text"  name="exerciseName">
                                     <label for="exercise-name" class="label">Name</label>
                                 </div>
@@ -33,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="input-field col l6 m12">
+                                <div class="input-field col m12 s12">
                                     <select class="selectOptions" multiple>
                                       <option value="" disabled selected>Choose your option</option>
                                       <option value="chest">Chest</option>
@@ -77,16 +83,16 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="input-field col l6 m12">
+                                <div class="input-field col s12">
                                     <textarea id="exercise-notes" name="exerciseNotes" class="materialize-textarea validation"></textarea>
                                     <label for="exercise-notes" class="label">Notes</label>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col l6 m12 btn-control">
+                                <div class="col l6 m12 s12 btn-control">
                                     <button type="submit" data-save="exercise" class="deep-orange waves-effect waves-light btn"><i class="material-icons left">save</i>Save</button>
                                 </div>
-                                <div class="col l6 m12 form-nav">
+                                <div class="col l6 m12 s12 form-nav">
                                     <button type="button" data-nav="home" class="waves-effect waves-light btn btn-left">Exit</button>
                                     <button type="button" data-nav="workouts" class="deep-orange waves-effect waves-light btn">Next</button>
                                 </div>
@@ -141,7 +147,7 @@
                                     </div>
                                     <label class="hide">File</label>
                                 </div>
-                                <div class="input-field col m12 s12">
+                                <div class="input-field col s12">
                                     <select id="exerciseOptions" class="selectOptions" multiple>
                                         <option value="" disabled selected>Choose your option</option>
                                     </select>
@@ -157,7 +163,7 @@
                                     <button type="submit" data-save="workout" class="deep-orange waves-effect waves-light btn"><i class="material-icons left">save</i>Save</button>
                                 </div>
                                 <div class="col l6 m12 s12 form-nav">
-                                    <button type="button" data-nav="exercises" class="deep-orange waves-effect waves-light btn">Prev</button>
+                                    <button type="button" data-nav="exercises" class="deep-orange waves-effect waves-light btn btn-left">Prev</button>
                                     <button type="button" data-nav="program" class="deep-orange waves-effect waves-light btn">Next</button>
                                 </div>
                             </div>
@@ -195,13 +201,13 @@
                 <div class="collapse-header" data-header="program"><i class="material-icons small">arrow_drop_down_circle</i>Program</div>
                 <div class="collapsible-body">
                     <div class="row">
-                        <form method="post" class="col s8">
+                        <form method="post" class="col l8 m12 s12">
                             <div class="row">
-                                <div class="input-field col s6">
+                                <div class="input-field col l6 m12 s12">
                                     <input id="program-name" class="validation" type="text"  name="programName">
                                     <label for="program-name" class="label">Name</label>
                                 </div>
-                                <div class="file-field input-field col s6">
+                                <div class="file-field input-field col l6 m12 s12">
                                     <div class="btn deep-orange">
                                         <span>Image</span>
                                         <input type="file" name="programImg">
@@ -223,16 +229,16 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s6">
+                                <div class="col l6 m12 s12 btn-control">
                                     <button type="submit" data-id="" data-save="program" class="deep-orange waves-effect waves-light btn"><i class="material-icons left">save</i>Save</button>
                                 </div>
-                                <div class="col s6 form-nav">
-                                    <button type="button" data-nav="workouts" class="deep-orange waves-effect waves-light btn">Prev</button>
+                                <div class="col l6 m12 s12 form-nav">
+                                    <button type="button" data-nav="workouts" class="deep-orange waves-effect waves-light btn btn-left">Prev</button>
                                     <button type="button" data-nav="home" class="waves-effect waves-light btn">Exit</button>
                                 </div>
                             </div>
                         </form>
-                        <div class="col s4">
+                        <div class="col l4 m12 s12">
                             <div class="card-panel">
                                 <div class="row saved-item">
                                     <h5>Saved Items</h5>
@@ -260,5 +266,8 @@
         </ul>
     </div>
 </div>
+{% endblock %}
 
+{% block scripts %}
+    <script src="{{url_for('static', filename='js/form.js')}}"></script>
 {% endblock %}

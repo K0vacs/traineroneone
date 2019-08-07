@@ -1,10 +1,20 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css">
+    <meta name="description" content="Display all the workouts associated to your workout program.">
+    <title>Workouts</title>
+{% endblock %}
+
+{% block content %}
     
-{% include "includes/navigation-light.html" %}
+    {% include "includes/navigation-light.html" %}
     
-{% include "includes/header.html" %}
+    {% include "includes/header.html" %}
     
-<section class="container mb-1">
+    <section class="container mb-1">
         <div class="mt-1">
             <a href="{{url_for('programs')}}" class="black-text">All Programs > </a>
             <span class="deep-orange-text">Workouts</span>
@@ -15,7 +25,7 @@
                 <div class="col s12 m4">
                     <div class="card">
                         <div class="card-image waves-effect waves-block waves-light">
-                            <img class="activator" src="{{item.workoutImg}}">
+                            <img class="activator" src="{{item.workoutImg}}" alt="{{item.workoutName}}">
                         </div>
                         <div class="card-content">
                             <span class="card-title activator grey-text text-darken-4">{{item.workoutName}}<i class="material-icons right">more_vert</i></span>
@@ -45,4 +55,9 @@
         </div>
     </section>
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="{{url_for('static', filename='js/main.js')}}"></script>
 {% endblock %}

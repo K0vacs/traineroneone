@@ -1,17 +1,27 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
 
-{% include "includes/navigation-light.html" %}
-    
-{% include "includes/header.html" %}
+{% block head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css">
+    <meta name="description" content="Use and build your own workouts using Trainer11 to get that body you always dreamt of.">
+    <title>Programs</title>
+{% endblock %}
 
-<section class="container mb-1">
+{% block content %}
+
+    {% include "includes/navigation-light.html" %}
+
+    {% include "includes/header.html" %}
+
+    <section class="container mb-1">
     <h4>Programs</h4>
     <div class="row align-grid">
         {% for item in programs %}
             <div class="col s12 m4">
                 <div class="card">
                     <div class="card-image">
-                        <img src="{{item.programImg}}">
+                        <img src="{{item.programImg}}" alt="{{item.programName}}">
                         <a href="{{url_for('workouts', id=item._id)}}" class="deep-orange btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">arrow_forward</i></a>
                     </div>
                     <div class="card-content">
@@ -38,4 +48,9 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="{{url_for('static', filename='js/main.js')}}"></script>
 {% endblock %}

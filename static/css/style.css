@@ -98,6 +98,7 @@ body {
 .nav-img {
   background-image: url("https://traineroneonebucket.s3-eu-west-1.amazonaws.com/footer-barbell.jpg");
   background-size: cover;
+  height: 100%;
 }
 
 .nav-overlay {
@@ -391,6 +392,7 @@ nav .brand-logo {
 .exercise-grid h1 {
   font-size: 106px;
   font-weight: 700;
+  margin-bottom: 20px;
 }
 
 .pills {
@@ -430,7 +432,7 @@ nav .brand-logo {
   }
 }
 
-@media only screen and (min-width: 601px) {
+@media only screen and (max-width: 993px) {
   .exercise-grid h1 {
     font-size: 70px;
   }
@@ -463,22 +465,51 @@ nav .brand-logo {
     font-size: 70px;
   }
   
-  #slide-out {
-    margin-left: -15px;
-    padding-left: 18px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100vh;
+  .popout-panel {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
   }
   
-  .popout-panel {
-    position: fixed;
+  .popout-panel a {
+    padding: 8px 15px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    text-align: right;
+  }
+  
+  .popout-panel a:hover {
+    color: #f1f1f1;
+  }
+  
+  .popout-panel h1 {
+    padding: 0 5px;
+  }
+  
+  .popout-panel p {
+    padding: 0 9px;
+  }
+  
+  .popout-panel .closebtn {
+    position: absolute;
     top: 0;
-    transform: translateX(-100%); 
-    height: -moz-calc(100%);
-    background-color: #fff;
-    z-index: 999;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  .exercise-grid .popout-panel {
+    padding: 0;  
   }
   
   .sidenav-trigger {
@@ -497,7 +528,59 @@ nav .brand-logo {
     width: 48%;
   }
   
+  .popout-open {
+    width: 75%;
+  }
+  
   .footer-col {
     align-items: flex-start;
   }
+}
+
+
+/* ----- Image Media Queries ----- */
+@media only screen and (max-width: 1600px) {
+  .slide-1 {
+    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-1-1600w.jpg);
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  .slide-1 {
+    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-1-1366w.jpg);
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .slide-1 {
+    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-1-1024w.jpg);
+  }
+  
+  .slide-2 {
+    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-2-1024w.jpg);
+  }
+  
+  .slide-3 {
+    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-3-1024w.jpg);
+  }
+}
+
+@media only screen and (max-width: 769px) {
+  .slide-1 {
+    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-1-768w.jpg);
+  }
+  
+  .slide-2 {
+    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-2-768w.jpg);
+  }
+  
+  .slide-3 {
+    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-3-768w.jpg);
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .slide-1 {
+    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-1-640w.jpg);
+  }  
 }
