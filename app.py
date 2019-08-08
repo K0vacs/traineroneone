@@ -73,7 +73,7 @@ def exercises(id, ex):
           exercises     = result,
           muscleGroups  = muscleGroups,
           workout       = workout,
-          meta          = meta,
+          meta          = list(meta),
           id            = id,
           quote         = helpers.quote(random.randint(0, 5)),
           title         = "Exercises")

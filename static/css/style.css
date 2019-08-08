@@ -1,69 +1,23 @@
-/* ----- Not Added to SCSS Styling ----- */
-
-.collapsible .card-panel {
-  padding: 5px 24px
-}
-
-.sidenav-trigger {
-  position: absolute;
-  left: -17px;
-  top: 50%;
-  transform: rotate(90deg);
-  color: #ff5722;
-  background-color: #fff;
-  border-radius: 5px;
-  width: 50px;
-  text-align: center;
-}
-.exercises-carousel .slide,
-.popout-panel {
-  margin-bottom: 50px;
-}
-
-.item {
+/* ----- Default Styling ----- */
+body {
   background-color: #f5f5f5;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-.text-right {
-  text-align: right;
-}
-
-.edit, .delete {
-  padding: 5px;
-  line-height: 20px;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  margin: 2px;
 }
 
 :focus {
     outline: 0;
 }
 
-.collapsible-body {
-  background-color: #fff;
-}
-
-.hero-section p {
-  font-size: 1.2em;
-}
-
-.footer-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-
-body {
-  background-color: #f5f5f5;
+/* ----- General Styling ----- */
+.container {
+    width: 85%;
 }
 
 .mb-1 {
   margin-bottom: 1.5em;
+}
+
+.mb-8px {
+  margin-bottom: 8px;
 }
 
 .mt-1 {
@@ -74,33 +28,12 @@ body {
   padding-right: 5px;
 }
 
-.footer-copyright .row {
-  margin-bottom: 0;
-} 
-
-.page-footer {
-  padding-top: 0;
+.flex-center {
+  display: flex;
+  align-items: center; 
 }
 
-.footer-quote {
-  text-align: center;
-}
-
-.footer-img {
-  background-image: url("https://traineroneonebucket.s3-eu-west-1.amazonaws.com/footer-barbell.jpg");
-  background-size: cover;
-}
-
-.footer-overlay {
-  background-color: rgb(0,0,0,0.85);
-}
-
-.nav-img {
-  background-image: url("https://traineroneonebucket.s3-eu-west-1.amazonaws.com/footer-barbell.jpg");
-  background-size: cover;
-  height: 100%;
-}
-
+/* ----- Navigation Styling ----- */
 .nav-overlay {
   background-color: rgb(0,0,0,0.85);
   height:  64px;
@@ -121,6 +54,11 @@ nav .nav-wrap {
 nav .nav-wrap {
   display: flex;
   justify-content: space-between;
+}
+
+nav .brand-logo {
+  display: flex;
+  align-items: center;
 }
 
 .nav-home {
@@ -147,82 +85,30 @@ nav i.material-icons {
   display: inline;
 }
 
-.delete-modal {
-  float: right;
-  margin-right: 0;
-}
-
-.align-grid {
-  margin: 0 -0.75rem;
-}
-
-nav .brand-logo {
-  display: flex;
-  align-items: center;
-}
-
-.collapse-header {
-  font-size: 22px;
-  line-height: 1;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  line-height: 1.5;
-  padding: 1rem;
-  background-color: #fff;
-  border-bottom: 1px solid #ddd;
-}
-
-.form-nav {
-  text-align: right;
-}
-
-.collapse-header .material-icons {
-  color: #ff5722;
-  align-self: center;
-  margin-right: 5px;
-}
-
-
-.spin-icon {
-  animation-name: spin;
-  animation-duration: 1000ms;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear; 
-}
-
-@keyframes spin {
-    from {
-        transform:rotate(0deg);
-    }
-    to {
-        transform:rotate(360deg);
-    }
-}
-
-/* ----- Navigation Styling ----- */
-
-
 /* ----- Hero Slider ----- */
 .hero-section {
   background-color: #000;
   height: 550px; }
+  
+.hero-section p {
+  font-size: 1.2em;
+}
 
 .home-carousel {
   display: none;
   height: 550px; }
 
 .center {
-  align-items: center; }
+  align-items: center; 
+}
 
 .left {
-  align-items: flex-start; }
+  align-items: flex-start; 
+}
 
 .right {
-  align-items: flex-end; }
+  align-items: flex-end; 
+}
 
 .slide {
   display: flex;
@@ -233,86 +119,62 @@ nav .brand-logo {
 }
 
 .slide-1 {
-  background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-1.jpg);
+  background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-1-1920w.jpg);
   background-position: center;
 }
 
 .slide-2 {
-  background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-2.jpg);
+  background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-2-1920w.jpg);
   background-position: center;
 }
 
 .slide-3 {
-  background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-3.jpg);
+  background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-3-1920w.jpg);
   background-position: center;
 }
 
 .slide .container {
   display: flex;
   justify-content: center;
-  flex-direction: column; }
+  flex-direction: column; 
+}
 
 .slide h1 {
   color: #fff;
   font-weight: 700;
-  margin: 1rem 0 1rem 0; }
+  margin: 1rem 0 1rem 0; 
+}
 
 .slide .text {
   color: #fff;
-  max-width: 70%;
-  margin: 1rem 0 1rem 0; }
+  margin: 1rem 0 1rem 0;
+}
 
 .center p {
-  text-align: center; }
+  text-align: center; 
+}
 
 .left p {
-  text-align: left; }
+  text-align: left; 
+}
 
 .right p {
-  text-align: right; }
+  text-align: right; 
+}
 
 .slide a {
-  margin: 1rem 0 1rem 0; }
-
-.slick-prev {
-  left: 15px;
-  z-index: 1;
-  width: 50px;
-  height: 50px; }
-
-.slick-next {
-  right: 15px;
-  z-index: 1;
-  width: 50px;
-  height: 50px; }
-
-.slick-prev:before {
-  font-family: 'Material Icons';
-  content: "\e314";
-  color: #fff;
-  font-size: 45px;
-  width: 50px;
-  height: 50px;
-  border: 2px solid #fff;
-  border-radius: 50%; }
-
-.slick-next:before {
-  font-family: 'Material Icons';
-  content: "\e315";
-  color: #fff;
-  font-size: 45px;
-  width: 50px;
-  height: 50px;
-  border: 2px solid #fff;
-  border-radius: 50%; }
+  margin: 1rem 0 1rem 0; 
+}
 
 .slick-dots {
-  bottom: 15px; }
+  bottom: 15px; 
+}
 
 .slick-dots li,
 .slick-dots li button {
   width: 30px;
-  height: 30px; }
+  height: 30px; 
+}
 
 .slick-dots li button:before {
   color: #9e9e9e;
@@ -320,31 +182,37 @@ nav .brand-logo {
   line-height: 30px;
   width: 30px;
   height: 30px;
-  opacity: 0.9; }
+  opacity: 0.9; 
+}
 
 .slick-dots li.slick-active button:before {
   color: #fff;
-  opacity: 1; }
-  
-.exercises-carousel .slick-dots li button:before {
-  color: #707070;
-}
-.exercises-carousel .slick-dots li.slick-active button:before{
-  color: #ff5722;
+  opacity: 1; 
 }
 
 /* ----- Excersises Slider ----- */
 .excersises-section {
   display: flex;
-  background-color: #fff; }
+  background-color: #fff; 
+}
 
 .excersises-section h1 {
   font-size: 106px;
   font-weight: 700;
-  margin: 2rem 15px 2rem 15px; }
+  margin: 2rem 15px 2rem 15px; 
+}
+  
+.exercises-carousel .slick-dots li button:before {
+  color: #707070;
+}
+
+.exercises-carousel .slick-dots li.slick-active button:before{
+  color: #ff5722;
+}
 
 .workout-panel p {
-  margin: 0 15px 2rem 15px; }
+  margin: 0 15px 2rem 15px; 
+}
 
 .workout-panel span {
   font-weight: 300;
@@ -354,27 +222,33 @@ nav .brand-logo {
   border-radius: 2px;
   padding: 4px 6px;
   line-height: 22px;
-  margin-right: 3px; }
+  margin-right: 3px; 
+}
 
 .workout-panel,
 .excersises-panel {
   flex: 1;
-  height: 550px; }
+  height: 550px; 
+}
 
 .workout-panel {
   display: flex;
-  align-items: center; }
+  align-items: center; 
+}
 
 .excersises-panel {
   min-width: 0;
-  min-height: 0; }
+  min-height: 0; 
+}
 
 .excersises-section .card {
   width: 50%;
-  margin: auto; }
+  margin: auto; 
+}
 
 .excersises-section .slide {
-  height: 100%; }
+  height: 100%; 
+}
   
 .exercise-grid h1,
 .exercise-grid p {
@@ -389,7 +263,7 @@ nav .brand-logo {
   padding-bottom: 15px;
 }
 
-.exercise-grid h1 {
+.workout-heading {
   font-size: 106px;
   font-weight: 700;
   margin-bottom: 20px;
@@ -411,9 +285,26 @@ nav .brand-logo {
   text-transform: capitalize;
 }
 
-.flex-center {
-  display: flex;
-  align-items: center; 
+/* ----- Grid Styling ----- */
+.sidenav-trigger {
+  position: absolute;
+  left: -17px;
+  top: 50%;
+  transform: rotate(90deg);
+  color: #ff5722;
+  background-color: #fff;
+  border-radius: 5px;
+  width: 50px;
+  text-align: center;
+}
+
+.exercises-carousel .slide,
+.popout-panel {
+  margin-bottom: 50px;
+}
+
+.align-grid {
+  margin: 0 -0.75rem;
 }
 
 .card-action {
@@ -424,163 +315,107 @@ nav .brand-logo {
 .card-action a {
   margin-right: 0 !important;
 }
-/*# sourceMappingURL=style.css.map */
 
-@media only screen and (min-width: 993px) {
-  .container {
-      width: 85%;
-  }
+.delete-modal {
+  float: right;
+  margin-right: 0;
 }
 
-@media only screen and (max-width: 993px) {
-  .exercise-grid h1 {
-    font-size: 70px;
-  }
-  .popout-panel {
-    transform: none !important;
-  }
-  
-  .btn-control button {
-    width: 100%;
-    margin-bottom: 15px;
-  }
-  
-  .btn-left {
-    float: left;
-  }
-  .form-nav button {
-    width: 48%;
-  }
+/* ----- Form Styling ----- */
+.collapsible .card-panel {
+  padding: 5px 24px
+}
+
+.collapsible-body {
+  background-color: #fff;
+}
+
+.collapse-header {
+  font-size: 22px;
+  line-height: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 1.5;
+  padding: 1rem;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.collapse-header .material-icons {
+  color: #ff5722;
+  align-self: center;
+  margin-right: 5px;
+}
+
+.form-nav {
+  text-align: right;
+}
+
+.spin-icon {
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; 
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+
+.item {
+  background-color: #f5f5f5;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.edit, .delete {
+  padding: 5px;
+  line-height: 20px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin: 2px;
+}
+
+/* ----- Footer Styling ----- */
+.barbell-img {
+  background-image: url("https://traineroneonebucket.s3-eu-west-1.amazonaws.com/barbell-1920w.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-copyright .row {
+  margin-bottom: 0;
 } 
-@media only screen and (max-width: 600px) {
-  i.left {
-      margin-right: 0;
-  }
-  
-  .slide .text {
-    max-width: 96%;
-  }
-  
-  .exercise-grid h1 {
-    font-size: 70px;
-  }
-  
-  .popout-panel {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #fff;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
-  }
-  
-  .popout-panel a {
-    padding: 8px 15px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-    text-align: right;
-  }
-  
-  .popout-panel a:hover {
-    color: #f1f1f1;
-  }
-  
-  .popout-panel h1 {
-    padding: 0 5px;
-  }
-  
-  .popout-panel p {
-    padding: 0 9px;
-  }
-  
-  .popout-panel .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-  }
-  
-  .exercise-grid .popout-panel {
-    padding: 0;  
-  }
-  
-  .sidenav-trigger {
-    position: fixed;
-  }
-  
-  .btn-control button {
-    width: 100%;
-    margin-bottom: 15px;
-  }
-  
-  .btn-left {
-    float: left;
-  }
-  .form-nav button {
-    width: 48%;
-  }
-  
-  .popout-open {
-    width: 75%;
-  }
-  
-  .footer-col {
-    align-items: flex-start;
-  }
+
+.page-footer {
+  padding-top: 0;
 }
 
-
-/* ----- Image Media Queries ----- */
-@media only screen and (max-width: 1600px) {
-  .slide-1 {
-    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-1-1600w.jpg);
-  }
+.footer-quote {
+  text-align: center;
 }
 
-@media only screen and (max-width: 1366px) {
-  .slide-1 {
-    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-1-1366w.jpg);
-  }
-}
-
-@media only screen and (max-width: 1024px) {
-  .slide-1 {
-    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-1-1024w.jpg);
-  }
-  
-  .slide-2 {
-    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-2-1024w.jpg);
-  }
-  
-  .slide-3 {
-    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-3-1024w.jpg);
-  }
-}
-
-@media only screen and (max-width: 769px) {
-  .slide-1 {
-    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-1-768w.jpg);
-  }
-  
-  .slide-2 {
-    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-2-768w.jpg);
-  }
-  
-  .slide-3 {
-    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-3-768w.jpg);
-  }
-}
-
-@media only screen and (max-width: 640px) {
-  .slide-1 {
-    background-image: url(https://traineroneonebucket.s3-eu-west-1.amazonaws.com/athlete-1-640w.jpg);
-  }  
+.footer-overlay {
+  background-color: rgb(0,0,0,0.85);
 }

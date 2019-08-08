@@ -8,9 +8,11 @@
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="icon" href="https://traineroneonebucket.s3-eu-west-1.amazonaws.com/icon.png" type="image/gif" sizes="32x32">
-    
     {% block head %} {% endblock %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/tablet.css')}}" media="screen and (max-width:993px)">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/mobile.css')}}" media="screen and (max-width:600px)">
+    <link rel="icon" href="https://traineroneonebucket.s3-eu-west-1.amazonaws.com/icon.png" type="image/gif" sizes="32x32">
     
 </head>
 <body>

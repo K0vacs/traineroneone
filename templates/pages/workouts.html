@@ -3,7 +3,6 @@
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css">
     <meta name="description" content="Display all the workouts associated to your workout program.">
     <title>Workouts</title>
 {% endblock %}
@@ -22,7 +21,7 @@
         <h4>Workouts</h4>
         <div class="row align-grid">
             {% for item in workout %}
-                <div class="col s12 m4">
+                <div class="col l4 m6 s12">
                     <div class="card">
                         <div class="card-image waves-effect waves-block waves-light">
                             <img class="activator" src="{{item.workoutImg}}" alt="{{item.workoutName}}">

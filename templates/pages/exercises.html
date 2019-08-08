@@ -3,7 +3,6 @@
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css">
     <meta name="description" content="Display all the exercises associated to your workout.">
     <title>Exercises</title>
 {% endblock %}
@@ -12,15 +11,36 @@
 
     {% include "includes/navigation-dark.html" %}
     
+    <div id="slide-out" class="col m6 workout-name sidenav">
+        <a href="javascript:void(0)" class="sidenav-close">&times;</a>
+        <h1 class="sidenav-heading">{{workout.workoutName}}</h1>
+        <p class="pills sidenav-text">
+            {% for item in meta %}
+                {% if item.difficultySum / item.count <= 3.6: %}
+                    <span class="deep-orange">Difficulty: Easy</span>
+                {% elif item.difficultySum / item.count <= 6.6: %}
+                    <span class="deep-orange">Difficulty: Moderate</span>
+                {% else: %}
+                    <span class="deep-orange">Difficulty: Hard</span>
+                {% endif %}
+                <span class="deep-orange">Duration: {{item.durationSum}} Minutes</span>
+            {% endfor %}
+        </p>
+        <p class="pills sidenav-text">
+            {% for item in muscleGroups %}
+                <span class="deep-orange">{{ item }}</span>
+            {% endfor %}
+        </p>
+    </div>
+    
     <section class="container exercise-grid">
         <div class="mt-1">
             <a href="{{url_for('workouts', id=id, ex=workout._id)}}" class="black-text">Workouts > </a>
             <span class="deep-orange-text">Exercises</span>
         </div>
         <div class="row align-grid flex-center">
-            <div id="slide-out" class="col m6 workout-name popout-panel">
-                <a href="javascript:void(0)" class="sidenav-close">&times;</a>
-                <h1>{{workout.workoutName}}</h1>
+            <div class="col m6 hide-on-small-only workout-name">
+                <h1 class="workout-heading">{{workout.workoutName}}</h1>
                 <p class="pills">
                     {% for item in meta %}
                         {% if item.difficultySum / item.count <= 3.6: %}
@@ -33,7 +53,7 @@
                         <span class="deep-orange">Duration: {{item.durationSum}} Minutes</span>
                     {% endfor %}
                 </p>
-                <p class="pills">
+                <p class="pills mb-8px">
                     {% for item in muscleGroups %}
                         <span class="deep-orange">{{ item }}</span>
                     {% endfor %}

@@ -1,0 +1,72 @@
+@media only screen and (max-width: 600px) {
+  i.left {
+      margin-right: 0;
+  }
+  
+  .exercise-grid h1 {
+    font-size: 70px;
+  }
+  
+  .sidenav-close {
+    padding: 8px 15px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    text-align: right;
+  }
+  
+  .sidenav-close:hover {
+    color: #f1f1f1;
+  }
+  
+  .sidenav-heading {
+    padding: 0 10px;
+    font-size: 80px;
+    font-weight: 700;
+      margin-bottom: 15px;
+    margin-top: 0;
+  }
+  
+  .sidenav-text {
+    padding: 0 14px;
+    margin: 0;
+  }
+  
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  .exercise-grid .sidenav {
+    padding: 0;  
+  }
+  
+  .sidenav-trigger {
+    position: fixed;
+  }
+  
+  .btn-control button {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .btn-left {
+    float: left;
+  }
+  .form-nav button {
+    width: 48%;
+  }
+  
+  .popout-open {
+    width: 75%;
+  }
+  
+  .footer-col {
+    align-items: flex-start;
+  }
+}
