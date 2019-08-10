@@ -62,28 +62,27 @@ The font used is from the standard Materialize theme, called Roboto. The heading
 > This section consists of two rows. The first row consists of three major elements of one third each. T1 displays an inspirational quote with social media buttons below. T2 and T3 display links to programs and workouts respectively. The second row displays a left-aligned copyright text and right-aligned add program link.
 
 ### Mockups
-The project mockups are available below and in the mockups directory in mobile, tablet and desktop views:
+The project mockups are available below and in the [mockups directory](https://github.com/K0vacs/traineroneone/tree/master/static/images) in mobile, tablet and desktop views:
 
 #### Mobile
-
-![Mobile Program Mockup](static/images/Mobile-programs.png)
-![Mobile Workout Mockup](static/images/Mobile-workouts.png)
-![Mobile Exercise Mockup](static/images/Mobile-exercises.png)
-![Mobile Form Mockup](static/images/Mobile-form.png)
+![Program Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Mobile-programs.png)
+![Workout Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Mobile-workouts.png)
+![Exercise Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Mobile-exercises.png)
+![Form Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Mobile-form.png)
 
 #### Tablet
 
-![Tablet Program Mockup](static/images/Tablet-programs.png)
-![Tablet Workout Mockup](static/images/Tablet-workouts.png)
-![Tablet Exercise Mockup](static/images/Tablet-exercises.png)
-![Tablet Form Mockup](static/images/Tablet-form.png)
+![Program Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Tablet-programs.png)
+![Workout Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Tablets-workouts.png)
+![Exercise Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Tablet-exercises.png)
+![Form Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Tablet-form.png)
 
 #### Desktop
 
-![Desktop Program Mockup](images/Desktop-programs.png)
-![Desktop Program Mockup](images/Desktop-workouts.png)
-![Desktop Program Mockup](images/Desktop-exercises.png)
-![Desktop Program Mockup](images/Desktop-form.png)
+![Program Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-programs.png)
+![Workout Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-workouts.png)
+![Exercise Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Mobile-exercises.png)
+![Form Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Mobile-form.png)
 
 ## Features
  
