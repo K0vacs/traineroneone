@@ -66,15 +66,24 @@ The project mockups are available below and in the mockups directory in mobile, 
 
 #### Mobile
 
-![Mobile Mockup](statics/images/Mobile-programs.png)
+![Mobile Program Mockup](static/images/Mobile-programs.png)
+![Mobile Workout Mockup](static/images/Mobile-workouts.png)
+![Mobile Exercise Mockup](static/images/Mobile-exercises.png)
+![Mobile Form Mockup](static/images/Mobile-form.png)
 
 #### Tablet
 
-![Tablet Mockup](assets/custom/mockups/Tablet.png)
+![Tablet Program Mockup](static/images/Tablet-programs.png)
+![Tablet Workout Mockup](static/images/Tablet-workouts.png)
+![Tablet Exercise Mockup](static/images/Tablet-exercises.png)
+![Tablet Form Mockup](static/images/Tablet-form.png)
 
 #### Desktop
 
-![Desktop Mockup](assets/custom/mockups/Desktop.png)
+![Desktop Program Mockup](images/Desktop-programs.png)
+![Desktop Program Mockup](images/Desktop-workouts.png)
+![Desktop Program Mockup](images/Desktop-exercises.png)
+![Desktop Program Mockup](images/Desktop-form.png)
 
 ## Features
  
