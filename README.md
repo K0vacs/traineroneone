@@ -73,7 +73,7 @@ The project mockups are available below and in the [mockups directory](https://g
 #### Tablet
 
 - [Program Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Tablet-programs.png)
-- [Workout Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Tablets-workouts.png)
+- [Workout Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Tablet-workouts.png)
 - [Exercise Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Tablet-exercises.png)
 - [Form Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Tablet-form.png)
 
@@ -81,53 +81,61 @@ The project mockups are available below and in the [mockups directory](https://g
 
 - [Program Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-programs.png)
 - [Workout Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-workouts.png)
-- [Exercise Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Mobile-exercises.png)
-- [Form Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Mobile-form.png)
+- [Exercise Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-exercises.png)
+- [Form Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-form.png)
 
 ## Features
  
 ### Existing Features
-- Responsiveness - allows the website to render in a user-friendly format on any device (mobile, tablet and desktop).
-- Bar Chart - the dc.js bar chart displays customers created by year which is interactive, click a bar to filter the data by year.
-- Pie Chart - the dc.js pie chart displays customers by their activity status, click the piece of the pie chart to filter by active or inactive.
-- Table - the dc.js table displays customers in a table, on load by all and then filtered by each bar, pie charts or select menu if filtered. The # table column indicates the customer row number in the table which corresponds to the number used in the Google Map marker.
-- Website select - the dc.js select menu allows the user to filter customer data based on whether they have a website or not.
-- Google map - the google map geocodes customer address into longitude and latitude using the Google Geocoder API and places the markers on the map. Additionally, the marker colours have been customised to include white marker labels. Note, the geocode service passes an error when too many requests are made in quick succession. Therefore when working with large data sets make sure to batch requests in smaller groups.
-- Popover - the popover is used after the map heading, surrounding a Font Awesome information icon that pops up a dialogue box to provide more information about the map when clicked.
-- Wave API Query - this feature is executed on page load (body tag) to load the customer data from a GraphQl API using an XMLHTTP Request. This data is then used in all of the page sections through a cross-filter and Google map / Google Geocoder. Note, the authorisation token used for the Wave API is from a testing account, it is not a good idea to use this token in a JavaScript file as it is visible to all visitors, I would recommend using the token within the server-side code. Although the server-side code did not fall within the scope of this project hence my chosen application. 
-- Wave API Mutation - this feature creates a new customer in Wave Accounting using an XMLHTTP Request to the Wave API which is managed through GraphQl. The customer information is entered through a modal form which is triggered by the add new button.
-- Modal Pop-up - this feature is a standard structural element of Bootstrap. The form within the modal captures the data. Once save is clicked the form data is sent to Wave Accounting through an XMLHTTP Request but first, the query variables are prepared by saving the form data into a JavaScript object in a format that the API can successfully process.
-- Loading screen - The loading screen executes on page load and once a successful response is received from the API call the loading screen fades out to hidden thereby displaying the index.html page in full. The loading screen displays at 100% of the page size height and width. With a loading gif to show the user, the application is processing. If the query fails an alert box pops-up which prompts the user to try again.
+- Responsiveness - allows the application to render in a user-friendly format on any device (mobile, tablet and desktop). 
+- Modal - acts as a confirmation message to users when the delete link is selected.
+- Sidenav - hides the workout name and metadata on the exercises view to allow for an unobstructed view of exercises on mobile devices.
+- Slider - allows for a more polished look on page load as a hero slider and allows exercises to be viewed one by one so users focus on each exercise at a time.
+- Quote Generator - this randomly selects a quote to display in the footer which allows the user to get inspiration every time the page is loaded. This feature is implemented by creating a custom Python module which can be found in helpers.py
+- Programs View - this view displays a grid of programs with a description, title, delete link, edit link and next button which takes you to the selected programs' workouts.
+- Workouts View - this view displays a grid of programs with a title, delete, link, edit link and card details button which opens the card overlay with the card title, description, close button and go to exercises link which takes you to the selected workouts exercises.
+- Exercises View - this view displays two 50% width sections. The left has the workout name and metadata. The right has the exercise card with image, sets, reps, description, delete link and edit link. These cards are placed in a slider to easily flip through each exercise in the workout.  
+- Program Form - this form allows the user to read, create and update programs workouts and exercises. Once saved these items will appear in the program, workout and exercise views.
+- Form Validation - each form has custom front-end validation which prevents the user from submitting a form without entering all the necessary fields.
 
-### Features Left to Implement
-- Google map clustering - when map pins are closely grouped the map will group them together to show the total pins in the group. This improves the user-friendliness of the map when working with large sets of pins.
-- Table pagination - this will only show a predefined number of customer records per page to streamline the page load time.
-- Filtering options on table headers - the table headers can be filterable to order the records according to what the user desires.
-- Google map user office location(s) can also be added to display the users' office location in relation to the customers' addresses.
-- Google map routes can be used to calculate optimal delivery routes from the users' office location to the customers' address or multiple addresses.
-- Additional graphs can be added using dc.js to filter on other customer information captured in Wave.
-- As Wave develops further enhancements additional features can be added to the CRM like Invoice and product information.
-- Additional optimisation can be made on making the application more streamline while working with large data sets as the current configuration is not likely to fair well with large volumes of data.
-- A customer update function can be added to the table of customers loaded on the page so the user can update the customer details from the application.
-- Additional customer fields can be made available in the table and modal to view and manage customers on additional information (e.g. shipping addresses).
+### Features to Implement
+- Add Program View filters to allow users to filter programs based on multiple criteria
+- Edit all workouts and exercises attached to a program at the same time
+- Add program goals to programs like weight loss or muscle gain
+- Add an indicator that shows what equipment is required for the workout or exercise
+- View all workouts that exist irrespective of the attached program
+- View all exercises that exist irrespective of the attached workout
+- Add video file optimised support to program, workout and exercise uploads
+- View media attached to workouts and exercises in the multi-select options
+- Hero slider to display featured programs and workouts
+- Add a support feature to log defects
 
 ## Technologies Used
 
 ### Languages
 -    HTML / HTML5 - To display content on each HTML page and enable the use of more semantic elements used in HTML5.
 -    CSS / CSS3 - To style content in each HTML page and enable additional styling features by using CSS3.
--    JavaScript - To make HTML content more dynamic and to enable features that are supported by Bootstrap, jQuery, popper, D3, DC, Crossfilter and Google Maps API.
+-    JavaScript - To make HTML content more dynamic and to enable features that are supported by Materialize, jQuery and Python.
 
 ### Libraries
--    Bootstrap - To speed up the building of the project using the front end framework that has been tied and tested.
--    Font Awesome - To make the project more visually appealing to users through the use of icons.
--    Google Fonts - To make enable custom fonts to be used in the project. Hind Vadodara and Mitr were selected.
--    jQuery - To simplify Dom manipulation and to enable Bootstrap features.
--    D3.js - to add requested data to the Dom to be manipulated by other JS libraries.
--    Dc.js - to render data in various formats such as graphs, tables and other useful formats.
--    Crossfilter - to use within the dc.js dimensions and groups, this makes specific data points easy to manipulate.
--    Google Maps API - to display the Google map and markers on the page.
--    Google Geocoder - to transform customer addresses to longitude and latitude to be used in the Google map.
+-    Materialize - to speed up the building of the project using the front end framework that has been tried and tested.
+-    Material Icons - To make the project more visually appealing to users through the use of icons.
+-    Google Fonts - To make enable custom fonts to be used in the project. Segoe UI (Primary) and Roboto (Secondary) were selected.
+-    jQuery - To simplify Dom manipulation and to enable Materialize features.
+-    Flask - To simplify and speed up the building of a Python project, this includes the Flask dependencies and; 
+    - render_template - To render a template at a specified route
+    - request - To handle GET, POST and PUT requests from the browser
+    - url_for - To provide dynamic URLs based on the file location
+    - redirect - To redirect traffic to the desired URL
+    - PyMongo - To assist Python application with connecting to Mongo DB
+    - secure_filename - To create secure file names for user uploaded files (Part of Werkzeug a Flask dependency)
+-    Python3 Modules;
+    - os - Python operating system
+    - JSON - convert JSON to Python objects
+    - boto3 - CRUD on AWS S3 Bucket
+    - datetime - creates and manages date objects
+    - random - can be used to create random integers
+    - helpers - custom created module to select quotes
 
 ## Testing
 This project was tested using the Google Chrome Inspect tool. Using the aforementioned tool the website was tested using multiple screen sizes. These screen sizes include various mobile, tablet, and desktop sizes using both portrait and landscape views. The Jasmine automated testing tool was considered but proved unnecessary as very few functions return a specific result and are most functions are chained together.
