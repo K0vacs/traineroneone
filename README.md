@@ -113,23 +113,23 @@ The project mockups are available below and in the [mockups directory](https://g
 ## Technologies Used
 
 ### Languages
--    HTML / HTML5 - To display content on each HTML page and enable the use of more semantic elements used in HTML5.
--    CSS / CSS3 - To style content in each HTML page and enable additional styling features by using CSS3.
--    JavaScript - To make HTML content more dynamic and to enable features that are supported by Materialize, jQuery and Python.
+- HTML / HTML5 - To display content on each HTML page and enable the use of more semantic elements used in HTML5.
+- CSS / CSS3 - To style content in each HTML page and enable additional styling features by using CSS3.
+- JavaScript - To make HTML content more dynamic and to enable features that are supported by Materialize, jQuery and Python.
 
 ### Libraries
--    Materialize - to speed up the building of the project using the front end framework that has been tried and tested.
--    Material Icons - To make the project more visually appealing to users through the use of icons.
--    Google Fonts - To make enable custom fonts to be used in the project. Segoe UI (Primary) and Roboto (Secondary) were selected.
--    jQuery - To simplify Dom manipulation and to enable Materialize features.
--    Flask - To simplify and speed up the building of a Python project, this includes the Flask dependencies and; 
+- Materialize - to speed up the building of the project using the front end framework that has been tried and tested.
+- Material Icons - To make the project more visually appealing to users through the use of icons.
+- Google Fonts - To make enable custom fonts to be used in the project. Segoe UI (Primary) and Roboto (Secondary) were selected.
+- jQuery - To simplify Dom manipulation and to enable Materialize features.
+- Flask - To simplify and speed up the building of a Python project, this includes the Flask dependencies and; 
     - render_template - To render a template at a specified route
     - request - To handle GET, POST and PUT requests from the browser
     - url_for - To provide dynamic URLs based on the file location
     - redirect - To redirect traffic to the desired URL
     - PyMongo - To assist Python application with connecting to Mongo DB
     - secure_filename - To create secure file names for user uploaded files (Part of Werkzeug a Flask dependency)
--    Python3 Modules;
+- Python3 Modules;
     - os - Python operating system
     - JSON - convert JSON to Python objects
     - boto3 - CRUD on AWS S3 Bucket
@@ -138,76 +138,74 @@ The project mockups are available below and in the [mockups directory](https://g
     - helpers - custom created module to select quotes
 
 ## Testing
-This project was tested using the Google Chrome Inspect tool. Using the aforementioned tool the website was tested using multiple screen sizes. These screen sizes include various mobile, tablet, and desktop sizes using both portrait and landscape views. The Jasmine automated testing tool was considered but proved unnecessary as very few functions return a specific result and are most functions are chained together.
+This project was tested using the Google Chrome Inspect tool. Using the aforementioned tool the website was tested using multiple screen sizes. These screen sizes include various mobile, tablet, and desktop sizes using both portrait and landscape views. The Jasmine automated testing tool and Python unit testing tools were considered but proved unnecessary as very few functions return a specific int or string result.
 
 The following checks were done to ensure the website is working as intended:
 - All links working and directed correctly
 - All styles applied and display correctly
 - All icons displayed with the intended styling
 - All navigation elements are working as intended
-- All popovers are operating as intended
-- Bar chart displaying and filtering correctly
-- Pie chart displaying and filtering correctly
-- Google map loading and markers displaying correctly
-- Loading screen displaying and hiding correctly
-- Modal form fields are all required with a submit button
+- All modals are operating as intended
+- Form fields are all required on submit
+- Form uploads are uploaded to the S3 Bucket as expected
+- Updating uploads are removed and replaced as expected
+- Form creates programs, workouts and exercises as expected
+- MongoDB records are inline with each view
+- Database records are saved in the expected layout and type
+- CloudFront is cashing uploaded images
 - W3C validator HTML errors fixed
 - W3C validator CSS errors fixed
 - Google Dev Tools Audit run and fixed issues on each page
-- JSHint errors and warnings fixed (for all that were necessary)
+- JSHint errors and warnings fixed (for all that were necessary
+- JavaScript Ajax functions return the appropriate error when a failure occurs
 
 ## Deployment
 
-### Example Deployment
-This project has been deployed on GitHub Pages using the following method:
-- When in the overview page select the repository you would like to publish
-- When in the appropriate repository, using the repository navigation bar select the settings option
-- When in the settings screen scroll down to GitHub Pages heading and below the source, sub-heading select the branch you would like to deploy (in this case the master branch was used)
-- Enter the name for your project and publish it (Milestone 2 project was used)
-- Wait for the website deployment to be finalised by GitHub
+### This Deployment
+This project has been deployed on Heroku using the following method:
+- A Cloud9 workspace was created and Flask was installed
+- A GitHub repo was created and linked to the Cloud9 Git instance
+- A MongoDB was created to run the applications Database and linked to the Flask App using PyMongo (the necessary environment variables were created)
+- An S3 Bucket was created in AWS and linked to the Flask App using Boto3
+- A CloudFront configuration was completed to Cache images uploaded
+- The GitHub repo was connected to Heroku using the Heroku user interface (App > Settings > GitHub), allows for automatic Heroku deployment from the GitHub master branch which redeploys on every commit to the master branch
+- The Cloud9 Flask App was configured to the Heroku deployment through creating a Procfile, requirements.txt file and creating the necessary environment variables in both Cloud9 and Heroku
 
-> The deployed version is the latest version of the website
+> The deployed version is the latest version of the application
 
-### Deploy for yourself
-
-#### Online
-To deploy this application on Github Pages, fork the repository and use the same deployment method as stipulated in the example deployment. To deploy this application on your own server do the following:
-- In the home screen of the repository, folder select the download button and select zip option.
-- Once downloaded unzip the file and upload it to the directory you would like the application to run on, on your server.
-- Run the index.html file in the browser to see the application run.
-- Once confirming the application is running correctly replace the security tokens to request customer data from your own Wave account.
-- Troubleshooting - if the application is not working as expected make sure to check the console for errors and file paths.
-
-#### Local
-To deploy this application locally:
-- In the home screen of the repository, folder select the download button and select zip option.
-- Once downloaded unzip the file
-- Then open the index.html file in your browser.
-- Once confirming the application is running correctly replace the security tokens to request customer data from your own Wave account.
-- Troubleshooting - if the application is not working as expected make sure to check the console for errors and file paths.
-
-#### Online
-- All dependencies will work as intended by making use of all the files within the repository.
-- When upgrading the dependencies make sure to update the files in the libraries directory and the links within the index.html file.
+### Deploy your Own
+To deploy this application on Heroku using GitHub, MongoDB, AWS S3 and CloudFront do the following:
+- Clone the repository from this page using the clone or download button which will copy the clone link to your clipboard
+- Using your chosen IDE initialise git and clone the repo using the clone link
+- Once complete install the necessary dependencies for the App using "pip3 install -r requirments.txt" in your command-line interface
+- Create a MongoDB database with the same naming conventions which can we found in app.py. Also, create the "MONGO_URI" environment variables
+- Create an AWS S3 Bucket to store uploaded images. The AWS S3 "S3_BUCKET", "AWS_ACCESS_KEY_ID" and "AWS_SECRET_ACCESS_KEY" environment variables should be set
+- Configure a CloudFront installation for images stored in the S3 Bucket using this [tutorial](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/GettingStarted.html)
+- Create a GitHub repo and connect it to your IDE version of the App by following the setup instructions on GitHub
+- Create a Heroku app and connect it to your newly created GitHub Repo. In Heroku (App > Settings > GitHub) to complete the connection
+- Complete an initial commit, push it to GitHub and troubleshoot the results on the Heroku deployment
 
 ## Contribute
 Developer contributions are welcomed and encouraged.
 
-To contribute just fork the GitHub repository and when ready create a push request with detailed notes of the changes which will be reviewed and added to the project on success.
+To contribute just fork the GitHub repository, follow the deployement instructions and when ready create a push request with detailed notes of the changes which will be reviewed and added to the project on success.
 
 Feel free to pick up any of the above-mentioned features left to implement.
 
 ## Credits
 
 ### Content
-- The icons used in this project are from [FontAwesome](https://fontawesome.com/).
-- Most elements of this website use [Bootstrap](https://getbootstrap.com/) elements.
-- [Bootswatch](https://bootswatch.com/) was used to customise the Bootstrap colour palette.
+- The icons used in this project are from [Material Icons](https://material.io/resources/icons/).
+- Most elements of this website use [Materialize](https://materializecss.com/) elements.
 - The fonts were selected from [Google Fonts](https://fonts.google.com/).
-- The table and graphs are rendered by a combination of [D3](https://dc-js.github.io/dc.js/), [DC](https://d3js.org/) and [Crossfilter](https://square.github.io/crossfilter/).
-- [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial) was used to render the map to the index.html page.
+- The Social Media icons were selected from [Flat Icon](https://www.flaticon.com/)
+    - [LinkedIn](https://www.flaticon.com/authors/freepik)
+    - [GitHub](https://www.flaticon.com/authors/dave-gandy)
+    - [Website](https://www.flaticon.com/authors/hanan)
+- The Gym Images were selected from [Pexels](https://www.pexels.com/)
+- The programs, workouts and exercises content and images were sourced from [DareBee](https://darebee.com/programs.html)
 
 ### Acknowledgements
 - [Responsinator](http://www.responsinator.com/) was used to check mobile and tablet responsiveness.
-- [Google Maps Geocoding Service](https://developers.google.com/maps/documentation/javascript/geocoding) was used to transform the customer addresses to longitude and latitude format.
-- [Giphy](https://giphy.com/gifs/icon-loading-beaker-11FuEnXyGsXFba) was used to find a loading gif.
+- [TinyPNG](https://tinypng.com/) was used to compress images.
+- [Adobe XD](https://www.adobe.com/) was used to create the project mockups.
