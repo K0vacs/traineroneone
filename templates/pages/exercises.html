@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="card-action">
                                     <a href="{{url_for('program_form', category='exercises', id=item._id)}}" class="teal-text">Edit</a>
-                                    <a href="#modal" class="red-text delete-modal modal-trigger" data-delete="{{url_for('delete_item', category='workouts', id=item._id)}}">Delete</a>
+                                    <a href="#modal" class="red-text delete-modal modal-trigger" data-delete="{{url_for('delete_item', category='exercises', id=item._id)}}">Delete</a>
                                 </div>
                             </div>
                         </div>
@@ -102,5 +102,6 @@
 
 {% block scripts %}
     <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="{{url_for('static', filename='js/main.js')}}"></script>
     <script src="{{url_for('static', filename='js/exercises.js')}}"></script>
 {% endblock %}

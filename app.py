@@ -16,8 +16,7 @@ mongo = PyMongo(app)
 def programs():
     return  render_template("pages/programs.html", 
             programs  = mongo.db.programs.find(), 
-            quote     = helpers.quote(random.randint(0, 5)), 
-            title     = "Programs")
+            quote     = helpers.quote(random.randint(0, 5)))
 
 
 # @app.route("/workouts")
@@ -33,8 +32,7 @@ def workouts(id):
   return  render_template("pages/workouts.html", 
           workout = mongo.db.workouts.find({'_id': {'$in': workouts}}),
           program = program,
-          quote   = helpers.quote(random.randint(0, 5)), 
-          title   = "Workouts")
+          quote   = helpers.quote(random.randint(0, 5)))
 
 
 # @app.route("/exercises")
@@ -75,8 +73,7 @@ def exercises(id, ex):
           workout       = workout,
           meta          = list(meta),
           id            = id,
-          quote         = helpers.quote(random.randint(0, 5)),
-          title         = "Exercises")
+          quote         = helpers.quote(random.randint(0, 5)))
 
 
 @app.route("/program-form/", defaults={'category': 'none', 'id': 'new'}, methods=['GET', 'POST'])
@@ -90,8 +87,7 @@ def program_form(category, id):
     itemRecord = mongo.db[category].find_one({'_id': ObjectId(id)})
     return  render_template('pages/program-form.html', 
             item=itemRecord, 
-            quote = helpers.quote(random.randint(0, 5)),
-            title = "Program Form")
+            quote = helpers.quote(random.randint(0, 5)))
 
 
 @app.route("/delete-item/<category>/<id>", methods=['GET'])
@@ -105,11 +101,11 @@ def delete_item(category, id):
     
     s3.delete_object(Bucket= S3_BUCKET, Key= imageKey )
     mongo.db[category].remove({'_id': ObjectId(id)})
-    return redirect(url_for('programs'))
-  except Exception as error:
-    return redirect(url_for('programs'))
-
-
+    
+    return redirect(request.referrer)
+  
+  except Exception:
+    return redirect(request.referrer)
 
 
 @app.route("/delete/", methods=['GET', 'POST'])

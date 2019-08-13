@@ -336,13 +336,8 @@ nav i.material-icons {
 
 .collapse-header {
   font-size: 22px;
-  line-height: 1;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
   line-height: 1.5;
   padding: 1rem;
   background-color: #fff;
