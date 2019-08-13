@@ -11,7 +11,7 @@
 
     {% include "includes/navigation-dark.html" %}
     
-    <div id="slide-out" class="col m6 workout-name sidenav">
+    <section id="slide-out" class="col m6 workout-name sidenav">
         <a href="javascript:void(0)" class="sidenav-close">&times;</a>
         <h1 class="sidenav-heading">{{workout.workoutName}}</h1>
         <p class="pills sidenav-text">
@@ -31,14 +31,14 @@
                 <span class="deep-orange">{{ item }}</span>
             {% endfor %}
         </p>
-    </div>
+    </section>
     
-    <section class="container exercise-grid">
-        <div class="mt-1">
+    <main class="container exercise-grid">
+        <section class="mt-1">
             <a href="{{url_for('workouts', id=id, ex=workout._id)}}" class="black-text">Programs > Workouts > </a>
             <span class="deep-orange-text">Exercises</span>
-        </div>
-        <div class="row align-grid flex-center">
+        </section>
+        <section class="row align-grid flex-center">
             <div class="col m6 hide-on-small-only workout-name">
                 <h1 class="workout-heading">{{workout.workoutName}}</h1>
                 <p class="pills">
@@ -84,8 +84,8 @@
                 {% endfor %}
             </div>
         </div>
-        </div>
-        <div id="modal" class="modal">
+        </section>
+        <section id="modal" class="modal">
             <div class="modal-content">
                 <h4>Delete Item</h4>
                 <p>Are you sure you want to delete this item?</p>
@@ -94,11 +94,9 @@
                 <a class="modal-close waves-effect waves-green btn-flat delete-link">Yes</a>
                 <a class="modal-close waves-effect waves-red btn-flat">No</a>
             </div>
-        </div>
-        
+        </section>
         <a href="#" data-target="slide-out" class="sidenav-trigger hide-on-med-and-up"><i class="material-icons">drag_handle</i></a>
-            
-    </section>
+    </main>
 
 {% endblock %}
 
