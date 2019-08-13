@@ -34,10 +34,10 @@
     </section>
     
     <main class="container exercise-grid">
-        <section class="mt-1">
+        <div class="mt-1">
             <a href="{{url_for('workouts', id=id, ex=workout._id)}}" class="black-text">Programs > Workouts > </a>
             <span class="deep-orange-text">Exercises</span>
-        </section>
+        </div>
         <section class="row align-grid flex-center">
             <div class="col m6 hide-on-small-only workout-name">
                 <h1 class="workout-heading">{{workout.workoutName}}</h1>

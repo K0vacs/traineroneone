@@ -14,12 +14,12 @@
     {% include "includes/header.html" %}
     
     <main class="container mb-1">
-        <section class="mt-1">
+        <div class="mt-1">
             <a href="{{url_for('programs')}}" class="black-text">All Programs > </a>
             <span class="deep-orange-text">Workouts</span>
-        </section> 
-        <h4>Workouts</h4>
+        </div> 
         <section class="row align-grid">
+            <h4 class="col s12">Workouts</h4>
             {% for item in workout %}
                 <div class="col l4 m6 s12">
                     <div class="card">
