@@ -1,5 +1,7 @@
+<!-- This teamplate extends the base.html template. -->
 {% extends 'base.html' %}
 
+<!-- This section is placed in the head section of the base.html, used for page specific resources. -->
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
@@ -7,12 +9,16 @@
     <title>Workouts</title>
 {% endblock %}
 
+<!-- This section is placed in the body section of the base.html file. -->
 {% block content %}
     
+    <!-- This section is placed in the body section of the base.html file. -->
     {% include "includes/navigation-light.html" %}
     
+    <!-- This section displays the hero slider. -->
     {% include "includes/header.html" %}
     
+    <!-- This section displays the grid of workouts saved in the database. -->
     <main class="container mb-1">
         <div class="mt-1">
             <a href="{{url_for('programs')}}" class="black-text">All Programs > </a>
@@ -56,6 +62,7 @@
 
 {% endblock %}
 
+<!-- This section is placed just before the closing body tag in the base.html, used for page specific resources. -->
 {% block scripts %}
     <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="{{url_for('static', filename='js/main.js')}}"></script>

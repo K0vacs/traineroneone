@@ -1,5 +1,7 @@
+<!-- This teamplate extends the base.html template. -->
 {% extends 'base.html' %} 
 
+<!-- This section is placed in the head section of the base.html, used for page specific resources. -->
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
@@ -7,10 +9,13 @@
     <title>Exercises</title>
 {% endblock %}
 
+<!-- This section is placed in the body section of the base.html file. -->
 {% block content %}
-
+    
+    <!-- This section adds the dark navigation template part to the page. -->
     {% include "includes/navigation-dark.html" %}
     
+    <!-- This section displays the sidenav on mobile devices. -->
     <section id="slide-out" class="col m6 workout-name sidenav">
         <a href="javascript:void(0)" class="sidenav-close">&times;</a>
         <h1 class="sidenav-heading">{{workout.workoutName}}</h1>
@@ -33,6 +38,7 @@
         </p>
     </section>
     
+    <!-- This section displays the main workout view with 2 columns. The left column displays the workout and meta information. The right column displays a slider, each slide displays a card with exercise information. -->
     <main class="container exercise-grid">
         <div class="mt-1">
             <a href="{{url_for('workouts', programId=id, workoutId=workout._id)}}" class="black-text">Programs > Workouts > </a>
@@ -100,6 +106,7 @@
 
 {% endblock %}
 
+<!-- This section is placed just before the closing body tag in the base.html, used for page specific resources. -->
 {% block scripts %}
     <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="{{url_for('static', filename='js/main.js')}}"></script>

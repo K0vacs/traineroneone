@@ -167,23 +167,18 @@ $(document).ready(function() {
   }
 
   // JavaScript Functions ------------------------------------------------------------- //
-
+  
+  // This function parses the AJAX response and calls the necessary functions.
   function prepareSignedRequest(self, file, response) {
     var resp = JSON.parse(response);
-    var updateItem = self.attr("data-id");
     prepareFileUpload(self, file, resp.data);
-
-    // if( typeof updateItem !== typeof undefined && updateItem !== false ) {
-    // // ajaxPostUpdateItem( self, updateItem, resp.url );
-    // } else {
     prepareFormData(self, resp.url);
-    // }
   }
 
+  // This function isolates the uploaded file and calls the necessary function if the upload exists. 
   function prepareFileData(self) {
     var files = self.find("[type='file']").prop("files");
     var file = files[0];
-
 
     if (file != undefined) {
       ajaxGetSignedRequest(self, file);
@@ -192,7 +187,8 @@ $(document).ready(function() {
       prepareFormData(self);
     }
   }
-
+  
+  // This function prepares the signed request with the file to upload.
   function prepareFileUpload(self, file, s3Data) {
     var fileAndMeta = new FormData();
     for (key in s3Data.fields) {
@@ -202,7 +198,8 @@ $(document).ready(function() {
 
     ajaxPostUploadFile(self, s3Data, fileAndMeta);
   }
-
+  
+  // This function prepares the form data with the AWS S3 url to save or update to the database.
   function prepareFormData(self, url) {
     var form = self.serializeArray();
     var selectData = JSON.stringify(self.find(".selectOptions").formSelect('getSelectedValues'));
@@ -237,14 +234,9 @@ $(document).ready(function() {
     }
 
   }
-
+  
+  // This function adds dynamic html to program-form.html to display saved items.
   function savedItem(response, form, img) {
-    var recentlyAdded = {
-      id: response,
-      name: form[0].value,
-      imageUrl: img
-    };
-
     $(".active .saved-item:last").after(`
       <div id="${ response }" data-img="${ img }" class="row valign-wrapper saved-item item">
           <div class="col s8">
@@ -261,7 +253,8 @@ $(document).ready(function() {
       </div>
     `);
   }
-
+  
+  // This function adds select options to the form based on the database records returned.
   function displaySelectOptions(option, response) {
     var resp = JSON.parse(response);
 
@@ -269,13 +262,14 @@ $(document).ready(function() {
       var id = resp[i]._id.$oid;
       var name = resp[i].exerciseName || resp[i].workoutName;
       var optionToAdd = $("<option>").attr("value", id).text(name);
-
+      
       $("#" + option + "Options").append(optionToAdd);
     }
 
     $("select").formSelect();
   }
-
+  
+  // This function displays a warning message to users when a field is blank on submit.
   function warningMessage(arr) {
     $.each(arr, function(index, value) {
       if($(arr[index].field).children( "div" ).hasClass( "warning" )) {
@@ -290,7 +284,8 @@ $(document).ready(function() {
       }
     });
   }
-
+  
+  // This function checks if a field is blank when the form is submitted.
   function emptyFieldValidation(self) {
     var arr = [];
     
@@ -314,7 +309,8 @@ $(document).ready(function() {
 
     return arr;
   }
-
+  
+  // This function deletes the created item and removes the dynamic and unnecessary html displayed.
   function deleteExercisesAndWorkouts(self) {
     var imgUrl = self.data("img");
     var imgKey = imgUrl.slice(45);
@@ -326,9 +322,6 @@ $(document).ready(function() {
     $.ajax({
       url: `/delete?id=${self.attr( "id" )}&img=${imgKey}`,
       type: 'GET',
-      success: function(response) {
-
-      },
       error: function(error) {
         console.log(error);
       }
@@ -344,7 +337,8 @@ $(document).ready(function() {
     $('select').formSelect();
     form.find(".label").addClass("active");
   }
-
+  
+  // This function runs the loading effect on buttons so users can see something is happening.
   function loadingEffectOnButtons(self, button, icon) {
     var state = self.find(button).children("i").hasClass("spin-icon");
 
@@ -362,7 +356,8 @@ $(document).ready(function() {
     }
 
   }
-
+  
+  // This function displays the item data in the form when edit is selected.
   function displayItemData(form, type, response) {
     var obj = JSON.parse(response);
     var id = form.find("[data-save]").attr("data-id");
@@ -401,7 +396,8 @@ $(document).ready(function() {
     });
 
   }
-
+  
+  // This function clears the form data. 
   function clearForm(form) {
     form.find("[data-save]").removeAttr("data-id data-img")
       .html("<i class='material-icons left'>save</i>SAVE");
@@ -417,12 +413,14 @@ $(document).ready(function() {
     $('select').formSelect();
     form.find(".label").addClass("active");
   }
-
+  
+  // This fucntion triggers the select options to be loaded when the collapse is active.
   function loadSelectOnCardEdit() {
     var activeCollapse = $(".active .collapse-header").attr("data-header");
     prepareSelectData(activeCollapse);
   }
-
+  
+  // This function prepares the select options to be loaded.
   function prepareSelectData(self) {
     var collapseOpen = $(".collapsible");
 

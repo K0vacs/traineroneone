@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+    
+<!-- This section adds the head information of all pages and templates within the application. -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,13 +17,18 @@
     <link rel="icon" href="https://traineroneonebucket.s3-eu-west-1.amazonaws.com/icon.png" type="image/gif" sizes="32x32">
     
 </head>
+
+<!-- The body section displays all visable elements on the page -->
 <body>
     
+    <!-- This section will get the content from the necessary template page to display. -->
     {% block content %} {% endblock %}
     
+    <!-- This section will display the footer created in the inlcude folder. -->
     {% include "includes/footer.html" %}
 
-<!--BODY    -->
+<!-- BODY -->
+    <!-- This section adds the page scripts required for the template. -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     {% block scripts %} {% endblock %}

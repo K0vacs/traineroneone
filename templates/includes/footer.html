@@ -1,3 +1,4 @@
+<!-- Page footer to display quotes, links and copyright information. -->
 <footer class="barbell-img page-footer">
     <div class="footer-overlay">
         <div class="container">
@@ -23,10 +24,9 @@
                     <div>
                         <h5 class="white-text">Workouts</h5>
                         <ul>
-                            <li><a class="grey-text text-lighten-2" href="#!">Athena's Playbook</a></li>
-                            <li><a class="grey-text text-lighten-2" href="#!">Strength Protocol</a></li>
-                            <li><a class="grey-text text-lighten-2" href="#!">Boxer Prime</a></li>
-                            <li><a class="grey-text text-lighten-2" href="#!">Total Abs</a></li>
+                            <li><a class="grey-text text-lighten-2" href="{{ url_for('workouts', programId='5d404ed4ed553a472e7fa9ae') }}">Athena's Playbook</a></li>
+                            <li><a class="grey-text text-lighten-2" href="{{ url_for('workouts', programId='5d443d168f53150d62911de4') }}">Strength Protocol</a></li>
+                            <li><a class="grey-text text-lighten-2" href="{{ url_for('workouts', programId='5d4433248f53150d62911dcc') }}">Total Abs</a></li>
                         </ul>
                     </div>
                 </div>
@@ -34,10 +34,10 @@
                     <div>
                         <h5 class="white-text">Exercises</h5>
                         <ul>
-                            <li><a class="grey-text text-lighten-2" href="#!">Fast Paced Cardio</a></li>
-                            <li><a class="grey-text text-lighten-2" href="#!">Tendon Strength</a></li>
-                            <li><a class="grey-text text-lighten-2" href="#!">Recruit</a></li>
-                            <li><a class="grey-text text-lighten-2" href="#!">Stand & Deliver</a></li>
+                            <li><a class="grey-text text-lighten-2" href="{{ url_for('exercises', programId='5d404ed4ed553a472e7fa9ae', workoutId='5d404e33ed553a472e7fa9ab') }}">Athena's - Lower body</a></li>
+                            <li><a class="grey-text text-lighten-2" href="{{ url_for('exercises', programId='5d4433248f53150d62911dcc', workoutId='5d4432df8f53150d62911dcb') }}">Total Abs - Active Planks</a></li>
+                            <li><a class="grey-text text-lighten-2" href="{{ url_for('exercises', programId='5d4433248f53150d62911dcc', workoutId='5d44363e8f53150d62911dd3') }}">Total Abs - Circuit</a></li>
+                            <li><a class="grey-text text-lighten-2" href="{{ url_for('exercises', programId='5d443d168f53150d62911de4', workoutId='5d443c948f53150d62911de2') }}">Strength - Back & Biceps</a></li>
                         </ul>
                     </div>
                 </div>
