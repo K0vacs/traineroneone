@@ -36,7 +36,7 @@
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">{{item.workoutName}}<i class="material-icons right">close</i></span>
                             <p>{{item.workoutNotes}}</p>
-                            <p><a href="{{url_for('exercises', id=program._id , ex=item._id)}}" class="deep-orange-text">Go to excercises</a></p>
+                            <p><a href="{{url_for('exercises', programId=program._id , workoutId=item._id)}}" class="deep-orange-text">Go to excercises</a></p>
                         </div>
                     </div>
                 </div>
