@@ -106,7 +106,7 @@ def delete_item(category, id):
 @app.route("/delete/", methods=['GET', 'POST'])
 def delete():
   try:
-    mongo.db.exercises.remove({'_id': ObjectId(request.args.get('id'))})
+    mongo.db[request.args.get('type')].remove({'_id': ObjectId(request.args.get('id'))})
     
     boto3.client('s3').delete_object(
       Bucket  = os.environ.get('S3_BUCKET'), 
@@ -203,7 +203,10 @@ def save_form():
 @app.route("/load-select-options",  methods=['GET'])
 def load_select_options():
   data = request.args.get('options') + "s"
-  item = dumps(mongo.db[data].find({}, { '_id': 1, 'exerciseName': 1, 'imageUrl': 1 }))
+  if "exercises" in data: 
+    item = dumps(mongo.db[data].find({}, { '_id': 1, 'exerciseName': 1, 'imageUrl': 1 }))
+  else:
+    item = dumps(mongo.db[data].find({}, { '_id': 1, 'workoutName': 1, 'imageUrl': 1 }))
   return item
 
 # This function sets the IP and PORT for the application to run on and debugs when running on local.

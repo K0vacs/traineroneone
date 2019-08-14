@@ -37,16 +37,15 @@ $(document).ready(function() {
   $(".card-panel").on("click", ".edit, .delete", function(event) {
     var self = $(this).parents(".saved-item");
     var state = $(this).hasClass("edit");
+    var form = self.parents(".row").children("form");
+    var type = form.find("[type='submit']").data("save");
     loadingEffectOnButtons(self, ".edit", "edit");
-
+    
     if (state) {
-      var form = self.parents(".row").children("form");
-      var type = form.find("[type='submit']").data("save");
-
-      ajaxGetItemDetails(self, form, type);
+      ajaxGetItemDetails( self, form, type );
     }
     else {
-      deleteExercisesAndWorkouts(self);
+      deleteExercisesAndWorkouts( self, type );
     }
   });
 
@@ -311,7 +310,8 @@ $(document).ready(function() {
   }
   
   // This function deletes the created item and removes the dynamic and unnecessary html displayed.
-  function deleteExercisesAndWorkouts(self) {
+  function deleteExercisesAndWorkouts( self, type ) {
+    console.log(self.attr("id"));
     var imgUrl = self.data("img");
     var imgKey = imgUrl.slice(45);
     var form = $("form");
@@ -320,9 +320,13 @@ $(document).ready(function() {
     $("[data-create='new']").remove();
 
     $.ajax({
-      url: `/delete?id=${self.attr( "id" )}&img=${imgKey}`,
+      url: `/delete?type=${type}s&id=${self.attr( "id" )}&img=${imgKey}`,
       type: 'GET',
+      success: function(response) {
+        $("button").attr("disabled", false);
+      },
       error: function(error) {
+        $("button").attr("disabled", false);
         console.log(error);
       }
     });
