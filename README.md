@@ -65,16 +65,16 @@ The font used is from the standard Materialize theme, called Roboto. The heading
 The project mockups are available below and in the [mockups directory](https://github.com/K0vacs/traineroneone/tree/master/static/images) in mobile, tablet and desktop views:
 
 #### Mobile
-- ![Mobile Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/mobile.png)
+![Mobile Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/mobile.png)
 
 #### Tablet
-- ![Tablet Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/tablet.png)
+![Tablet Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/tablet.png)
 
 #### Desktop
-- ![Program Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-programs.png)
-- ![Workout Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-workouts.png)
-- ![Exercise Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-exercises.png)
-- ![Form Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-form.png)
+![Program Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-programs.png)
+![Workout Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-workouts.png)
+![Exercise Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-exercises.png)
+![Form Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Desktop-form.png)
 
 ## Features
  
