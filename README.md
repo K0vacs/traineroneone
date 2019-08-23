@@ -65,17 +65,11 @@ The font used is from the standard Materialize theme, called Roboto. The heading
 The project mockups are available below and in the [mockups directory](https://github.com/K0vacs/traineroneone/tree/master/static/images) in mobile, tablet and desktop views:
 
 #### Mobile
-- ![Program Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Mobile-programs.png){:width="200px"}
-- [Workout Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Mobile-workouts.png)
-- [Exercise Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Mobile-exercises.png)
-- [Form Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Mobile-form.png)
+- ![Mobile Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/mobile.png)
 
 #### Tablet
 
-- [Program Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Tablet-programs.png)
-- [Workout Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Tablet-workouts.png)
-- [Exercise Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Tablet-exercises.png)
-- [Form Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/Tablet-form.png)
+- ![Tablet Mockup](https://raw.githubusercontent.com/K0vacs/traineroneone/master/static/images/tablet.png)
 
 #### Desktop
 
